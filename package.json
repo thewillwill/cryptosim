@@ -1,0 +1,19 @@
+{
+  "name": "cryptosim",
+  "version": "1.0.0",
+  "description": "A crypto coin trading simulator",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thewillwill/cryptosim.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/thewillwill/cryptosim/issues"
+  },
+  "homepage": "https://github.com/thewillwill/cryptosim#readme"
+}
