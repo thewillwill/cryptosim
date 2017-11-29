@@ -1,0 +1,44 @@
+{{!-- layouts/base.handlebars --}}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>CryptoSim -     <title>
+      {{#if title}}
+        {{title}}
+      {{else}}
+        DEFAULT Test Before You Invest in Cryptocurrency - CryptoSim
+      {{/if}}
+    </title>
+    {{#> head-block}}
+      {{!-- Custom <head> content per page could be added. --}}
+    {{/head-block}}
+	<!-- Bootstrap core CSS -->
+  <link href="https://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+	
+  <!-- Crypto Sim CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" type="text/css" />
+	</head>
+
+	<body>
+	    {{#> hero-block}}
+	      {{!-- Hero content goes here. --}}
+	    {{/hero-block}}
+
+	<footer>
+      {{#> footer-block}}
+        {{!--
+          The `includes/footer` partial is the default content,
+          but can be overridden.
+        --}}
+        {{> includes/footer }}
+      {{/footer-block}}
+    </footer>
+
+	{{#> scripts-block}}
+      {{!-- Custom scripts per page can be added. --}}
+    {{/scripts-block}}
+
+	</body>
+
+</html>
