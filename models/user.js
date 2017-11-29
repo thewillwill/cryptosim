@@ -3,17 +3,17 @@ module.exports = function(sequelize, DataTypes) {
     facebook_id: {
       type: DataTypes.STRING,
       allowNull: false,
-    }
+    },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING
     },
     token: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     }
   });
 
