@@ -1,5 +1,9 @@
 module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
+    facebook_id: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
     name: {
       type: DataTypes.STRING,
       allowNull: false

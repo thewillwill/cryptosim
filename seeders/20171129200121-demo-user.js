@@ -8,6 +8,7 @@ module.exports = {
 
       // Example:
       return queryInterface.bulkInsert('Users', [{
+        facebook_id: '123'
         name: 'James Doe',
         email: 'james@doe.com',
         info: 'def',
