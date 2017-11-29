@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>CryptoSim -     <title>
+	<title>
       {{#if title}}
         {{title}}
       {{else}}
@@ -21,23 +21,18 @@
 	</head>
 
 	<body>
-	    {{#> hero-block}}
-	      {{!-- Hero content goes here. --}}
-	    {{/hero-block}}
+
+{{{body}}}
 
 	<footer>
-      {{#> footer-block}}
-        {{!--
-          The `includes/footer` partial is the default content,
-          but can be overridden.
-        --}}
+
         {{> includes/footer }}
-      {{/footer-block}}
+
     </footer>
 
-	{{#> scripts-block}}
       {{!-- Custom scripts per page can be added. --}}
-    {{/scripts-block}}
+      {{> includes/scripts }}
+
 
 	</body>
 
