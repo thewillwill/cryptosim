@@ -18,7 +18,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/)');
 
         //display the index handlebars page
-        res.render("pages/index", {title:"CyptoSim - Test Before You Invest"});
+        res.render("pages/index", {title:"CyptoSim - Test Before You Invest",layout:'cover'});
 
     });
 
