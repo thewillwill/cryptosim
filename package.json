@@ -18,9 +18,15 @@
   "homepage": "https://github.com/thewillwill/cryptosim#readme",
   "dependencies": {
     "body-parser": "^1.18.2",
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
+    "express-session": "^1.15.6",
     "mysql2": "^1.5.1",
-    "sequelize": "^4.23.2"
+    "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-twitter": "^1.0.4",
+    "sequelize": "^4.23.2",
+    "util": "^0.10.3"
   }
 }
