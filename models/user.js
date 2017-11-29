@@ -7,6 +7,7 @@ module.exports = function(sequelize, DataTypes) {
     name: {
       type: DataTypes.STRING,
       allowNull: false
+
     },
     email: {
       type: DataTypes.STRING
@@ -31,3 +32,4 @@ module.exports = function(sequelize, DataTypes) {
 
   return User;
 };
+
