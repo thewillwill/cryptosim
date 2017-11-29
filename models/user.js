@@ -2,18 +2,19 @@ module.exports = function(sequelize, DataTypes) {
   var User = sequelize.define("User", {
     facebook_id: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
+
     },
     email: {
       type: DataTypes.STRING
     },
     token: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false
     }
   });
 
@@ -30,5 +31,5 @@ module.exports = function(sequelize, DataTypes) {
   };
 
   return User;
-}; 
- 
+};
+
