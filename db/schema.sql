@@ -15,4 +15,4 @@ CREATE TABLE coins
 	full_name varchar(255) NOT NULL,
 	sort_order int NOT NULL,
 	PRIMARY KEY (id)
-);
+); 
