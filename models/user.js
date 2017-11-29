@@ -11,7 +11,7 @@ module.exports = function(sequelize, DataTypes) {
     email: {
       type: DataTypes.STRING
     },
-    info: {
+    token: {
       type: DataTypes.STRING,
       allowNull: false
     }

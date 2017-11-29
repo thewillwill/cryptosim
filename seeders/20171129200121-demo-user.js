@@ -11,7 +11,7 @@ module.exports = {
         facebook_id: '123'
         name: 'James Doe',
         email: 'james@doe.com',
-        info: 'def',
+        token: 'def',
         createdAt: new Date(),
         updatedAt: new Date()
       }], {});
