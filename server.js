@@ -6,6 +6,9 @@
 // =============================================================
 var express = require("express");
 var bodyParser = require("body-parser");
+var passport = require('passport');
+var cookieParser = require('cookie-parser'); // parse cookies
+
 
 // Sets up the Express App
 // =============================================================
@@ -22,6 +25,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({ type: "application/vnd.api+json" }));
+require('./config/passport.js')(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(cookieParser()); // read cookies (needed for auth)
 
 // Static directory
 app.use(express.static("public"));
@@ -38,6 +45,7 @@ app.set("view engine", "handlebars");
 // =============================================================
 require("./routes/api-routes.js")(app);
 require("./routes/html-routes.js")(app);
+require("./routes/fb-routes.js")(app, passport);
 
 // Syncing our sequelize models and then starting our Express app
 // =============================================================
