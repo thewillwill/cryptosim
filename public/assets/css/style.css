@@ -41,8 +41,8 @@ td,
 button.close {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
-    font-family: "Roboto","Helvetica Neue",Arial,sans-serif;
-    font-weight: 400;
+    font-family: "Rubik","Helvetica Neue",Arial,sans-serif;
+    font-weight: 300;
 }
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
@@ -175,7 +175,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
  */
 
 .navbar {
-	background: #004c8c;
+	background: #0277bd;
 }
 
 
@@ -193,17 +193,27 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     padding-top: 0px;
 }
 
+.navbar-brand {
+    font-weight: 400px;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
 .icon-size
 {
     font-size: 87px;
+}
+
+.active {
+    border-bottom: 1px dashed #58a5f0;
 }
 
 /********************************* 
   Footer
 **********************************/
 .footer {
-	background: #58a5f0;
+	background: #004c8c;
 	padding: 20px;
+    color: #fff;
 }
 
 /********************************* 
