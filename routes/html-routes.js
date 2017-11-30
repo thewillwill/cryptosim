@@ -18,7 +18,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/)');
 
         //display the index handlebars page
-        res.render("pages/index", {title:"CyptoSim - Test Before You Invest",layout:'cover'});
+        res.render("pages/index", { title: "CyptoSim - Test Before You Invest", layout: 'cover' });
 
     });
 
@@ -28,7 +28,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/start)');
 
         //display the index handlebars page
-        res.render("pages/start", {title:"Get Started - CryptoSim"});
+        res.render("pages/start", { title: "Get Started - CryptoSim"});
 
     });
 
@@ -37,8 +37,8 @@ module.exports = function(app) {
     app.get("/portfolio", function(req, res) {
         console.log('html-routes: app.get(/portfolio)');
 
-        //display the index handlebars page
-        res.render("pages/portfolio", {title:"Porfolio - CryptoSim"});
+        //display the portfolio handlebars page, give it a title and set the navbar 'portfolio' button to active
+        res.render("pages/portfolio", { title: "Porfolio - CryptoSim", active_portfolio: true });
 
     });
 
@@ -46,9 +46,8 @@ module.exports = function(app) {
     // refer route loads refer handlebars page
     app.get("/refer", function(req, res) {
         console.log('html-routes: app.get(/refer")');
-
-        //display the index handlebars page
-        res.render("pages/refer", {title:"Refer A Friend - CryptoSim"});
+        //display the refer handlebars page, give it a title and set the navbar 'refer' button to active
+        res.render("pages/refer", { title: "Refer A Friend - CryptoSim", active_refer: true});
 
     });
 
@@ -57,8 +56,17 @@ module.exports = function(app) {
     app.get("/market", function(req, res) {
         console.log('html-routes: app.get(/market)');
 
-        //display the index handlebars page
-        res.render("pages/market", {title:"Crypto Currency Market- CryptoSim"});
+        //display the market handlebars page, give it a title and set the navbar 'market' button to active
+        res.render("pages/market", { title: "Crypto Currency Market- CryptoSim", active_market: true });
+
+    });
+
+    //display the learn handlebars page, give it a title and set the navbar 'learn' button to active
+    app.get("/learn", function(req, res) {
+        console.log('html-routes: app.get(/learn)');
+
+        //display the learn handlebars page, give it a title and set the navbar 'learn' button to active
+        res.render("pages/learn", { title: "Learn About Crypto Currencies - CryptoSim", active_learn: true });
 
     });
 
