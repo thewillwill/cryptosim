@@ -18,7 +18,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/)');
 
         //display the index handlebars page
-        res.render("pages/index");
+        res.render("pages/index", {title:"CyptoSim - Test Before You Invest",layout:'cover'});
 
     });
 
@@ -28,7 +28,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/start)');
 
         //display the index handlebars page
-        res.render("pages/start");
+        res.render("pages/start", {title:"Get Started - CryptoSim"});
 
     });
 
@@ -38,7 +38,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/portfolio)');
 
         //display the index handlebars page
-        res.render("pages/portfolio");
+        res.render("pages/portfolio", {title:"Porfolio - CryptoSim"});
 
     });
 
@@ -48,7 +48,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/refer")');
 
         //display the index handlebars page
-        res.render("pages/refer");
+        res.render("pages/refer", {title:"Refer A Friend - CryptoSim"});
 
     });
 
@@ -58,7 +58,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/market)');
 
         //display the index handlebars page
-        res.render("pages/market");
+        res.render("pages/market", {title:"Crypto Currency Market- CryptoSim"});
 
     });
 
