@@ -1,0 +1,61 @@
+{{!-- includes/progressBar.handlebars --}}
+
+
+<div class="progress-container col-lg-9 col-sml-12">
+<!-- Start Progress Bar -->
+<div class="row justify-content-center">
+    <!-- 1st Column -->
+    <div class="col-2">
+        <div class="row text-center">
+            <div class="col-12" id="progress-icon-step1">
+                <img src="./assets/images/checkmark.svg " class="progress-check" />
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <span class="progress-text" id="progress-text-step1">Sign Up</span>
+            </div>
+        </div>
+    </div>
+    <!-- 2nd column -->
+    <div class="col-2 ">
+        <hr>
+    </div>
+    <!-- 3rd column-->
+    <div class="col-2 ">
+        <div class="row text-center">
+            <div class="col-12" id="progress-icon-step2">
+                {{#if active_refer}} 
+                  <img src="./assets/images/checkmark.svg " class="progress-check" />
+                {{else}}
+                  2
+                {{/if}}
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <span class="progress-text" id="progress-text-step2">Buy Crypto Currency</span>
+            </div>
+        </div>
+    </div>
+    <!-- 4th column-->
+    <div class="col-2 ">
+        <hr>
+    </div>
+    <!-- 5th column -->
+    <div class="col-2 ">
+        <div class="row text-center">
+            <div class="col-12" id="progress-icon-step3">
+                3
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <span class="progress-text" id="progress-text-step3">Invite Friends</span>
+            </div>
+        </div>
+    </div>
+    <!-- / END 5th column-->
+</div>
+<!-- / END Progress Bar -->
+</div>
