@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: false,
     },
     sort_order: {
-      type: DataTypes.STRING,
+      type: DataTypes.INTEGER,
       allowNull: false,
     }
   });
