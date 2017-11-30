@@ -1,0 +1,501 @@
+/*
+Colors
+Primary - #0277bd
+Light -#58a5f0
+Dark - #004c8c
+
+Secondary #fb8c00
+Light #ffbd45
+Dark #c25e00
+*/
+
+/*
+ * BootStrap Dashboard - Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 100px;
+}
+
+/*
+ * Typography
+ */
+
+/*           Font Smoothing      */
+body,
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6,
+p,
+.navbar,
+.brand,
+.btn-simple,
+.alert,
+a,
+.td-name,
+td,
+button.close {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    font-family: "Roboto","Helvetica Neue",Arial,sans-serif;
+    font-weight: 400;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
+    font-weight: 300;
+    margin: 30px 0 15px;
+}
+
+h1, .h1 {
+    font-size: 52px;
+}
+
+h2, .h2 {
+    font-size: 36px;
+}
+
+h3, .h3 {
+    font-size: 28px;
+    margin: 20px 0 10px;
+}
+
+h4, .h4 {
+    font-size: 22px;
+    line-height: 30px;
+}
+
+h5, .h5 {
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+h6, .h6 {
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small {
+    color: #9A9A9A;
+    font-weight: 300;
+    line-height: 1.5;
+}
+
+h1 small, h2 small, h3 small, h1 .small, h2 .small, h3 .small {
+    font-size: 60%;
+}
+
+h1 .subtitle {
+    display: block;
+    margin: 0 0 30px;
+}
+
+.text-muted {
+    color: #9A9A9A;
+}
+
+.text-primary, .text-primary:hover {
+    color: #1D62F0 !important;
+}
+
+.text-info, .text-info:hover {
+    color: #1DC7EA !important;
+}
+
+.text-success, .text-success:hover {
+    color: #87CB16 !important;
+}
+
+.text-warning, .text-warning:hover {
+    color: #FF9500 !important;
+}
+
+.text-danger, .text-danger:hover {
+    color: #FF4A55 !important;
+}
+
+/*     General overwrite     */
+body,
+.wrapper {
+    min-height: 100vh;
+    position: relative;
+}
+
+body {
+    background: rgba(203, 203, 210, 0.15);
+}
+
+a {
+    color: #1DC7EA;
+}
+
+a:hover, a:focus {
+    color: #42d0ed;
+    text-decoration: none;
+}
+
+a:focus, a:active,
+button::-moz-focus-inner,
+input::-moz-focus-inner,
+input[type="reset"]::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner,
+input[type="submit"]::-moz-focus-inner,
+select::-moz-focus-inner,
+input[type="file"] > input[type="button"]::-moz-focus-inner {
+    outline: 0;
+}
+
+
+
+/*
+ * Dashboard
+ */
+
+ /* Placeholders */
+.placeholders {
+  padding-bottom: 3rem;
+}
+
+.placeholder img {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+/*
+ * Start Custom Styles
+ */
+
+.navbar {
+	background: #004c8c;
+}
+
+
+.navbar-login
+{
+    width: 305px;
+    padding: 10px;
+    padding-bottom: 0px;
+}
+
+.navbar-login-session
+{
+    padding: 10px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.icon-size
+{
+    font-size: 87px;
+}
+
+/********************************* 
+  Footer
+**********************************/
+.footer {
+	background: #58a5f0;
+	padding: 20px;
+}
+
+/********************************* 
+   Portfolio
+**********************************/
+
+
+.card {
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
+    background-color: #FFFFFF;
+    margin-bottom: 30px;
+}
+
+.card .image {
+    width: 100%;
+    overflow: hidden;
+    height: 260px;
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+    -moz-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+}
+
+.card .image img {
+    width: 100%;
+}
+
+.card .filter {
+    position: absolute;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.68);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.card .filter .btn {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.card:hover .filter {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.card .btn-hover {
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+.card:hover .btn-hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.card .content {
+    padding: 15px 15px 10px 15px;
+}
+
+.card .header {
+    padding: 15px 15px 0;
+}
+
+.card .category,
+.card label {
+    font-size: 14px;
+    font-weight: 400;
+    color: #9A9A9A;
+    margin-bottom: 0px;
+}
+
+.card .category i,
+.card label i {
+    font-size: 16px;
+}
+
+.card label {
+    font-size: 12px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.card .title {
+    margin: 0;
+    color: #333333;
+    font-weight: 300;
+}
+
+.card .avatar {
+    width: 30px;
+    height: 30px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+.card .description {
+    font-size: 14px;
+    color: #333;
+}
+
+.card .footer {
+    padding: 0;
+    background-color: transparent;
+    line-height: 30px;
+}
+
+.card .footer .legend {
+    padding: 5px 0;
+}
+
+.card .footer hr {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.card .stats {
+    color: #a9a9a9;
+}
+
+.card .footer div {
+    display: inline-block;
+}
+
+.card .author {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.card .author i {
+    font-size: 14px;
+}
+
+.card h6 {
+    font-size: 12px;
+    margin: 0;
+}
+
+.card.card-separator:after {
+    height: 100%;
+    right: -15px;
+    top: 0;
+    width: 1px;
+    background-color: #DDDDDD;
+    content: "";
+    position: absolute;
+}
+
+.card .ct-chart {
+    margin: 30px 0 30px;
+    height: 245px;
+}
+
+.card .table tbody td:first-child,
+.card .table thead th:first-child {
+    padding-left: 15px;
+}
+
+.card .table tbody td:last-child,
+.card .table thead th:last-child {
+    padding-right: 15px;
+}
+
+.card .alert {
+    border-radius: 4px;
+    position: relative;
+}
+
+.card .alert.alert-with-icon {
+    padding-left: 65px;
+}
+
+.card-user .image {
+    height: 110px;
+}
+
+.card-user .image-plain {
+    height: 0;
+    margin-top: 110px;
+}
+
+.card-user .author {
+    text-align: center;
+    text-transform: none;
+    margin-top: -70px;
+}
+
+.card-user .avatar {
+    width: 124px;
+    height: 124px;
+    border: 5px solid #FFFFFF;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.card-user .avatar.border-gray {
+    border-color: #EEEEEE;
+}
+
+.card-user .title {
+    line-height: 24px;
+}
+
+.card-user .content {
+    min-height: 240px;
+}
+
+.card-user .footer,
+.card-price .footer {
+    padding: 5px 15px 10px;
+}
+
+.card-user hr,
+.card-price hr {
+    margin: 5px 15px;
+}
+
+.card-plain {
+    background-color: transparent;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.card-plain .image {
+    border-radius: 4px;
+}
+
+/********************************* 
+Portfolio
+**********************************/
+
+.net-worth {
+	width: 100%;
+}
+
+.big-number {
+	font-size: 2em;
+}
+
+.big-number::before {
+	content:"$";
+}
+
+.small-number::before {
+	display: inline;	
+	padding-bottom: 5px;
+}
+
+.small-number::before {
+		content:"$";
+		padding-left: 5px;
+}
+
+
+/********************************* 
+Progress Bar/Steps
+**********************************/
+
+.progress-container {
+	background-color: #eee;
+	padding: 10px 20px;
+	margin: 0 auto;
+}
+.progress-check {
+	width:25px;
+	height:25px;
+}
+
+.progress-text {
+	font-size: 0.8em;
+}
+
+.progress-text.done {
+
+}
+
+.progress-text.doing  {
+	font-size: 1em;
+	font-weight: bold;
+}
+
+.progress-text.todo, .progress-text.done {
+	
+}
