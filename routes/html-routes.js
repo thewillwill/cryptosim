@@ -6,6 +6,7 @@
 // =============================================================
 // Requiring our Todo model
 var db = require("../models");
+var testObject = {}
 
 // Routes
 // =============================================================
@@ -57,7 +58,7 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/market)');
 
         //display the market handlebars page, give it a title and set the navbar 'market' button to active
-        res.render("pages/market", { title: "Crypto Currency Market- CryptoSim", active_market: true });
+        res.render("pages/market", { title: "Crypto Currency Market- CryptoSim", active_market: true,  });
 
     });
 
