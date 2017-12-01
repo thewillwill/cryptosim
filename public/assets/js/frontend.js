@@ -21,25 +21,24 @@ $(document).ready(function() {
 
         //add rows to table
         for (var i = 0; i < results.length; i++) {
-            var newRow = $("<tr>");
-            var newIcon = $("<td>");
-            var newSpan = $("<span>");
-            var newImg = $("<img>");
-            newImg.attr("src", results[i].base_url + results[i].image_url).attr("height", "35px").attr("width", "35px");
-            newSpan.append(newImg);
-            newIcon.append(newSpan);
-            var newID = $("<td>");
-            newID.append(results[i].coin_id);
-            var newName = $("<td>");
-            newName.append(results[i].coin_name);
-            var newValue = $("<td>");
-            newValue.append(10);
+            var $row = $("<tr>");
+            var $td1 = $("<td>").append($("<img>").attr({"src": results[i].base_url + results[i].image_url, "class": "coin-icon"})).append(results[i].coin_name);
+            var $td2 = $("<td>").append(results[i].symbol);
+            var $td3 = $("<td>").append("$" + results[i].price);
+            var pctChange = parseInt(results[i].changePct24Hour).toFixed(2);
+            if (pctChange >=0) {
+                var pctChangeClass = "changePositive";
+            }
+            else { 
+                pctChangeClass = "changeNegative";
+            }
+            var $td4 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
 
-            newRow.append(newIcon);
-            newRow.append(newID);
-            newRow.append(newName);
-            newRow.append(newValue);
-            $("#market-table-body").append(newRow);
+            $row.append($td1);
+            $row.append($td2);
+            $row.append($td3);
+            $row.append($td4);
+            $("#market-table-body").append($row);
 
         }
         console.log('after for loop: ');
