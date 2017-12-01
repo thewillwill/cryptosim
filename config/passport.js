@@ -27,16 +27,24 @@ module.exports = function(passport) {
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
         callbackURL: configAuth.facebookAuth.callbackURL,
+        profileFields: configAuth.facebookAuth.profileFields,
         passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
       },
     function(req, token, refreshToken, profile, done) {
+      // console.log("req: " + JSON.stringify(req, null, 4));
+      console.log("req: " + req);
+      console.log("token: " + JSON.stringify(token, null, 4));
+      console.log("refreshToken: " + JSON.stringify(refreshToken));
+      console.log("profile: " + JSON.stringify(profile));
+      console.log("done: " + done);
+
     // check if the user is already logged in
      if (!req.user) {
        db.User.findOne({ where :{ 'facebook_id' : profile.id }}).then (function (user) {
 		 if (user) { // if there is a user id already but no token (user was linked at one point and then removed)
 		 if (!user.token) {
 				user.token = token;
-				user.name  = profile.name.givenName + ' ' + profile.name.familyName;
+				user.name  = profile.displayName;
 				user.email = profile.emails[0].value;
 				user.save().then( function() {done(null, user);}).catch (function(e) {});
      } else {
@@ -47,17 +55,26 @@ module.exports = function(passport) {
 		   var newUser = db.User.build ({
 		       facebook_id: profile.id,
 		       token: token,
-		       name: profile.name.givenName + ' ' + profile.name.familyName,
+		       name: profile.displayName,
 		       email: profile.emails[0].value
 		       });
+           console.log(newUser);
 		       newUser.save().then( function() {done(null, user);}).catch (function(e) {});
 			   }
+        var newPort = db.Portfolio.build({
+          UserId: "",
+          currency: "USD",
+          amount: "50000",
+          expired: 0
+        });
+          newPort.save().then( function() {done(null, user);}).catch (function(e) {});
+          console.log(newPort);
 		  });
    } else { // user already exists and is logged in, we have to link accounts
       var user                = req.user; // pull the user out of the session
           user.facebook_id    = profile.id;
           user.token          = token;
-          user.name           = profile.name.givenName + ' ' + profile.name.familyName;
+          user.name           = profile.displayName;
           user.email          = profile.emails[0].value;
           user.save().then( function() {done(null, user);}).catch (function(e) {});
     }
