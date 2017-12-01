@@ -7,7 +7,6 @@ for (var i = 6; i >= 0; i--) {
     $("#tres").append(dates);
 }
 
-
 $(document).ready(function() {
     //set the tablesorter plugin to initialise on market-table
     $("#market-table").tablesorter();
