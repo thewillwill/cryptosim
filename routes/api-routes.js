@@ -35,7 +35,7 @@ module.exports = function(app) {
 		})
 	});
 
-	//Get all currencies
+	//Get all currencies with price and variation in the last 24 hours
 	app.get("/api/currencies", function(req,res) {
 		db.Coin.findAll({
 			order: Sequelize.col('sort_order'),
@@ -67,7 +67,7 @@ module.exports = function(app) {
 						};
 						newCurrObjectArray.push(newCurrObject);
 						}
-						console.log(newCurrObjectArray);
+						// console.log(newCurrObjectArray);
 						res.json(newCurrObjectArray);
 				})
 				.catch(console.error)
