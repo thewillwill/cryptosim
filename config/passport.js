@@ -52,23 +52,25 @@ module.exports = function(passport) {
 		 }
 		 } else {
 		 // if there is no user, create them
-		   var newUser = db.User.build ({
-		       facebook_id: profile.id,
-		       token: token,
-		       name: profile.displayName,
-		       email: profile.emails[0].value
-		       });
-           console.log(newUser);
-		       newUser.save().then( function() {done(null, user);}).catch (function(e) {});
+           db.User.create({
+               facebook_id: profile.id,
+               token: token,
+               name: profile.displayName,
+               email: profile.emails[0].value
+               })
+            .then(function(dbPost) {
+                var newPort = {
+                  UserId: dbPost.id,
+                  currency: "USD",
+                  amount: "50000",
+                  expired: 0
+                };
+                db.Portfolio.create(newPort).then(function(dbPort) {
+                 return true;
+                });
+                res.json(dbPost);
+              });
 			   }
-        var newPort = db.Portfolio.build({
-          UserId: "",
-          currency: "USD",
-          amount: "50000",
-          expired: 0
-        });
-          newPort.save().then( function() {done(null, user);}).catch (function(e) {});
-          console.log(newPort);
 		  });
    } else { // user already exists and is logged in, we have to link accounts
       var user                = req.user; // pull the user out of the session
