@@ -9,10 +9,6 @@ for (var i = 6; i >= 0; i--) {
 
 
 $(document).ready(function() {
-    console.log("Document Ready to Run");
-
-
-    console.log('tablesorter(1)');
     //set the tablesorter plugin to initialise on market-table
     $("#market-table").tablesorter();
 
