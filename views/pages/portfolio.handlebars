@@ -4,7 +4,7 @@
     <section class="row text-center placeholders">
         <div class="col-9 col-sm-9 placeholder">
             <h4 class="text-left">Profit / Loss</h4>
-            <img src="./assets/images/bitcoin-graph.png" width="75%" class="img-fluid" alt="Generic placeholder thumbnail">
+            <canvas id="summaryChart" width="700" height="500"></canvas>
             <div class="text-muted">Something else</div>
         </div>
         <div class="col-3 col-sm-3">
@@ -49,7 +49,6 @@
                         </table>
                     </div>
                   </div>
-                    
                     <div class="stats">
                     </div>
                 </div>
@@ -74,7 +73,7 @@
     </section>
     <h2>Section title</h2>
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped" id="portfolio-table">
             <thead>
                 <tr>
                     <th>#</th>

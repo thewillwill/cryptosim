@@ -2,7 +2,7 @@
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    
+
       // Add altering commands here.
       // Return a promise to correctly handle asynchronicity.
 
@@ -15,7 +15,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date()
       }], {});
-    
+
   },
 
   down: (queryInterface, Sequelize) => {

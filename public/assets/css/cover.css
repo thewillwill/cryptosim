@@ -1,0 +1,141 @@
+body{
+    margin:0;
+    padding:0;
+}
+
+
+.section {
+    padding-top: 25px;
+    padding-bottom: 25px;
+}
+
+
+.section-content {
+    padding-top: 75px;
+    padding-bottom: 75px;
+}
+
+
+/* Hero Section styles
+/* ---------------------------------------------- */
+
+.content-4180 {
+    position: relative;
+    background: ;
+    background: linear-gradient(-45deg, #58a5f0,#004c8c)
+}
+
+.content-4180::before {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    content: "";
+    background: url('../images/lines_bg3.svg') repeat-x 0 0;
+    -webkit-animation: 45s linear 0s normal none infinite animate;
+    -moz-animation: 45s linear 0s normal none infinite animate;
+    -ms-animation: 45s linear 0s normal none infinite animate;
+    -o-animation: 45s linear 0s normal none infinite animate;
+    animation: 45s linear 0s normal none infinite animate;
+    background-size: 100%;
+    opacity: 0.4;
+}
+
+.hero {
+    position: relative;
+    padding-top: 100px;
+    height: 100vh;
+    color: #FFF;
+    font-weight: 400px;
+}
+
+.heading {
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+    color
+}
+
+.hero-text {
+    font-size: 1.2em;
+}
+
+
+#hero .arrow-down {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    width: 20px;
+    height: 12px;
+    margin-left: -10px;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    background-image: url(../assets/arrow-down.svg);
+    -webkit-animation-name: bounce;
+    animation-name: bounce;
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    cursor: pointer;
+}
+
+.arrow-pos {
+    position: absolute;
+    bottom: 0;
+    margin-left: 35%;
+    fill: #ffbd45;
+    cursor: pointer;
+}
+
+.arrow-pos:hover {
+    fill: #004c8c;
+}
+
+.down-arrow path {
+    background-image: url(../images/down-arrow.svg);
+}
+
+/* Feature & CTA Sections: ;
+/* ---------------------------------------------- */
+
+#feature-2 {
+    background: linear-gradient(-45deg, #fb8c00, #ffbd45);
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+
+
+#cta-section {
+    background: #58a5f0;
+    color: white;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+/* Background Animation
+/* ---------------------------------------------- */
+ 
+@-webkit-keyframes animate {
+    from {background-position:3072px 0;}
+    to {background-position: 0px 0;}
+}
+ 
+@-moz-keyframes animate {
+    from {background-position:3072px 0;}
+    to {background-position: 0px 0;}
+}
+ 
+@-ms-keyframes animate {
+    from {background-position:3072px 0;}
+    to {background-position: 0px 0;}
+}
+ 
+@-o-keyframes animate {
+    from {background-position:3072px 0;}
+    to {background-position: 0px 0;}
+}
+ 
+@keyframes animate {
+    from {background-position:3072px 0;}
+    to {background-position: 0px 0;}
+}
