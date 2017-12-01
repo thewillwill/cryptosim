@@ -19,21 +19,21 @@ const cc = require('cryptocompare');
 
 module.exports = function(app) {
 
-	var userCoinList = [];
+	var coins = [];
+	
+	var userCoins = [];
 
 	//User Info
-	// app.get("/api/user/:id", function(req, res) {
-	// 	db.User.findAll({
-	// 		where: {
-	// 			id: req.params.id
-	// 		},
-	// 		include: [db.Transaction],
-	// 		include: [db.Portfolio]
-	// 	}).then(function(dbUser) {
-	// 		console.log(Sequelize.getValues(dbUser));
-	// 		res.json(dbUser);
-	// 	})
-	// });
+	app.get("/api/user/:id", function(req, res) {
+		db.User.findAll({
+			where: {
+				id: req.params.id
+			}
+		}).then(function(dbUser) {
+			console.log(Sequelize.getValues(dbUser));
+			res.json(dbUser);
+		})
+	});
 
 	//New User
 	app.post("/api/user/new", function(req, res) {
@@ -55,29 +55,44 @@ module.exports = function(app) {
 		db.Portfolio.findAll({
 			where: {
 				userId: req.params.id,
-				expired: false,
+				expired: true,
 			},
 			include: [db.User]
 		}).then(function(dbPortfolio) {
 			var port = Sequelize.getValues(dbPortfolio)
-
+			console.log(port);
 
 			for (var i=0; i<port.length; i++) {
-				userCoinList.push(port[i].currency);
+				coins.push(port[i].currency);
 			}
 
-			cc.priceMulti(userCoinList, 'USD')
+			cc.priceMulti(coins, 'USD')
 			.then(prices => {
-				console.log(prices)
+
+				for (const i in prices) {
+					console.log(i)
+					var userCoinObject = {
+						coinName: "",
+						coinIcon: "",
+						userQty: "",
+						currentPrice: prices[i]["USD"],
+						currentValue: "",
+						valueChange: "?"
+					};
+					console.log(prices[i]["USD"]);
+					userCoins.push(userCoinObject);
+				
+				}
+				console.log(userCoinObject);
 			})
 			.catch(console.error)
 
 			var portfolio = {
 				userName: port[0].User.name,
-				currentNetWorth: currentNetWorth(port[0].userId),
-				pastNetWorths: pastNetWorth(port[0].userId),
-				topRanks: topRank(),
-				userHoldings: userCoinList
+				//currentNetWorth: currentNetWorth(port[0].userId),
+				averageNetWorths: averageNetWorth(port[0].userId),
+				//topRanks: topRank(),
+				userHoldings: userCoins
 			}
 			
 			res.json(portfolio);
@@ -88,7 +103,7 @@ module.exports = function(app) {
 
 };
 
-function pastNetWorth(id) {
+function averageNetWorth(id) {
 	var date = new Date();
 	var netWorthList = [];
 	var weekly = [];
@@ -99,18 +114,19 @@ function pastNetWorth(id) {
 			expired: false,
 			createdAt: {[Op.between]: [date.setDate(date.getDate()-7), date]},
 		}
-	}).then(function(dbPortfolio) {
-		res.json(dbPortfolio);
+	}).then(function(result) {
+		console.log(result);
+		return result;
 	});
 }
 
-function topRank(id) {
+// function topRank() {
 
-}
+// }
 
-function currentNetWorth(id) {
+// function currentNetWorth(id) {
 
-}
+// }
 
 
 // var express = require("express");
