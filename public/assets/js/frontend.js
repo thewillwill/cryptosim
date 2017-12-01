@@ -1,3 +1,4 @@
+
 var dates = [];
 var netWorths = [10000, 70000, 30000, 40000, 10000, 20000, 90000]; /*subject to change*/
 for (var i = 6; i >= 0; i--) {
@@ -106,3 +107,14 @@ $(document).ready(function() {
             }
         });
 })
+
+
+// Cover Page Jquery
+
+//scroll down from top arrow
+$("#arrow").click(function() {
+    $('html, body').animate({
+        scrollTop: $("#feature-1").offset().top
+    }, 2000);
+})
+

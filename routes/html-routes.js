@@ -35,7 +35,7 @@ module.exports = function(app) {
 
 
     // refer route loads portfolio handlebars page
-    app.get("/portfolio", function(req, res) {
+    app.get("/portfolio/", function(req, res) {
         console.log('html-routes: app.get(/portfolio)');
 
         //display the portfolio handlebars page, give it a title and set the navbar 'portfolio' button to active
