@@ -35,18 +35,43 @@ module.exports = function(app) {
 	// 	})
 	// });
 
-	//New User
-	app.post("/api/user/new", function(req, res) {
-		db.User.create(req.body).then(function(dbPost) {
-			res.json(dbPost); 
-		})
-	});
-
 	//Get all currencies
 	app.get("/api/currencies", function(req,res) {
-		db.Coin.findAll({order: Sequelize.col('sort_order')}).then(function(dbPost) {
-			console.log(Sequelize.getValues(dbPost));
-			res.json(dbPost);
+		db.Coin.findAll({
+			order: Sequelize.col('sort_order'),
+			limit: 30
+		}).then(function(dbPost) {
+			// console.log(Sequelize.getValues(dbPost));
+			var newCurrArray = [];
+			var newCurrObject = {};
+			var newCurrObjectArray = [];
+			for (var i = 0; i < dbPost.length; i++) {
+				newCurrArray.push(dbPost[i].symbol);
+			}
+			cc.priceFull(newCurrArray, ['USD'])
+				.then(prices => {
+					for (var i = 0; i < dbPost.length; i++) {
+						newCurrObject = {
+							coin_id: dbPost[i].coin_id,
+							key_id: dbPost[i].key_id,
+							base_url: dbPost[i].base_url,
+							url: dbPost[i].url,
+							image_url: dbPost[i].image_url,
+							name: dbPost[i].name,
+							symbol: dbPost[i].symbol,
+							coin_name: dbPost[i].coin_name,
+							full_name: dbPost[i].full_name,
+							price: prices[dbPost[i].symbol].USD.PRICE,
+							change24Hour: prices[dbPost[i].symbol].USD.CHANGE24HOUR,
+							changePct24Hour: prices[dbPost[i].symbol].USD.CHANGEPCT24HOUR
+						};
+						newCurrObjectArray.push(newCurrObject);
+						}
+						console.log(newCurrObjectArray);
+						res.json(newCurrObjectArray);
+				})
+				.catch(console.error)
+			return newCurrObjectArray;
 		})
 	})
 
