@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/thewillwill/cryptosim.git"
   },
-  "author": "",
+  "author": "Group 4",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/thewillwill/cryptosim/issues"
@@ -19,11 +19,13 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
+    "cryptocompare": "^0.3.0",
     "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
     "express-session": "^1.15.6",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.1",
+    "node-fetch": "^1.7.3",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-twitter": "^1.0.4",

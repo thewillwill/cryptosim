@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="600px" viewBox="0 0 1024 600" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 47.1 (45422) - http://www.bohemiancoding.com/sketch -->
+    <title>Artboard</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
+        <g id="Artboard" stroke-width="4">
+            <g id="blue" transform="translate(4.000000, 309.000000)" stroke="#4A90E2">
+                <path d="M0.837905237,288 L126.706188,183.607143" id="Line"></path>
+                <path d="M237.640947,248.638759 L295.952807,22.7394614" id="Line"></path>
+                <path d="M297.375047,26.162178 L347.864584,188.741218" id="Line"></path>
+                <path d="M348,189 L510,0.491803279" id="Line"></path>
+                <path d="M130.26179,185.318501 L236.218706,248.638759" id="Line"></path>
+            </g>
+            <g id="blue2" transform="translate(768.000000, 328.000000) scale(-1, 1) translate(-768.000000, -328.000000) translate(513.000000, 60.000000)" stroke="#4A90E2">
+                <path d="M0,536 L125.759441,431.763358" id="Line"></path>
+                <path d="M236.598269,496.697659 L352.781955,1.81694915" id="Line"></path>
+                <path d="M354.06015,3.63389831 L420.526316,361.572881" id="Line"></path>
+                <path d="M423.082707,361.572881 L508.721805,248.922034" id="Line"></path>
+                <path d="M129.311967,433.472155 L235.177259,496.697659" id="Line"></path>
+            </g>
+            <polyline id="red2" stroke="#F5A623" transform="translate(757.500000, 332.000000) scale(-1, 1) translate(-757.500000, -332.000000) " points="492 511 557.044731 398.419132 598.903804 448.925767 684.495406 398.419132 708.104145 262.349978 770.206084 262.349978 812.231862 153 882.843743 282.525682 964.375864 262.349978 1023 215.78738"></polyline>
+            <polyline id="red" stroke="#F5A623" points="1.63965087 508.760118 69.840548 398.60743 111.680971 449.152815 197.234439 398.60743 220.832659 262.433877 282.90693 262.433877 324.913984 153 416.113271 488.783864 492.25187 216.867287"></polyline>
+        </g>
+    </g>
+</svg>
