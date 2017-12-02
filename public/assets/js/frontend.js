@@ -8,8 +8,6 @@ for (var i = 6; i >= 0; i--) {
 }
 
 $(document).ready(function() {
-
-
     // ----------------------------
     // Market Page 
     // ----------------------------
@@ -47,7 +45,7 @@ $(document).ready(function() {
             }
             var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
             //create the buy button with the coinID as a data attribute
-            var $td7 = $("<td>").append($("<btn>").attr({"class":"btn btn-secondary buy-btn",'data-coin-id': results[i].key_id, "data-toggle": "modal", "data-target": "modal-buy"}).text("Buy"));
+            var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coin-id': results[i].key_id }).text("Buy"));
             $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
             $("#market-table-body").append($row);
 
@@ -59,7 +57,7 @@ $(document).ready(function() {
 
     });
 
-
+    // Build the Portofolio Historicala Net Worth Chart
     if ($('#summaryChart').length > 0) {
         var ctx = document.getElementById("summaryChart").getContext('2d');
         var summaryChart = new Chart(ctx, {
@@ -104,13 +102,6 @@ $(document).ready(function() {
         });
     }
 
- $(".buy-btn").click(function() {
-        $('html, body').animate({
-            scrollTop: $("#feature-1").offset().top
-        }, 2000);
-    })
-
-
 
 
     // ----------------------------
@@ -123,5 +114,35 @@ $(document).ready(function() {
             scrollTop: $("#feature-1").offset().top
         }, 2000);
     })
+
+});
+
+
+// ----------------------------
+// Market Page Buy Modal 
+// ----------------------------
+
+$('body').on('click', '.buy-btn', function() {
+    console.log("clicked on buy-btn");
+    $('.modal-buy').modal('show')
+    $('#buy-content').append($(".buy-btn").attr("data-coin-id"));
+});
+
+// ----------------------------
+// DAVE - this is the code that creates the buy-object data and sends it to /api/transaction/buy route
+// ----------------------------
+
+$('body').on('click', '#confirm-order', function() {
+    console.log("clicked on confirm-purchase");
+
+    var buyOrder = [{ "ccPrice": $("#ccPrice").val() }, { "USDValue": $("#USDValue").val() }, { "coinID": $("#coinID").val() }, { "userID": $("#userID").val() }, {"currentUSD": $("#currentUSD").val()}];
+    console.log('buyOrder', buyOrder);
+
+    $.post("/api/transaction/buy", function(buyOrder) {
+        $("#purchaseResult").html(data);
+    });
+
+    $('.modal-buy').modal('hide')
+    $('.modal-confirm').modal('show')
 
 });

@@ -134,16 +134,18 @@ body {
     background: rgba(203, 203, 210, 0.15);
 }
 
-a {
-    color: #eee;
-    font-weight: bold;
-
-}
-
 a:hover, a:focus {
     color: #42d0ed;
     text-decoration: none;
 }
+
+
+button a {
+    color: #eee;
+    font-weight: 400;
+}
+
+
 
 a:focus, a:active,
 button::-moz-focus-inner,
@@ -198,9 +200,6 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-a .nav-link {
-    color: #fff;
-}
 
 .icon-size
 {
