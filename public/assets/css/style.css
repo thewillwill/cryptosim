@@ -134,14 +134,18 @@ body {
     background: rgba(203, 203, 210, 0.15);
 }
 
-a {
-    color: #1DC7EA;
-}
-
 a:hover, a:focus {
     color: #42d0ed;
     text-decoration: none;
 }
+
+
+button a {
+    color: #eee;
+    font-weight: 400;
+}
+
+
 
 a:focus, a:active,
 button::-moz-focus-inner,
@@ -178,7 +182,6 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 	background: #0277bd;
 }
 
-
 .navbar-login
 {
     width: 305px;
@@ -194,9 +197,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 
 .navbar-brand {
-    font-weight: 400px;
     text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
 }
+
 
 .icon-size
 {
@@ -204,6 +207,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 }
 
 .active {
+    opacity: 0.75;
     border-bottom: 1px dashed #58a5f0;
 }
 
@@ -476,6 +480,20 @@ Portfolio
 .small-number::before {
 		content:"$";
 		padding-left: 5px;
+}
+
+.coin-icon {
+    height: 35px;
+    width: 35px;
+    margin-right: 15px;
+}
+
+.changePositive {
+    color: green;
+}
+
+.changeNegative {
+    color: red;
 }
 
 

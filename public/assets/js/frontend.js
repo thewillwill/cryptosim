@@ -4,51 +4,123 @@ var netWorths = [10000, 70000, 30000, 40000, 10000, 20000, 90000];
 for (var i = 6; i >= 0; i--) {
     var day = moment().subtract(i, "days").format("MMM Do YY");
     dates.push(day);
-    $("#tres").append(dates);
 }
 
 $(document).ready(function() {
+    // ----------------------------
+    // Market Page 
+    // ----------------------------
+
     //set the tablesorter plugin to initialise on market-table
     $("#market-table").tablesorter();
-
-    //get the currencies json object
-    var queryURL = "/api/currencies";
+    //get the currencies from json object
     $.ajax({
-        url: queryURL,
+        url: "/api/currencies",
         method: "GET"
     }).done(function(response) {
         var results = response;
+        //add rows to table body
+        for (var i = 0; i < results.length; i++) {
+            var $row = $("<tr>");
+            //insert the icon and name
+            var $td1 = $("<td>").append($("<img>").attr({ "src": results[i].base_url + results[i].image_url, "class": "coin-icon" })).append(results[i].coin_name);
+            var $td2 = $("<td>").append(results[i].symbol);
+            var marketCapFormated = '$' + parseFloat(results[i].marketCap, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+            var $td3 = $("<td>").append(marketCapFormated);
+            var priceFormated = '$' + parseFloat(results[i].price, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+            var $td4 = $("<td>").text(priceFormated);
 
-        //add rows to table
+            var $td5 = $("<td>").append(results[i].volume24Hour);
+            //get percentage change           
+            var pctChange = parseInt(results[i].changePct24Hour).toFixed(2);
+            //check if positive or negative and set class for CSS color styling
+            if (pctChange >= 0) {
+                var pctChangeClass = "changePositive";
+            } else {
+                pctChangeClass = "changeNegative";
+            }
+            var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
+            //create the buy button with the coinID as a data attribute
+            var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coin-id': results[i].key_id }).text("Buy"));
+            $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
+            $("#market-table-body").append($row);
+        }
+        $("#market-table").trigger("update");
+    });
+
+    $("#portfolio-table").tablesorter();
+    //get the currencies from json object
+    $.ajax({
+        url: "api/portfolio/:id",
+        method: "GET"
+    }).done(function(response) {
+        var results = response;
+        //add rows to table body
         for (var i = 0; i < results.length; i++) {
             var newRow = $("<tr>");
             var newIcon = $("<td>");
             var newSpan = $("<span>");
             var newImg = $("<img>");
-            newImg.attr("src", results[i].base_url + results[i].image_url).attr("height", "35px").attr("width", "35px");
+            newImg.attr("src", results.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
             newSpan.append(newImg);
             newIcon.append(newSpan);
-            var newID = $("<td>");
-            newID.append(results[i].coin_id);
             var newName = $("<td>");
             newName.append(results[i].coin_name);
+            var newAmount = $("<td>");
+            newAmount.append(results[i].userQty);
             var newValue = $("<td>");
-            newValue.append(10);
-
+            newValue.append(results[i].currentPrice);
+            var totalValue = $("<td>");
+            totalValue.append(results[i].currentValue);
+            var newChange = $("<td>");
+            newChange.append(results[i].valueChange);
             newRow.append(newIcon);
-            newRow.append(newID);
             newRow.append(newName);
+            newRow.append(newAmount);
             newRow.append(newValue);
-            $("#market-table-body").append(newRow);
-
+            newRow.append(totalValue);
+            newRow.append(newChange);
+            $("#portfolio-table-body").append(newRow);
         }
-        console.log('after for loop: ');
-        $("#market-table").trigger("update");
-        console.log('after trigger(update) ');
-
-
+        $("#portfolio-table").trigger("update");
     });
 
+
+    // Build the Portofolio Historicala Net Worth Chart
+    $("#trades-table").tablesorter();
+    //get the currencies from json object
+    $.ajax({
+        url: "/api/currencies",
+        //   "/api/user-last-trades/:id"
+        method: "GET"
+    }).done(function(response) {
+        var results = response;
+        //add rows to table body
+        for (var i = 0; i < results.length; i++) {
+            var newRow = $("<tr>");
+            var newDate = $("<td>");
+            newDate.append(results[i].updatedAt);
+            var newCurrency = $("<td>");
+            newCurrency.append(results[i].currency);
+            var newType = $("<td>");
+            newType.append(results[i].transaction_type)
+            var newPrice = $("<td>");
+            newPrice.append(results[i].price_paid);
+            var newAmount = $("<td>");
+            newAmount.append(results[i].amount);
+            var newTotal = $("<td>");
+            var total = results[i].price_paid * results[i].amount;
+            newTotal.append(total);
+            newRow.append(newDate);
+            newRow.append(newCurrency);
+            newRow.append(newType);
+            newRow.append(newPrice);
+            newRow.append(newAmount);
+            newRow.append(newTotal);
+            $("#trades-table-body").append(newRow);
+        }
+        $("#trades-table").trigger("update");
+    });
 
     if ($('#summaryChart').length > 0) {
         var ctx = document.getElementById("summaryChart").getContext('2d');
@@ -93,11 +165,10 @@ $(document).ready(function() {
             }
         });
     }
+    // ----------------------------
+    // Cover Page 
+    // ----------------------------
 
-
-
-    console.log('$', "#portfolio-table");
-    $("#portfolio-table").tablesorter();
 
     // Cover Page Jquery
     //scroll down from top arrow
@@ -106,5 +177,36 @@ $(document).ready(function() {
             scrollTop: $("#feature-1").offset().top
         }, 2000);
     })
+
+});
+
+
+// ----------------------------
+// Market Page Buy Modal 
+// ----------------------------
+
+$('body').on('click', '.buy-btn', function() {
+    console.log("clicked on buy-btn");
+    $('.modal-buy').modal('show')
+    $('#buy-content').append($(".buy-btn").attr("data-coin-id"));
+});
+
+// ----------------------------
+// DAVE - this is the code that creates the buy-object data and sends it to /api/transaction/buy route
+// ----------------------------
+
+$('body').on('click', '#confirm-order', function() {
+    console.log("clicked on confirm-purchase");
+
+    var buyOrder = [{ "ccPrice": $("#ccPrice").val() }, { "USDValue": $("#USDValue").val() }, { "coinID": $("#coinID").val() }, { "userID": $("#userID").val() }, {"currentUSD": $("#currentUSD").val()}];
+    console.log('buyOrder', buyOrder);
+
+    $.post("/api/transaction/buy", function(buyOrder) {
+        $("#purchaseResult").html(data);
+    });
+
+    $('.modal-buy').modal('hide')
+    $('.modal-confirm').modal('show')
+
 
 });
