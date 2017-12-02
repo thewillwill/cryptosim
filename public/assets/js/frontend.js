@@ -8,7 +8,7 @@ for (var i = 6; i >= 0; i--) {
 
 $(document).ready(function() {
     // ----------------------------
-    // Market Page 
+    // Market Page
     // ----------------------------
 
     //set the tablesorter plugin to initialise on market-table
@@ -31,7 +31,7 @@ $(document).ready(function() {
             var $td4 = $("<td>").text(priceFormated);
 
             var $td5 = $("<td>").append(results[i].volume24Hour);
-            //get percentage change           
+            //get percentage change
             var pctChange = parseInt(results[i].changePct24Hour).toFixed(2);
             //check if positive or negative and set class for CSS color styling
             if (pctChange >= 0) {
@@ -166,7 +166,7 @@ $(document).ready(function() {
         });
     }
     // ----------------------------
-    // Cover Page 
+    // Cover Page
     // ----------------------------
 
 
@@ -182,7 +182,7 @@ $(document).ready(function() {
 
 
 // ----------------------------
-// Market Page Buy Modal 
+// Market Page Buy Modal
 // ----------------------------
 
 $('body').on('click', '.buy-btn', function() {
@@ -195,18 +195,34 @@ $('body').on('click', '.buy-btn', function() {
 // DAVE - this is the code that creates the buy-object data and sends it to /api/transaction/buy route
 // ----------------------------
 
+
 $('body').on('click', '#confirm-order', function() {
-    console.log("clicked on confirm-purchase");
-
-    var buyOrder = [{ "ccPrice": $("#ccPrice").val() }, { "USDValue": $("#USDValue").val() }, { "coinID": $("#coinID").val() }, { "userID": $("#userID").val() }, {"currentUSD": $("#currentUSD").val()}];
+  var ccPrice = parseInt($("#ccPrice").val());
+  var USDValue = parseInt($("#USDValue").val());
+  var coinID = $("#coinID").val();
+  var userID = parseInt($("#userID").val());
+  var currentUSD = parseInt($("#currentUSD").val());
+  var ccQuantity =  parseInt($("#ccQuantity").val());
+  console.log("clicked on confirm-purchase");
+  var buyOrder = {"params": {
+                    "ccPrice": ccPrice,
+                    "USDValue": USDValue,
+                    "coinID": coinID,
+                    "userID": userID,
+                    "currentUSD": currentUSD,
+                    "ccQuantity": ccQuantity }
+                 }
     console.log('buyOrder', buyOrder);
-
-    $.post("/api/transaction/buy", function(buyOrder) {
-        $("#purchaseResult").html(data);
-    });
-
-    $('.modal-buy').modal('hide')
-    $('.modal-confirm').modal('show')
-
-
+    // Send the POST request.
+    $.ajax("/api/transaction/buy", {
+        type: "POST",
+        data: buyOrder
+    }).then(
+        function() {
+            console.log("POST new buy request");
+            $('.modal-buy').modal('hide')
+            $("#purchaseResult").html(data);
+            $('.modal-confirm').modal('show')
+        }
+    );
 });
