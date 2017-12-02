@@ -62,7 +62,7 @@ module.exports = function(passport) {
 		       newUser.save().then( function() {done(null, user);}).catch (function(e) {});
 			   }
         var newPort = db.Portfolio.build({
-          UserId: "",
+          UserId: newUser.id,
           currency: "USD",
           amount: "50000",
           expired: 0

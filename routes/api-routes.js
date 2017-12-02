@@ -20,7 +20,7 @@ const Op = Sequelize.Op;
 module.exports = function(app) {
 
 	var coins = [];
-	
+
 	var userCoins = [];
 
 	//User Info
@@ -44,7 +44,7 @@ module.exports = function(app) {
 			// console.log(Sequelize.getValues(dbPost));
 			var newCurrArray = [];
 			var newCurrObject = {};
-			var newCurrObjectArray = [];
+			newCurrObjectArray = [];
 			for (var i = 0; i < dbPost.length; i++) {
 				newCurrArray.push(dbPost[i].symbol);
 			}
@@ -80,7 +80,7 @@ module.exports = function(app) {
 	app.post("/api/user/new", function(req, res) {
 		db.User.create(req.body).then(function(dbPost) {
 			console.log(dbPost.id);
-			var newPort = 
+			var newPort =
 			{
 				UserId: dbPost.id,
 				currency: "USD",
@@ -124,7 +124,7 @@ module.exports = function(app) {
 					};
 					console.log(prices[i]["USD"]);
 					userCoins.push(userCoinObject);
-				
+
 				}
 				console.log(userCoinObject);
 			})
@@ -137,7 +137,7 @@ module.exports = function(app) {
 				//topRanks: topRank(),
 				userHoldings: userCoins
 			}
-			
+
 			res.json(portfolio);
 		})
 	});
@@ -288,7 +288,7 @@ function averageNetWorth(id) {
 
 // // Export routes for server.js to use.
 // module.exports = router;
-  
+
 	//get currency historical value
 	app.get("/api/currencies/:symbol/:date", function(req, res) {
 		var symbol = req.params.symbol.toUpperCase();
@@ -364,6 +364,8 @@ function averageNetWorth(id) {
 		})
 		.catch(console.error)
 	})
+
+
 
 
 
