@@ -88,7 +88,7 @@ app.get("/api/transaction/sell/:UserID", function(req, res) {
       UserId: req.body.params.userID,
       currency: USD,
       expired: 1,
-      amount: //CURRENT USD VALUE
+      amount: //need to get from Will
     }).then(result => handleresult(result)
 	).catch(err => handleerror(err));
 
