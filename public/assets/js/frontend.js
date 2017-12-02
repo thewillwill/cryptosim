@@ -8,6 +8,12 @@ for (var i = 6; i >= 0; i--) {
 }
 
 $(document).ready(function() {
+
+
+    // ----------------------------
+    // Market Page 
+    // ----------------------------
+
     //set the tablesorter plugin to initialise on market-table
     $("#market-table").tablesorter();
 
@@ -22,22 +28,27 @@ $(document).ready(function() {
         //add rows to table
         for (var i = 0; i < results.length; i++) {
             var $row = $("<tr>");
-            var $td1 = $("<td>").append($("<img>").attr({"src": results[i].base_url + results[i].image_url, "class": "coin-icon"})).append(results[i].coin_name);
+            //insert the icon and name
+            var $td1 = $("<td>").append($("<img>").attr({ "src": results[i].base_url + results[i].image_url, "class": "coin-icon" })).append(results[i].coin_name);
             var $td2 = $("<td>").append(results[i].symbol);
-            var $td3 = $("<td>").append("$" + results[i].price);
+            var marketCapFormated = '$' + parseFloat(results[i].marketCap, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+            var $td3 = $("<td>").append(marketCapFormated);
+            var priceFormated = '$' + parseFloat(results[i].price, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+            var $td4 = $("<td>").text(priceFormated);
+
+            var $td5 = $("<td>").append(results[i].volume24Hour);
+            //get percentage change           
             var pctChange = parseInt(results[i].changePct24Hour).toFixed(2);
-            if (pctChange >=0) {
+            //check if positive or negative and set class for CSS color styling
+            if (pctChange >= 0) {
                 var pctChangeClass = "changePositive";
-            }
-            else { 
+            } else {
                 pctChangeClass = "changeNegative";
             }
-            var $td4 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
-
-            $row.append($td1);
-            $row.append($td2);
-            $row.append($td3);
-            $row.append($td4);
+            var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
+            //create the buy button with the coinID as a data attribute
+            var $td7 = $("<td>").append($("<btn>").attr({"class":"btn btn-secondary buy-btn",'data-coin-id': results[i].key_id, "data-toggle": "modal", "data-target": "modal-buy"}).text("Buy"));
+            $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
             $("#market-table-body").append($row);
 
         }
@@ -93,13 +104,20 @@ $(document).ready(function() {
         });
     }
 
+ $(".buy-btn").click(function() {
+        $('html, body').animate({
+            scrollTop: $("#feature-1").offset().top
+        }, 2000);
+    })
 
 
-    console.log('$', "#portfolio-table");
-    $("#portfolio-table").tablesorter();
 
-    // Cover Page Jquery
-    //scroll down from top arrow
+
+    // ----------------------------
+    // Cover Page 
+    // ----------------------------
+
+    //scroll down from Top arrow
     $("#arrow").click(function() {
         $('html, body').animate({
             scrollTop: $("#feature-1").offset().top

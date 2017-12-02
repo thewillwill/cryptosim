@@ -80,7 +80,9 @@ module.exports = function(app) {
 							price: prices[dbPost[i].symbol].USD.PRICE,
 							change24Hour: prices[dbPost[i].symbol].USD.CHANGE24HOUR,
 							changePct24Hour: prices[dbPost[i].symbol].USD.CHANGEPCT24HOUR,
-							marketCap: prices[dbPost[i].symbol].USD.MKTCAP
+							marketCap: prices[dbPost[i].symbol].USD.MKTCAP,
+							volume24Hour: prices[dbPost[i].symbol].USD.TOTALVOLUME24H
+
 						};
 						newCurrObjectArray.push(newCurrObject);
 						}
