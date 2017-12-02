@@ -146,17 +146,6 @@ module.exports = function(app) {
 
 				}
 
-
-			var portfolio = {
-				userName: port[0].User.name,
-				//currentNetWorth: currentNetWorth(port[0].userId),
-				averageNetWorths: averageNetWorth(port[0].userId),
-				//topRanks: topRank(),
-				userHoldings: userCoins
-			}
-
-			res.json(portfolio);
-
 				var currentNetWorth = 0;
 				for (var i in userCoinObject) {
 					currentNetWorth =+ userCoinObject.currentValue;
