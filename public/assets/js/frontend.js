@@ -4,22 +4,18 @@ var netWorths = [10000, 70000, 30000, 40000, 10000, 20000, 90000];
 for (var i = 6; i >= 0; i--) {
     var day = moment().subtract(i, "days").format("MMM Do YY");
     dates.push(day);
-    $("#tres").append(dates);
 }
 
 $(document).ready(function() {
     //set the tablesorter plugin to initialise on market-table
     $("#market-table").tablesorter();
-
-    //get the currencies json object
-    var queryURL = "/api/currencies";
+    //get the currencies from json object
     $.ajax({
-        url: queryURL,
+        url: "/api/currencies",
         method: "GET"
     }).done(function(response) {
         var results = response;
-
-        //add rows to table
+        //add rows to table body
         for (var i = 0; i < results.length; i++) {
             var newRow = $("<tr>");
             var newIcon = $("<td>");
@@ -34,21 +30,86 @@ $(document).ready(function() {
             newName.append(results[i].coin_name);
             var newValue = $("<td>");
             newValue.append(10);
-
             newRow.append(newIcon);
             newRow.append(newID);
             newRow.append(newName);
             newRow.append(newValue);
             $("#market-table-body").append(newRow);
-
         }
-        console.log('after for loop: ');
         $("#market-table").trigger("update");
-        console.log('after trigger(update) ');
-
-
     });
 
+    $("#portfolio-table").tablesorter();
+    //get the currencies from json object
+    $.ajax({
+        url: "api/portfolio/:id",
+        method: "GET"
+    }).done(function(response) {
+        var results = response;
+        //add rows to table body
+        for (var i = 0; i < results.length; i++) {
+            var newRow = $("<tr>");
+            var newIcon = $("<td>");
+            var newSpan = $("<span>");
+            var newImg = $("<img>");
+            newImg.attr("src", results.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
+            newSpan.append(newImg);
+            newIcon.append(newSpan);
+            var newName = $("<td>");
+            newName.append(results[i].coin_name);
+            var newAmount = $("<td>");
+            newAmount.append(results[i].userQty);
+            var newValue = $("<td>");
+            newValue.append(results[i].currentPrice);
+            var totalValue = $("<td>");
+            totalValue.append(results[i].currentValue);
+            var newChange = $("<td>");
+            newChange.append(results[i].valueChange);
+            newRow.append(newIcon);
+            newRow.append(newName);
+            newRow.append(newAmount);
+            newRow.append(newValue);
+            newRow.append(totalValue);
+            newRow.append(newChange);
+            $("#portfolio-table-body").append(newRow);
+        }
+        $("#portfolio-table").trigger("update");
+    });
+
+    $("#trades-table").tablesorter();
+    //get the currencies from json object
+    $.ajax({
+        url: "/api/currencies",
+        //   "/api/user-last-trades/:id"
+        method: "GET"
+    }).done(function(response) {
+        var results = response;
+        //add rows to table body
+        for (var i = 0; i < results.length; i++) {
+            var newRow = $("<tr>");
+            var newDate = $("<td>");
+            newDate.append(results[i].updatedAt);
+            var newCurrency = $("<td>");
+            newCurrency.append(results[i].currency);
+            var newType = $("<td>");
+            newType.append(results[i].transaction_type)
+            var newPrice = $("<td>");
+            newPrice.append(results[i].price_paid);
+            var newAmount = $("<td>");
+            newAmount.append(results[i].amount);
+            var newTotal = $("<td>");
+            var total = results[i].price_paid * results[i].amount;
+            newTotal.append(total);
+            newRow.append(newDate);
+            newRow.append(newCurrency);
+            newRow.append(newType);
+            newRow.append(newPrice);
+            newRow.append(newAmount);
+            newRow.append(newTotal);
+            $("#trades-table-body").append(newRow);
+        }
+        $("#trades-table").trigger("update");
+    });
 
     if ($('#summaryChart').length > 0) {
         var ctx = document.getElementById("summaryChart").getContext('2d');
@@ -93,12 +154,6 @@ $(document).ready(function() {
             }
         });
     }
-
-
-
-    console.log('$', "#portfolio-table");
-    $("#portfolio-table").tablesorter();
-
     // Cover Page Jquery
     //scroll down from top arrow
     $("#arrow").click(function() {
@@ -106,5 +161,4 @@ $(document).ready(function() {
             scrollTop: $("#feature-1").offset().top
         }, 2000);
     })
-
 });
