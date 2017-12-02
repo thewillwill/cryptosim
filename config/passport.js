@@ -71,6 +71,16 @@ module.exports = function(passport) {
                 res.json(dbPost);
               });
 			   }
+
+        var newPort = db.Portfolio.build({
+          UserId: newUser.id,
+          currency: "USD",
+          amount: "50000",
+          expired: 0
+        });
+          newPort.save().then( function() {done(null, user);}).catch (function(e) {});
+          console.log(newPort);
+
 		  });
    } else { // user already exists and is logged in, we have to link accounts
       var user                = req.user; // pull the user out of the session
