@@ -78,9 +78,12 @@ const Op = Sequelize.Op;
       	db.Transactions.create({
         	currency: req.body.params.coinID,
         	amount: //HOW? (req.body.params.USDValue / newCurrObjectArray.price <- need to iterate through ob first)
-          	price_paid: req.body.params.USDValue,
+          price_paid: req.body.params.USDValue,
         	transaction_type: 'B'
-      	})
+      	}).then(function(result) {
+					console.log(result);
+					res.json(result);
+				})
     	}
   	})
 	});
