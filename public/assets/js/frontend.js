@@ -205,8 +205,6 @@ $(document).ready(function() {
     })
 
 
-
-
     // ----------------------------
     // Market Page Buy Modals
     // ----------------------------
@@ -221,7 +219,7 @@ $(document).ready(function() {
     });
 
 
-    $('body').on('click', '#confirm-order', function() {
+    $('body').on('click', '#confirm-buy-order', function() {
         var ccPrice = parseInt($("#input-ccPrice").val());
         var USDValue = parseInt($("#input-USDValue").val());
         var coinID = $("#input-coinID").val();
@@ -249,8 +247,8 @@ $(document).ready(function() {
                 console.log("POST new buy request");
                 $('#modal-buy').modal('hide');
                 $("#purchaseResult").html(data);
-                console.log("#modal-confirm");
-                $('#modal-confirm').modal('show');
+                console.log("#modal-buy-confirm");
+                $('#modal-buy-confirm').modal('show');
             }
         );
 
@@ -259,7 +257,7 @@ $(document).ready(function() {
 
     // Calculate Total Price of Buy Order
     // ----------------------------
-    $("#input-ccQuantity").keyup(function(){
+    $("#input-ccQuantity").keyup(function() {
         console.log("Handler for .change() called.");
     });
 
@@ -268,6 +266,55 @@ $(document).ready(function() {
     };
 
 
+
+    // ----------------------------
+    // Portoflio Page Sell Modals
+    // ----------------------------
+
+    $('body').on('click', '.sell-btn', function() {
+        console.log("clicked on sell-btn for:", $(this).attr("data-coinID"));
+        $("#input-coinID").val($(this).attr("data-coinID"))
+        $("#input-ccPrice").val($(this).attr("data-price"))
+        $("#input-ccQuantity").val(0)
+        $('#modal-sell').modal('show');
+
+    });
+
+
+    $('body').on('click', '#confirm-sell-order', function() {
+        var ccPrice = parseInt($("#input-ccPrice").val());
+        var USDValue = parseInt($("#input-USDValue").val());
+        var coinID = $("#input-coinID").val();
+        var userID = parseInt($("#input-userID").val());
+        var currentUSD = parseInt($("#input-currentUSD").val());
+        var ccQuantity = parseInt($("#input-ccQuantity").val());
+        console.log("clicked on confirm-purchase");
+        var sellOrder = {
+            "params": {
+                "ccPrice": ccPrice,
+                "USDValue": USDValue,
+                "coinID": coinID,
+                "userID": userID,
+                "currentUSD": currentUSD,
+                "ccQuantity": ccQuantity
+            }
+        }
+        console.log('sellOrder', sellOrder);
+        // Send the POST request.
+        $.ajax("/api/transaction/sell", {
+            type: "POST",
+            data: sellOrder
+        }).then(
+            function(data) {
+                console.log("POST new sell request");
+                $('#modal-sell').modal('hide');
+                $("#purchaseResult").html(data);
+                console.log("#modal-buy-confirm");
+                $('#modal-sell-confirm').modal('show');
+            }
+        );
+
+    });
 
 
 
