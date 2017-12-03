@@ -1,5 +1,5 @@
 var dates = [];
-var netWorths = [10000, 70000, 30000, 40000, 10000, 20000, 90000];
+var netWorths = [];
 //to be replaced with user specific api data
 for (var i = 6; i >= 0; i--) {
     var day = moment().subtract(i, "days").format("MMM Do YY");
@@ -53,29 +53,29 @@ $(document).ready(function() {
         $("#portfolio-table").tablesorter();
         //get the currencies from json object
         $.ajax({
-            url: "api/portfolio/:id",
+            url: "api/portfolio/1",
             method: "GET"
         }).done(function(response) {
-            var results = response;
+            console.log(response);
             //add rows to table body
-            for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < response.userHoldings.length; i++) {
                 var newRow = $("<tr>");
                 var newIcon = $("<td>");
                 var newSpan = $("<span>");
                 var newImg = $("<img>");
-                newImg.attr("src", results.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
+                newImg.attr("src", response.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
                 newSpan.append(newImg);
                 newIcon.append(newSpan);
                 var newName = $("<td>");
-                newName.append(results[i].coin_name);
+                newName.append(response.userHoldings[i].coinName);
                 var newAmount = $("<td>");
-                newAmount.append(results[i].userQty);
+                newAmount.append(response.userHoldings[i].userQty);
                 var newValue = $("<td>");
-                newValue.append(results[i].currentPrice);
+                newValue.append(response.userHoldings[i].currentPrice);
                 var totalValue = $("<td>");
-                totalValue.append(results[i].currentValue);
+                totalValue.append(response.userHoldings[i].currentValue);
                 var newChange = $("<td>");
-                newChange.append(results[i].valueChange);
+                newChange.append(response.userHoldings[i].valueChange);
                 newRow.append(newIcon);
                 newRow.append(newName);
                 newRow.append(newAmount);
@@ -94,27 +94,26 @@ $(document).ready(function() {
         $("#trades-table").tablesorter();
         //get the currencies from json object
         $.ajax({
-            url: "/api/currencies",
-            //   "/api/user-last-trades/:id"
+            url: "/api/user-last-trades/1",
             method: "GET"
         }).done(function(response) {
-            var results = response;
+            console.log(response);
             //add rows to table body
-            for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < response.length; i++) {
                 var newRow = $("<tr>");
                 var newDate = $("<td>");
-                newDate.append(results[i].updatedAt);
+                newDate.append(response[i].updatedAt);
                 var newCurrency = $("<td>");
-                newCurrency.append(results[i].currency);
+                newCurrency.append(response[i].currency);
                 var newType = $("<td>");
-                newType.append(results[i].transaction_type)
+                newType.append(response[i].transactionType)
                 var newPrice = $("<td>");
-                newPrice.append(results[i].price_paid);
+                newPrice.append(response[i].pricePaid);
                 var newAmount = $("<td>");
-                newAmount.append(results[i].amount);
+                newAmount.append(response[i].amount);
                 var newTotal = $("<td>");
-                var total = results[i].price_paid * results[i].amount;
-                newTotal.append(total);
+                //var total = response[i].pricePaid * response[i].amount;
+                newTotal.append(response[i].totalAmtUSD);
                 newRow.append(newDate);
                 newRow.append(newCurrency);
                 newRow.append(newType);
@@ -128,7 +127,13 @@ $(document).ready(function() {
     }
 
     if ($('#summaryChart').length > 0) {
-        var ctx = document.getElementById("summaryChart").getContext('2d');
+        $.ajax({
+            url: "/api/portfolio/1",
+            method: "GET"
+        }).done(function(response) {
+            console.log(response.averageNetWorths);
+            netWorths = response.averageNetWorths;
+             var ctx = document.getElementById("summaryChart").getContext('2d');
         var summaryChart = new Chart(ctx, {
             type: 'line',
             data: {
@@ -169,6 +174,8 @@ $(document).ready(function() {
                 }
             }
         });
+        });
+       
     }
     // ----------------------------
     // Cover Page
