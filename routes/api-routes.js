@@ -224,8 +224,6 @@ function averageNetWorth(id, coins) {
 		
 		day++;
 	}
-
-	return netWorths;
 }
 
 function dayTotal(id, coins, day) {
