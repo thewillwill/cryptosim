@@ -25,38 +25,38 @@ module.exports = function(app) {
 
 
     // start route loads start handlebars page
-    app.get("/start/:id", function(req, res) {
+    app.get("/start/", function(req, res) {
         console.log('html-routes: app.get(/start)');
         //display the index handlebars page
-        res.render("pages/start", { title: "Get Started - CryptoSim", user: req.params.id });
+        res.render("pages/start", { title: "Get Started - CryptoSim"});
 
     });
 
 
     // refer route loads portfolio handlebars page
-    app.get("/portfolio/:id", function(req, res) {
+    app.get("/portfolio", function(req, res) {
         console.log('html-routes: app.get(/portfolio)');
         //display the portfolio handlebars page, give it a title and set the navbar 'portfolio' button to active
-        res.render("pages/portfolio", { title: "Porfolio - CryptoSim", active_portfolio: true, user: req.params.id });
+        res.render("pages/portfolio", { title: "Porfolio - CryptoSim", active_portfolio: true});
 
     });
 
 
     // refer route loads refer handlebars page
-    app.get("/refer/:id", function(req, res) {
+    app.get("/refer", function(req, res) {
         console.log('html-routes: app.get(/refer")');
         //display the refer handlebars page, give it a title and set the navbar 'refer' button to active
-        res.render("pages/refer", { title: "Refer A Friend - CryptoSim", active_refer: true, user: req.params.id });
+        res.render("pages/refer", { title: "Refer A Friend - CryptoSim", active_refer: true});
 
     });
 
 
     // market route loads market handlebars page
-    app.get("/market/:id", function(req, res) {
+    app.get("/market", function(req, res) {
         console.log('html-routes: app.get(/market)');
 
         //display the market handlebars page, give it a title and set the navbar 'market' button to active
-        res.render("pages/market", { title: "Crypto Currency Market- CryptoSim", active_market: true, user: req.params.id });
+        res.render("pages/market", { title: "Crypto Currency Market- CryptoSim", active_market: true});
 
     });
 
@@ -65,15 +65,15 @@ module.exports = function(app) {
         console.log('html-routes: app.get(/learn)');
 
         //display the learn handlebars page, give it a title and set the navbar 'learn' button to active
-        res.render("pages/learn", { title: "Learn About Crypto Currencies - CryptoSim", active_learn: true });
+        res.render("pages/learn", { title: "Learn About Crypto Currencies - CryptoSim", active_learn: true});
 
     });
 
-    app.get("/preferences/:id", function(req, res) {
+    app.get("/preferences", function(req, res) {
         console.log('html-routes: app.get(/preferences)');
 
         //display the preferences handlebars page, give it a title and set the navbar 'preferences' button to active
-        res.render("pages/preferences", { title: "Preferences - CryptoSim", active_preferences: true, user: req.params.id });
+        res.render("pages/preferences", { title: "Preferences - CryptoSim", active_preferences: true});
 
     });
 
