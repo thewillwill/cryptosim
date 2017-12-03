@@ -147,6 +147,14 @@ module.exports = function(app) {
         coins.push(dbPortfolio[i].currency);
       }
 
+      // db.Coins.findAll({
+      //   where: {
+      //     symbol: coins
+      //   }
+      // }).then(function(dbPortfolio) {
+      //   console.log(Sequelize.getValues(dbPortfolio));
+      // }
+
       cc.priceMulti(coins, 'USD')
         .then(prices => {
           var index = 0;
