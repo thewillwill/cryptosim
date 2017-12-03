@@ -841,3 +841,11 @@ body.scrollable {
     background-color: transparent;
     color: #ff4b4b;
     border-color: #ff4b4b; }
+
+.top {
+  color: #435168;
+}
+
+.top:hover {
+  color: white;
+}
