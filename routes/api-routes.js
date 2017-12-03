@@ -116,7 +116,7 @@ module.exports = function(app) {
 		db.Portfolio.findAll({
 			where: {
 				userId: req.params.id,
-				expired: true,
+				expired: false,
 			},
 			include: [db.User]
 		}).then(function(dbPortfolio) {
