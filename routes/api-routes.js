@@ -45,8 +45,25 @@ module.exports = function(app) {
 			order: Sequelize.col('createdAt'),
 			limit: 10
 		}).then(function(dbUser) {
-			console.log(Sequelize.getValues(dbUser));
-			res.json(dbUser);
+			var lastTradesArray = [];
+			for (var i = 0; i < dbUser.length; i++) {
+				var totalAmtUSD = dbUser[i].amount * dbUser[i].price_paid;
+				var lastTradesObj = {
+					id : dbUser[i].id,
+					currency : dbUser[i].currency,
+					amount: dbUser[i].amount,
+					pricePaid: dbUser[i].price_paid,
+					totalAmtUSD: totalAmtUSD,
+					transactionType: dbUser[i].transaction_type,
+					createdAt: dbUser[i].createdAt,
+					updatedAt: dbUser[i].updatedAt,
+					UserId: dbUser[i].UserId
+				}
+				lastTradesArray.push(lastTradesObj);
+			}
+			
+			console.log(lastTradesArray);
+			res.json(lastTradesArray);
 		})
 	});
 
