@@ -32,7 +32,7 @@ $(document).ready(function() {
 
                 var $td5 = $("<td>").append(results[i].volume24Hour);
                 //get percentage change
-                var pctChange = parseInt(results[i].changePct24Hour).toFixed(2);
+                var pctChange = parseFloat(results[i].changePct24Hour).toFixed(2);
                 //check if positive or negative and set class for CSS color styling
                 if (pctChange >= 0) {
                     var pctChangeClass = "changePositive";
@@ -216,19 +216,21 @@ $(document).ready(function() {
         console.log("clicked on buy-btn for:", $(this).attr("data-coinID"));
         $("#input-coinID").val($(this).attr("data-coinID"))
         $("#input-ccPrice").val($(this).attr("data-price"))
-        $("#input-ccQuantity").val(0)
+        $("#input-ccQuantity").val(0);
+        $("#input-ccQuantity").val(0);
+        $("#input-USDVAlue").val(0);
         $('#modal-buy').modal('show');
 
     });
 
 
     $('body').on('click', '#confirm-buy-order', function() {
-        var ccPrice = parseInt($("#input-ccPrice").val());
-        var USDValue = parseInt($("#input-USDValue").val());
+        var ccPrice = parseFloat($("#input-ccPrice").val());
+        var USDValue = parseFloat($("#input-USDValue").val());
         var coinID = $("#input-coinID").val();
-        var userID = parseInt($("#input-userID").val());
-        var currentUSD = parseInt($("#input-currentUSD").val());
-        var ccQuantity = parseInt($("#input-ccQuantity").val());
+        var userID = parseFloat($("#input-userID").val());
+        var currentUSD = parseFloat($("#input-currentUSD").val());
+        var ccQuantity = parseFloat($("#input-ccQuantity").val());
         console.log("clicked on confirm-purchase");
         var buyOrder = {
             "params": {
@@ -261,7 +263,28 @@ $(document).ready(function() {
     // Calculate Total Price of Buy Order
     // ----------------------------
     $("#input-ccQuantity").keyup(function() {
-        console.log("Handler for .change() called.");
+        var qty = parseFloat($("#input-ccQuantity").val());
+        var price = parseFloat($("#input-ccPrice").val())
+        var total = qty * price;
+        if (qty > 0 && price > 0) {
+            $("#input-USDValue").val(total);
+        }
+        else {
+            $("#input-USDValue").val(0);
+        }
+    });
+
+    $("#input-USDValue").keyup(function() {
+        var total = parseFloat($("#input-USDValue").val());
+        var price = parseFloat($("#input-ccPrice").val())
+        var qty = price / total;
+
+        if (total > 0 && price > 0) {
+            $("#input-ccQuantity").val(qty);
+        }
+        else {
+            $("#input-USDValue").val(0);
+        }
     });
 
     function totalPrice() {
@@ -285,12 +308,11 @@ $(document).ready(function() {
 
 
     $('body').on('click', '#confirm-sell-order', function() {
-        var ccPrice = parseInt($("#input-ccPrice").val());
-        var USDValue = parseInt($("#input-USDValue").val());
+        var ccPrice = parseFloat($("#input-ccPrice").val());
+        var USDValue = parseFloat($("#input-USDValue").val());
         var coinID = $("#input-coinID").val();
-        var userID = parseInt($("#input-userID").val());
-        var currentUSD = parseInt($("#input-currentUSD").val());
-        var ccQuantity = parseInt($("#input-ccQuantity").val());
+        var userID = parseFloat($("#input-userID").val());
+        var ccQuantity = parseFloat($("#input-ccQuantity").val());
         console.log("clicked on confirm-purchase");
         var sellOrder = {
             "params": {
@@ -298,7 +320,6 @@ $(document).ready(function() {
                 "USDValue": USDValue,
                 "coinID": coinID,
                 "userID": userID,
-                "currentUSD": currentUSD,
                 "ccQuantity": ccQuantity
             }
         }
