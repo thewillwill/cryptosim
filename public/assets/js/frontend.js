@@ -49,16 +49,25 @@ $(document).ready(function() {
         });
     }
 
+    // ----------------------------
+    // Portfolio Page
+    // ----------------------------
+
+
     if ($('#portfolio-table').length > 0) {
         $("#portfolio-table").tablesorter();
+
+        console.log("------------ getting portfolio data ------------");
         //get the currencies from json object
         $.ajax({
-            url: "api/portfolio/1",
+            url: "api/portfolio/1",    //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            console.log(response);
+          console.log('L62', 'response:', )
+
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
+                console.log("userHolding[i]",response.userHoldings[i])
                 var newRow = $("<tr>");
                 var newIcon = $("<td>");
                 var newSpan = $("<span>");
@@ -90,11 +99,11 @@ $(document).ready(function() {
 
     if ($('#trades-table').length > 0) {
 
-        // Build the Portofolio Historicala Net Worth Chart
+        // Build the Portofolio Historical Net Worth Chart
         $("#trades-table").tablesorter();
         //get the currencies from json object
         $.ajax({
-            url: "/api/user-last-trades/1",
+            url: "/api/user-last-trades/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
             console.log(response);

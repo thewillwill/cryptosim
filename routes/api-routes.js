@@ -20,6 +20,7 @@ const Op = Sequelize.Op;
 
 module.exports = function(app) {
 
+
     //User Info
     app.get("/api/user/:id", function(req, res) {
         db.User.findAll({
