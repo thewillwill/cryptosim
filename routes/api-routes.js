@@ -14,14 +14,11 @@ var Sequelize = require('sequelize');
 require('sequelize-values')(Sequelize);
 const Op = Sequelize.Op;
 
+
 // Routes
 // =============================================================
 
 module.exports = function(app) {
-
-	var coins = [];
-
-	var userCoins = [];
 
 	//User Info
 	app.get("/api/user/:id", function(req, res) {
@@ -97,7 +94,9 @@ module.exports = function(app) {
 							price: prices[dbPost[i].symbol].USD.PRICE,
 							change24Hour: prices[dbPost[i].symbol].USD.CHANGE24HOUR,
 							changePct24Hour: prices[dbPost[i].symbol].USD.CHANGEPCT24HOUR,
-							marketCap: prices[dbPost[i].symbol].USD.MKTCAP
+							marketCap: prices[dbPost[i].symbol].USD.MKTCAP,
+							volume24Hour: prices[dbPost[i].symbol].USD.TOTALVOLUME24H
+
 						};
 						newCurrObjectArray.push(newCurrObject);
 						}
@@ -131,6 +130,9 @@ module.exports = function(app) {
 
 	// Create Portfolio Object
 	app.get("/api/portfolio/:id", function(req, res) {
+		var coins = [];
+		var userCoins = [];
+
 		db.Portfolio.findAll({
 			where: {
 				userId: req.params.id,
@@ -160,19 +162,7 @@ module.exports = function(app) {
 					userCoins.push(userCoinObject);
 
 					index++;
-
 				}
-
-
-			var portfolio = {
-				userName: port[0].User.name,
-				//currentNetWorth: currentNetWorth(port[0].userId),
-				averageNetWorths: averageNetWorth(port[0].userId),
-				//topRanks: topRank(),
-				userHoldings: userCoins
-			}
-
-			res.json(portfolio);
 
 				var currentNetWorth = 0;
 				for (var i in userCoinObject) {
@@ -182,14 +172,14 @@ module.exports = function(app) {
 				var portfolio = {
 					userName: dbPortfolio[0].User.name,
 					currentNetWorth: currentNetWorth,
-					averageNetWorths: averageNetWorth(dbPortfolio[0].UserId, prices),
+					averageNetWorths: averageNetWorth(dbPortfolio[0].UserId, coins),
 					topRanks: topRank(),
 					userHoldings: userCoins
 				}
-				
+
 				res.json(portfolio);
 			})
-			.catch(console.error)	
+			.catch(console.error)
 
 		})
 	});
@@ -220,24 +210,78 @@ module.exports = function(app) {
 
 
 
-function averageNetWorth(id, prices) {
-	console.log(id);
-	db.Portfolio.findAll({
-		where: {
-			userId: id,
-			expired: true,
-			createdAt: {
-				[Op.lt]: new Date(),
-    			[Op.gt]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000)}
-		}
-	}).then(function(result) {
-		console.log(prices);
-		console.log(result[0]._previousDataValues.amount);
-		//return result;
-		return "?";
-	});
+function averageNetWorth(id, coins) {
+
+	var netWorths = [];
+	var dayTotal = 0;
+	var days = 0;
+	var usd = [];
+	var eth = [];
+	var btc = [];
+	var ltc = [];
+
+	while (days < 7) {
+		db.Portfolio.findAll({
+			where: {
+				userId: id,
+				createdAt: {
+					[Op.lt]: new Date(new Date() - days * 24 * 60 * 60 * 1000),
+	    			[Op.gt]: new Date(new Date() - (days+1) * 24 * 60 * 60 * 1000)}
+			}
+		}).then(function(result) {
+
+			if (result.length > 0) {
+				cc.priceHistorical('USD', coins, result[0]["_previousDataValues"]["createdAt"])
+				.then(prices => {
+
+					for (var i=0; i<result.length; i++) {
+						var curr = result[i]["_previousDataValues"]["currency"];
+						var curencyValue = 1 / (prices[curr]);
+						switch(result[i]["_previousDataValues"]["currency"]) {
+						    case "USD":
+						        usd.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "BTC":
+						        btc.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "ETH":
+						        eth.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "LTC":
+						        ltc.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    default:
+						        break;
+						}
+					}
+				})
+				.catch(console.error)
+
+				var totalUsd = calculateAverage(usd);
+				var totalEth = calculateAverage(eth);
+				var totalBtc = calculateAverage(btc);
+				var totalLtc = calculateAverage(ltc);
+				netWorths.push(totalUsd + totalEth + totalBtc + totalLtc);
+			} 
+		});
+		days++;
+	}
+
+	
+
+	return netWorths;
 }
 
+function calculateAverage(coin) {
+	var sum = 0;
+	if (coin.length > 0) {
+		for(var i=0; i<coin.length; i++){
+		    sum += coin[i];
+		}
+		return sum/coin.length;
+	} 
+	return sum;
+}
 
 // function topRank() {
 
@@ -395,6 +439,101 @@ function averageNetWorth(id, prices) {
 
 
 
+	//------------------------------------------------------------------------
+	//------------------------------------------------------------------------
+	// BUY AND SELL ROUTES
+	//------------------------------------------------------------------------
+	//------------------------------------------------------------------------
 
+	// GET route for retrieving all historical transactions
+	app.get("/api/transaction", function(req, res) {
+		db.Transactions.findAll({}).then(function(transactions) {
+				res.json(transactions)
+			})
+	});
+
+	// GET route for retrieving all BUY transaction
+	app.get("/api/transaction/buy/all", function(req, res) {
+		db.Transactions.findAll({
+			where: {
+				transaction_type: 'B'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// Get rotue for retrieving all BUY transactions per user
+	app.get("/api/transaction/buy/:UserID", function(req, res) {
+		db.Transactions.findAll({
+			where: {
+				Userid: req.body.params.UserID,
+				transaction_type: 'B'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// GET route for retrieving all SELL transaction
+	app.get("/api/transaction/sell/all", function(req, res) {
+		db.Transactions.findAll({
+			where: {
+				transaction_type: 'S'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// Get rotue for retrieving all SELL transactions per user
+	app.get("/api/transaction/sell/:UserID", function(req, res) {
+		db.Transactions.findAll({
+			where: {
+				Userid: req.body.params.UserID,
+				transaction_type: 'S'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	//------------------------------------------------------------------------
+	// Single Orders
+	//------------------------------------------------------------------------
+
+	// POST route for single BUY Order
+ app.post("/api/transaction/buy", function(req, res) {
+	console.log('updating DB');
+	// Set old USD wallet value to expired (0)
+	db.Portfolio.update({ expired: 0 },
+		{ where: {
+			UserId: req.body.params.userID,
+			currency: 'USD'
+		}}).then(function(result) {
+				});
+	// Set new USD wallet value
+	db.Portfolio.create({
+	    UserId: req.body.params.userID,
+	    currency: 'USD',
+	    expired: 1,
+	    amount: req.body.params.currentUSD
+	  }).then(function(result) {
+				});
+	// Set new cryptocurrency amount
+	db.Portfolio.create({
+	    UserId: req.body.params.userID,
+	    currency: req.body.params.coinID,
+	    expired: 1,
+	    amount: 50
+	  }).then(function(result) {
+				});
+  // Create transaction for cryptocurrency purchased
+	db.Transaction.create({
+			UserId: req.body.params.userID,
+	    currency: req.body.params.coinID,
+	    amount: 50,
+	    price_paid: req.body.params.USDValue,
+	    transaction_type: 'B'
+	   }).then(function(result) {
+			res.json(result);
+		});
+ });
 
 };

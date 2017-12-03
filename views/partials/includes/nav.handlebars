@@ -1,20 +1,23 @@
 {{!-- includes/nav.handlebars --}}
 
-<nav class="navbar navbar-toggleable-md fixed-top">
-    <button class="navbar-toggler navbar-toggler-right hidden-lg-up" type="button" data-toggle="collapse" data-target="#navBarBase" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+<nav class="navbar navbar-toggleable-md fixed-top navbar-inverse">
+    <button class="navbar-toggler navbar-toggler-right hidden-lg-up navbar-inverse" type="button" data-toggle="collapse" data-target="#navBarBase" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <a class="navbar-brand" href="./">Crypto$im</a>
     <div class="collapse navbar-collapse" id="navBarBase">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link {{#if active_portfolio}}active{{/if}}" href="portfolio">Portfolio</a>
+                <a class="nav-link {{#if active_portfolio}}active{{/if}}" href="portfolio/{{user}}">Portfolio</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{#if active_market}}active{{/if}}"  href="market">Market</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link {{#if active_learn}}active{{/if}}" href="learn">Learn</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{#if active_preferences}}active{{/if}}" href="preferences">Preferences</a>
             </li>
         </ul>
 
