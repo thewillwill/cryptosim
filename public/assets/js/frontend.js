@@ -40,8 +40,9 @@ $(document).ready(function() {
                     pctChangeClass = "changeNegative";
                 }
                 var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
-                //create the buy button with the coinID as a data attribute
-                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coin-id': results[i].key_id }).text("Buy"));
+
+                //create the buy button with the coinID and current Price as data attributes
+                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Buy"));
                 $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
                 $("#market-table-body").append($row);
             }
@@ -184,6 +185,7 @@ $(document).ready(function() {
 
                     }
 
+
                 }
             });
         });
@@ -206,27 +208,26 @@ $(document).ready(function() {
 
 
     // ----------------------------
-    // Market Page Buy Modal
+    // Market Page Buy Modals
     // ----------------------------
 
     $('body').on('click', '.buy-btn', function() {
-        console.log("clicked on buy-btn");
-        $('.modal-buy').modal('show')
-        $('#buy-content').append($(".buy-btn").attr("data-coin-id"));
-    });
+        console.log("clicked on buy-btn for:", $(this).attr("data-coinID"));
+        $("#input-coinID").val($(this).attr("data-coinID"))
+        $("#input-ccPrice").val($(this).attr("data-price"))
+        $("#input-ccQuantity").val(0)
+        $('#modal-buy').modal('show');
 
-    // ----------------------------
-    // DAVE - this is the code that creates the buy-object data and sends it to /api/transaction/buy route
-    // ----------------------------
+    });
 
 
     $('body').on('click', '#confirm-order', function() {
-        var ccPrice = parseInt($("#ccPrice").val());
-        var USDValue = parseInt($("#USDValue").val());
-        var coinID = $("#coinID").val();
-        var userID = parseInt($("#userID").val());
-        var currentUSD = parseInt($("#currentUSD").val());
-        var ccQuantity = parseInt($("#ccQuantity").val());
+        var ccPrice = parseInt($("#input-ccPrice").val());
+        var USDValue = parseInt($("#input-USDValue").val());
+        var coinID = $("#input-coinID").val();
+        var userID = parseInt($("#input-userID").val());
+        var currentUSD = parseInt($("#input-currentUSD").val());
+        var ccQuantity = parseInt($("#input-ccQuantity").val());
         console.log("clicked on confirm-purchase");
         var buyOrder = {
             "params": {
@@ -244,15 +245,33 @@ $(document).ready(function() {
             type: "POST",
             data: buyOrder
         }).then(
-            function() {
+            function(data) {
                 console.log("POST new buy request");
-                $('.modal-buy').modal('hide')
+                $('#modal-buy').modal('hide');
                 $("#purchaseResult").html(data);
-                $('.modal-confirm').modal('show')
+                console.log("#modal-confirm");
+                $('#modal-confirm').modal('show');
             }
         );
 
     });
+
+
+    // Calculate Total Price of Buy Order
+    // ----------------------------
+    $("#input-ccQuantity").keyup(function(){
+        console.log("Handler for .change() called.");
+    });
+
+    function totalPrice() {
+        console.log("Handler for .change() called.");
+    };
+
+
+
+
+
+
 
     // ----------------------------
     // Preferences Page

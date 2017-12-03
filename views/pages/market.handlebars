@@ -1,7 +1,6 @@
 {{!-- pages/market.handlebars --}}
 <main class="container">
     <h2>Crypto$im Market</h2>
-
     </div>
     <section class="row text-center placeholders">
         <div class="col-9 col-sm-9 placeholder">
@@ -27,59 +26,84 @@
         <div class="col-3 col-sm-3">
             <div class="card">
                 <div class="header">
-                    <h4 class="title">Your Account</h4>
-                    <p class="big-number">13,249 USD</p>
+                    <h4 class="title">You Have</h4>
+                    <p><span class="big-number">13,249</span></p>
                 </div>
                 <div class="stats">
-                    <p>aaa</p>
+                    <p>remaining to invest</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">BTC (24H)</h4>
+                    <img src="assets/images/btc_graph.png" width="100%">
+                </div>
+            </div>
+            <div class="card">
+                <div class="header">
+                    <h4 class="title">ETH (24H)</h4>
+                    <img src="assets/images/btc_graph.png" width="100%">
                 </div>
             </div>
         </div>
-</main>
-
-
-
-
-    <div class="modal fade modal-buy" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" id="modal-buy-content">
-            <div class="modal-content">
-                <form>
-                    <div class="form-group">
-                        <label for="buy-symbol">userID</label>
-                        <input type="text" class="form-control" id="coinID" value="BTC" name="coinID">
-                    </div>
-                    <div class="form-group">
-                        <label for="buy-symbol">ccPrice</label>
-                        <input type="text" class="form-control" id="ccPrice" value="100" name="ccPrice">
-                    </div>
-                    <div class="form-group">
-                        <label for="buy-symbol">USDValue</label>
-                        <input type="text" class="form-control" id="USDValue" value="500" name="USDValue">
-                    </div>
-                    <div class="form-group">
-                        <label for="buy-symbol">userID</label>
-                        <input type="text" class="form-control" id="userID" value="1" name="userID">
-                    </div>
-                    <div class="form-group">
-                        <label for="buy-symbol">currentUSD</label>
-                        <input type="text" class="form-control" id="currentUSD" value="1" name"currentUSD">
-                    </div>
-                    <div class="form-group">
-                        <label for="ccQuantity">ccQauntity</label>
-                        <input type="text" class="form-control" id="ccQuantity" value="10">
-                    </div>
-                    <button type="button" class="btn-fill btn-wd btn btn-primary" id="confirm-order">Confirm Order</button>
-                </form>
-            </div>
         </div>
-    </div>
-
-<div class="modal fade modal-confirm" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" id="modal-confirm-content">
-        <div class="modal-content">
-        <h3>Purchase Confirmed</h3>
-        <p>Text below (if any) for Debugging ajax post return Message:</p>
-        <div id="purchaseResult"></div>
+</main>
+<div class="modal fade" id="modal-confirm" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content text-center">
+            <h3>Purchase Confirmed</h3>
+            <i class="fa fa-check fa-4x text-success"></i>
         </div>
     </div>
 </div>
+
+<!-- Full Height Modal Right -->
+<div class="modal fade right" id="modal-buy" tabindex="-1" role="dialog" aria-labelledby="Buy Modal" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog modal-full-height modal-right" role="document">
+        <!--Content-->
+        <div class="modal-content">
+            <!--Header-->
+            <div class="modal-header">
+                <p class="heading lead">Purchase Currency</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="input-coinID">Currency</label>
+                        <input type="text" readonly class="form-control" id="input-coinID" value="ERROR" >
+                    </div>
+                    <div class="form-group">
+                        <label for="input-ccPrice">Current Price (USD)</label>
+                        <input type="text" readonly class="form-control" id="input-ccPrice" value="100" >
+                    </div>
+                    <div class="form-group">
+                        <label for="input-ccQuantity">Quantity to Purchase</label>
+                        <input type="text" class="form-control" id="input-ccQuantity" value="10" name="ccQuantity">
+                    </div>
+                    <div class="form-group">
+                        <label for="input-USDValue">Purchase Price (USD)</label>
+                        <input type="text" class="form-control" id="input-USDValue" value="500">
+                    </div>
+                    <!-- pass the user ID -->
+                    <div class="form-group">
+                        <input type="hidden" class="form-control" id="input-userID" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="buy-symbol">currentUSD</label>
+                        <input type="text" class="form-control" id="input-currentUSD" value="1">
+                    </div>
+                    <div class="modal-footer justify-content-center">
+                        <button type="button" class="btn-fill btn-wd btn btn-primary" id="confirm-order">Confirm Order <i class="fa fa-dollar ml-1"></i></button>
+                    </div>
+                </form>
+                <!--Footer-->
+            </div>
+            <!--/.Content-->
+        </div>
+    </div>
+</div>
+<!-- END Full Height Modal Right -->

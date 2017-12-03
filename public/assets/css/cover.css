@@ -55,25 +55,6 @@ body{
 }
 
 
-#hero .arrow-down {
-    position: absolute;
-    bottom: 25px;
-    left: 50%;
-    width: 20px;
-    height: 12px;
-    margin-left: -10px;
-    background-repeat: no-repeat;
-    background-size: 100% auto;
-    background-image: url(../assets/arrow-down.svg);
-    -webkit-animation-name: bounce;
-    animation-name: bounce;
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-    cursor: pointer;
-}
-
 .arrow-pos {
     position: absolute;
     bottom: 0;
@@ -86,9 +67,6 @@ body{
     fill: #004c8c;
 }
 
-.down-arrow path {
-    background-image: url(../images/down-arrow.svg);
-}
 
 /* Feature & CTA Sections: ;
 /* ---------------------------------------------- */
