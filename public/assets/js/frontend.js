@@ -28,9 +28,9 @@ $(document).ready(function() {
               console.log('usdBalance', usdBalance)
             }
           }
-          currentUSD = currencyFormat(usdBalance);
-          console.log('currentUSD', currentUSD)
-          $("#usd-only").html(currentUSD);
+          currentUSD = usdBalance;
+          console.log('currentUSD', currentUSD);
+          $("#usd-only").html(currencyFormat(currentUSD));
         });      
     }
 
@@ -243,12 +243,11 @@ $(document).ready(function() {
 
 
     $('body').on('click', '#confirm-buy-order', function() {
-        var ccPrice = parseFloat($("#sell-ccPrice").val());
-        var USDValue = parseFloat($("#sell-USDValue").val());
-        var coinID = $("#sell-coinID").val();
-        var userID = parseFloat($("#sell-userID").val());
-        var currentUSD = parseFloat($("#sell-currentUSD").val());
-        var ccQuantity = parseFloat($("#sell-ccQuantity").val());
+        var ccPrice = parseFloat($("#buy-ccPrice").val());
+        var USDValue = parseFloat($("#buy-USDValue").val());
+        var coinID = $("#buy-coinID").val();
+        var userID = parseFloat($("#buy-userID").val());
+        var ccQuantity = parseFloat($("#buy-ccQuantity").val());
         console.log("clicked on confirm-purchase");
         var buyOrder = {
             "params": {
@@ -350,6 +349,7 @@ $(document).ready(function() {
                 "USDValue": USDValue,
                 "coinID": coinID,
                 "userID": userID,
+                "currentUSD": currentUSD,
                 "ccQuantity": ccQuantity
             }
         }
