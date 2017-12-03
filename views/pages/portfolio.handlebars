@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="header">
                     <h4 class="title">Net Worth</h4>
-                    <div id="networth"class="big-number">65,345</div>
+                    <div id="networth"class="big-number">Loading</div>
                 </div>
                 <div class="stats">
                     <i class="fa fa-chevron-up d-inline"></i>
@@ -26,24 +26,25 @@
                             <tbody>
                                 <tr>
                                     <td>1</td>
-                                    <td>Lorem</td>
-                                    <td>$99,000</td>
+                                    <td>Dave</td>
+                                    <td>$119,315.56</td>
                                 </tr>
                                 <tr>
-                                    <td>2</td>
-                                    <td>amet</td>
-                                    <td>$92,000</td>
+                                    <td class="font-weight-bold">2</td>
+                                    <td class="font-weight-bold">You</td>
+                                     <td class="font-weight-bold" id="rank-networth">Loading</td>
                                 </tr>
                                 <tr>
                                     <td>3</td>
-                                    <td>Integer</td>
-                                    <td>$78,000</td>
+                                    <td>Jorge</td>
+                                    <td>$22,107.19</td>
                                 </tr>
                                 <tr>
-                                    <td class="font-weight-bold">21</td>
-                                    <td class="font-weight-bold">You</td>
-                                     <td class="font-weight-bold">$50,000</td>
+                                    <td>4</td>
+                                    <td>JP</td>
+                                    <td>$19,540.50</td>
                                 </tr>
+
 
                             </tbody>
                         </table>
@@ -53,7 +54,7 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Market Place</h4>
-                        <button type="button" class="btn-fill btn-wd btn btn-primary"><a href="market">Buy / Sell Coins</a></button>
+                        <button type="button" class="btn-fill btn-wd btn btn-primary"><a href="/market">Buy / Sell Coins</a></button>
                         <div class="stats">
                             <p></p>
                         </div>
@@ -62,7 +63,7 @@
                 <div class="card">
                     <div class="header">
                         <h4 class="title">Refer A Friend</h4>
-                        <button type="button" class="btn-fill btn-wd btn btn-primary">Refer &amp; Earn</button>
+                        <button type="button" class="btn-fill btn-wd btn btn-primary"><a href="/refer">Refer &amp; Earn</a></button>
                         <div class="stats">
                             <p>Earn $5,000</p>
                         </div>
@@ -74,12 +75,12 @@
         <table class="table table-striped" id="portfolio-table">
             <thead>
                 <tr>
-                    <th>Icon</th>
                     <th>Currency Name</th>
                     <th>Amount of Currency</th>
                     <th>Individual Value</th>
                     <th>Total Value</th>
                     <th>Daily Change</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody id="portfolio-table-body">
@@ -136,28 +137,24 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <label for="input-coinID">Currency</label>
-                        <input type="text" readonly class="form-control" id="input-coinID" value="ERROR" >
+                        <label for="sell-coinID">Currency</label>
+                        <input type="text" readonly class="form-control" id="sell-coinID" value="ERROR" >
                     </div>
                     <div class="form-group">
-                        <label for="input-ccPrice">Current Price (USD)</label>
-                        <input type="text" readonly class="form-control" id="input-ccPrice" value="100" >
+                        <label for="sell-ccPrice">Current Price (USD)</label>
+                        <input type="text" readonly class="form-control" id="sell-ccPrice" value="100" >
                     </div>
                     <div class="form-group">
-                        <label for="input-ccQuantity">Quantity to Purchase</label>
-                        <input type="text" class="form-control" id="input-ccQuantity" value="10" name="ccQuantity">
+                        <label for="sell-ccQuantity">Quantity to Sell</label>
+                        <input type="text" class="form-control" id="sell-ccQuantity" value="10" name="ccQuantity">
                     </div>
                     <div class="form-group">
-                        <label for="input-USDValue">Purchase Price (USD)</label>
-                        <input type="text" class="form-control" id="input-USDValue" value="500">
+                        <label for="sell-USDValue">Sell Price (USD)</label>
+                        <input type="text" class="form-control" id="sell-USDValue" value="500">
                     </div>
                     <!-- pass the user ID -->
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="input-userID" value="1">
-                    </div>
-                    <div class="form-group">
-                        <label for="buy-symbol">currentUSD</label>
-                        <input type="text" class="form-control" id="input-currentUSD" value="1">
+                        <input type="hidden" class="form-control" id="sell-userID" value="1">
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn-fill btn-wd btn btn-primary" id="confirm-sell-order">Confirm Order <i class="fa fa-dollar ml-1"></i></button>

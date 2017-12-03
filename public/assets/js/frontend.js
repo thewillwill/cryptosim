@@ -10,6 +10,7 @@ $(document).ready(function() {
     // ----------------------------
     // Market Page
     // ----------------------------
+
     if ($("#usd-only").length > 0) {
       $.ajax({
           url:"/api/portfolio/1",
@@ -20,11 +21,13 @@ $(document).ready(function() {
           for (var i = 0; i < response.userHoldings.length; i++) {
             if (response.userHoldings[i].coinName == "USD") {
               usdBalance += response.userHoldings[i].currentValue;
+              console.log('usdBalance', usdBalance)
             }
           }
-          $("#usd-only").html(usdBalance);
+          $("#usd-only").html(currencyFormat(usdBalance));
         });      
     }
+
     if ($('#market-table').length > 0) {
         //set the tablesorter plugin to initialise on market-table
         $("#market-table").tablesorter();
@@ -40,10 +43,8 @@ $(document).ready(function() {
                 //insert the icon and name
                 var $td1 = $("<td>").append($("<img>").attr({ "src": results[i].base_url + results[i].image_url, "class": "coin-icon" })).append(results[i].coin_name);
                 var $td2 = $("<td>").append(results[i].symbol);
-                var marketCapFormated = '$' + parseFloat(results[i].marketCap, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
-                var $td3 = $("<td>").append(marketCapFormated);
-                var priceFormated = '$' + parseFloat(results[i].price, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
-                var $td4 = $("<td>").text(priceFormated);
+                var $td3 = $("<td>").append(currencyFormat(results[i].marketCap));
+                var $td4 = $("<td>").text(currencyFormat(results[i].price));
 
                 var $td5 = $("<td>").append(results[i].volume24Hour);
                 //get percentage change
@@ -63,8 +64,6 @@ $(document).ready(function() {
             }
             $("#market-table").trigger("update");
         });
-
-
     }
 
     // ----------------------------
@@ -85,34 +84,30 @@ $(document).ready(function() {
 
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
-                $("#networth").html(response.currentNetWorth);
+                $("#networth").html(currencyFormat(response.currentNetWorth));
+                $("#rank-networth").html(currencyFormat(response.currentNetWorth));
 
 
                 console.log("userHolding[i]", response.userHoldings[i])
-                var newRow = $("<tr>");
-                var newIcon = $("<td>");
-                var newSpan = $("<span>");
-                var newImg = $("<img>");
-                newImg.attr("src", response.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
-                newSpan.append(newImg);
-                newIcon.append(newSpan);
-                var newName = $("<td>");
-                newName.append(response.userHoldings[i].coinName);
-                var newAmount = $("<td>");
-                newAmount.append(response.userHoldings[i].userQty);
-                var newValue = $("<td>");
-                newValue.append(response.userHoldings[i].currentPrice);
-                var totalValue = $("<td>");
-                totalValue.append(response.userHoldings[i].currentValue);
-                var newChange = $("<td>");
-                newChange.append(response.userHoldings[i].valueChange);
-                newRow.append(newIcon);
-                newRow.append(newName);
-                newRow.append(newAmount);
-                newRow.append(newValue);
-                newRow.append(totalValue);
-                newRow.append(newChange);
-                $("#portfolio-table-body").append(newRow);
+                var $row = $("<tr>");
+                var $td1 = $("<td>").append($("<img>").attr({ "src": response.userHoldings[i].coinIcon, "class": "coin-icon" })).append(response.userHoldings[i].coinName);
+
+                var $td2= $("<td>");
+                $td2.append(response.userHoldings[i].userQty);
+                var $td3 = $("<td>");
+                $td3.append(currencyFormat(response.userHoldings[i].currentPrice));
+                var $td4 = $("<td>");
+                $td4.append(currencyFormat(response.userHoldings[i].currentValue));
+                var $td5 = $("<td>");
+                $td5.append(response.userHoldings[i].valueChange);
+                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': response.userHoldings[i].coinName, 'data-price': response.userHoldings[i].currentPrice }).text("Sell"));
+                $row.append($td1);
+                $row.append($td2);
+                $row.append($td3);
+                $row.append($td4);
+                $row.append($td5);
+                $row.append($td6);
+                $("#portfolio-table-body").append($row);
             }
             $("#portfolio-table").trigger("update");
         });
@@ -139,12 +134,12 @@ $(document).ready(function() {
                 var newType = $("<td>");
                 newType.append(response[i].transactionType)
                 var newPrice = $("<td>");
-                newPrice.append(response[i].pricePaid);
+                newPrice.append(currencyFormat(response[i].pricePaid));
                 var newAmount = $("<td>");
                 newAmount.append(response[i].amount);
                 var newTotal = $("<td>");
                 //var total = response[i].pricePaid * response[i].amount;
-                newTotal.append(response[i].totalAmtUSD);
+                newTotal.append(currencyFormat(response[i].totalAmtUSD));
                 newRow.append(newDate);
                 newRow.append(newCurrency);
                 newRow.append(newType);
@@ -231,23 +226,23 @@ $(document).ready(function() {
 
     $('body').on('click', '.buy-btn', function() {
         console.log("clicked on buy-btn for:", $(this).attr("data-coinID"));
-        $("#input-coinID").val($(this).attr("data-coinID"))
-        $("#input-ccPrice").val($(this).attr("data-price"))
-        $("#input-ccQuantity").val(0);
-        $("#input-ccQuantity").val(0);
-        $("#input-USDVAlue").val(0);
+        $("#buy-coinID").val($(this).attr("data-coinID"))
+        $("#buy-ccPrice").val($(this).attr("data-price"))
+        $("#buy-ccQuantity").val(0);
+        $("#buy-ccQuantity").val(0);
+        $("#buy-USDVAlue").val(0);
         $('#modal-buy').modal('show');
 
     });
 
 
     $('body').on('click', '#confirm-buy-order', function() {
-        var ccPrice = parseFloat($("#input-ccPrice").val());
-        var USDValue = parseFloat($("#input-USDValue").val());
-        var coinID = $("#input-coinID").val();
-        var userID = parseFloat($("#input-userID").val());
-        var currentUSD = parseFloat($("#input-currentUSD").val());
-        var ccQuantity = parseFloat($("#input-ccQuantity").val());
+        var ccPrice = parseFloat($("#sell-ccPrice").val());
+        var USDValue = parseFloat($("#sell-USDValue").val());
+        var coinID = $("#sell-coinID").val();
+        var userID = parseFloat($("#sell-userID").val());
+        var currentUSD = parseFloat($("#sell-currentUSD").val());
+        var ccQuantity = parseFloat($("#sell-ccQuantity").val());
         console.log("clicked on confirm-purchase");
         var buyOrder = {
             "params": {
@@ -279,58 +274,69 @@ $(document).ready(function() {
 
     // Calculate Total Price of Buy Order
     // ----------------------------
-    $("#input-ccQuantity").keyup(function() {
-        var qty = parseFloat($("#input-ccQuantity").val());
-        var price = parseFloat($("#input-ccPrice").val())
+    $("#buy-ccQuantity").keyup(function() {
+        var qty = parseFloat($("#buy-ccQuantity").val());
+        var price = parseFloat($("#buy-ccPrice").val())
         var total = qty * price;
         if (qty > 0 && price > 0) {
-            $("#input-USDValue").val(total);
+            $("#buy-USDValue").val(total);
         }
         else {
-            $("#input-USDValue").val(0);
+            $("#buy-USDValue").val(0);
         }
     });
 
-    $("#input-USDValue").keyup(function() {
-        var total = parseFloat($("#input-USDValue").val());
-        var price = parseFloat($("#input-ccPrice").val())
-        var qty = price / total;
+
+    // Calculate Total Price of Buy Order
+    // ----------------------------
+    $("#buy-USDValue").keyup(function() {
+        var total = parseFloat($("#buy-USDValue").val());
+        var price = parseFloat($("#buy-ccPrice").val())
+        var qty = total / price;
 
         if (total > 0 && price > 0) {
-            $("#input-ccQuantity").val(qty);
+            $("#buy-ccQuantity").val(qty);
         }
         else {
-            $("#input-USDValue").val(0);
+            $("#buy-ccQuantity").val(0);
         }
     });
 
-    function totalPrice() {
-        console.log("Handler for .change() called.");
-    };
 
+    $("#buy-ccQuantity").keyup(function() {
+        var qty = parseFloat($("#buy-ccQuantity").val());
+        var price = parseFloat($("#buy-ccPrice").val())
+        var total = qty * price;
+        if (qty > 0 && price > 0) {
+            $("#buy-USDValue").val(total);
+        }
+        else {
+            $("#buy-USDValue").val(0);
+        }
+    });
 
 
     // ----------------------------
-    // Portoflio Page Sell Modals
+    // Portfolio Page Sell Modals
     // ----------------------------
 
     $('body').on('click', '.sell-btn', function() {
         console.log("clicked on sell-btn for:", $(this).attr("data-coinID"));
-        $("#input-coinID").val($(this).attr("data-coinID"))
-        $("#input-ccPrice").val($(this).attr("data-price"))
-        $("#input-ccQuantity").val(0)
+        $("#sell-coinID").val($(this).attr("data-coinID"))
+        $("#sell-ccPrice").val($(this).attr("data-price"))
+        $("#sell-ccQuantity").val(0)
         $('#modal-sell').modal('show');
 
     });
 
 
     $('body').on('click', '#confirm-sell-order', function() {
-        var ccPrice = parseFloat($("#input-ccPrice").val());
-        var USDValue = parseFloat($("#input-USDValue").val());
-        var coinID = $("#input-coinID").val();
-        var userID = parseFloat($("#input-userID").val());
-        var ccQuantity = parseFloat($("#input-ccQuantity").val());
-        console.log("clicked on confirm-purchase");
+        var ccPrice = parseFloat($("#sell-ccPrice").val());
+        var USDValue = parseFloat($("#sell-USDValue").val());
+        var coinID = $("#sell-coinID").val();
+        var userID = parseFloat($("#sell-userID").val());
+        var ccQuantity = parseFloat($("#sell-ccQuantity").val());
+        console.log("clicked on confirm-sell");
         var sellOrder = {
             "params": {
                 "ccPrice": ccPrice,
@@ -350,11 +356,39 @@ $(document).ready(function() {
                 console.log("POST new sell request");
                 $('#modal-sell').modal('hide');
                 $("#purchaseResult").html(data);
-                console.log("#modal-buy-confirm");
+                console.log("#modal-sell-confirm");
                 $('#modal-sell-confirm').modal('show');
             }
         );
 
+    });
+
+// Calculate Total Price of Buy Order
+    // ----------------------------
+    $("#sell-USDValue").keyup(function() {
+        var total = parseFloat($("#sell-USDValue").val());
+        var price = parseFloat($("#sell-ccPrice").val())
+        var qty = total / price;
+
+        if (total > 0 && price > 0) {
+            $("#sell-ccQuantity").val(qty);
+        }
+        else {
+            $("#sell-ccQuantity").val(0);
+        }
+    });
+
+
+    $("#sell-ccQuantity").keyup(function() {
+        var qty = parseFloat($("#sell-ccQuantity").val());
+        var price = parseFloat($("#sell-ccPrice").val())
+        var total = qty * price;
+        if (qty > 0 && price > 0) {
+            $("#sell-USDValue").val(total);
+        }
+        else {
+            $("#sell-USDValue").val(0);
+        }
     });
 
 
@@ -388,3 +422,8 @@ $(document).ready(function() {
     })
 
 });
+
+
+function currencyFormat(value) {
+    return "$" + parseFloat(value, 10).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, "$1,").toString();
+}
