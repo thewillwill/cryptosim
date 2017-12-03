@@ -1,3 +1,7 @@
+//store the users current USD remaining balance;
+var currentUSD;
+
+
 var dates = [];
 var netWorths = [];
 //to be replaced with user specific api data
@@ -24,7 +28,9 @@ $(document).ready(function() {
               console.log('usdBalance', usdBalance)
             }
           }
-          $("#usd-only").html(currencyFormat(usdBalance));
+          currentUSD = currencyFormat(usdBalance);
+          console.log('currentUSD', currentUSD)
+          $("#usd-only").html(currentUSD);
         });      
     }
 
@@ -335,6 +341,7 @@ $(document).ready(function() {
         var USDValue = parseFloat($("#sell-USDValue").val());
         var coinID = $("#sell-coinID").val();
         var userID = parseFloat($("#sell-userID").val());
+        var ccQuantity = parseFloat($("#sell-ccQuantity").val());
         var ccQuantity = parseFloat($("#sell-ccQuantity").val());
         console.log("clicked on confirm-sell");
         var sellOrder = {
