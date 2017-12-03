@@ -60,13 +60,16 @@ $(document).ready(function() {
         console.log("------------ getting portfolio data ------------");
         //get the currencies from json object
         $.ajax({
-            url: "api/portfolio/1", //TODO get userID from session storage
+            url: "/api/portfolio/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
             console.log('L62', 'response:', )
 
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
+                $("#networth").html(response.currentNetWorth);
+                
+
                 console.log("userHolding[i]", response.userHoldings[i])
                 var newRow = $("<tr>");
                 var newIcon = $("<td>");
