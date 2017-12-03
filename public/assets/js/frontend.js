@@ -107,12 +107,13 @@ $(document).ready(function() {
             url: "/api/user-last-trades/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            console.log(response);
-            //add rows to table body
             for (var i = 0; i < response.length; i++) {
                 var newRow = $("<tr>");
                 var newDate = $("<td>");
-                newDate.append(response[i].updatedAt);
+                var time = response[i].updatedAt;
+                time = time.replace("T", " ");
+                time = time.replace(".000Z", "");
+                newDate.append(time);
                 var newCurrency = $("<td>");
                 newCurrency.append(response[i].currency);
                 var newType = $("<td>");
@@ -181,7 +182,10 @@ $(document).ready(function() {
 
                             }
                         }]
+
                     }
+
+
                 }
             });
         });
