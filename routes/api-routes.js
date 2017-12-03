@@ -136,7 +136,7 @@ module.exports = function(app) {
 		db.Portfolio.findAll({
 			where: {
 				userId: req.params.id,
-				expired: true,
+				expired: false,
 			},
 			include: [db.User]
 		}).then(function(dbPortfolio) {
@@ -339,5 +339,97 @@ function calculateAverage(coin) {
 		})
 		.catch(console.error)
 	})
+
+
+	// GET route for retrieving all historical transactions
+	app.get("/api/transaction", function(req, res) {
+		db.Transaction.findAll({}).then(function(transactions) {
+				res.json(transactions)
+			})
+	});
+
+	// GET route for retrieving all BUY transaction
+	app.get("/api/transaction/buy/all", function(req, res) {
+		db.Transaction.findAll({
+			where: {
+				transaction_type: 'B'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// Get rotue for retrieving all BUY transactions per user
+	app.get("/api/transaction/buy/:UserID", function(req, res) {
+		db.Transaction.findAll({
+			where: {
+				Userid: req.body.params.UserID,
+				transaction_type: 'B'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// GET route for retrieving all SELL transaction
+	app.get("/api/transaction/sell/all", function(req, res) {
+		db.Transaction.findAll({
+			where: {
+				transaction_type: 'S'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	// Get rotue for retrieving all SELL transactions per user
+	app.get("/api/transaction/sell/:UserID", function(req, res) {
+		db.Transaction.findAll({
+			where: {
+				Userid: req.body.params.UserID,
+				transaction_type: 'S'
+			}}).then(function(transactions) {
+				res.json(transactions)
+			})
+		});
+
+	//------------------------------------------------------------------------
+	// Single Orders
+	//------------------------------------------------------------------------
+
+	// POST route for single BUY Order
+ app.post("/api/transaction/buy", function(req, res) {
+	console.log('updating DB');
+	// Set old USD wallet value to expired (0)
+	db.Portfolio.update({ expired: 0 },
+		{ where: {
+			UserId: req.body.params.userID,
+			currency: 'USD'
+		}}).then(function(result) {
+				});
+	// Set new USD wallet value
+	db.Portfolio.create({
+	    UserId: req.body.params.userID,
+	    currency: 'USD',
+	    expired: 1,
+	    amount: req.body.params.currentUSD
+	  }).then(function(result) {
+				});
+	// Set new cryptocurrency amount
+	db.Portfolio.create({
+	    UserId: req.body.params.userID,
+	    currency: req.body.params.coinID,
+	    expired: 1,
+	    amount: 50
+	  }).then(function(result) {
+				});
+  // Create transaction for cryptocurrency purchased
+	db.Transaction.create({
+			UserId: req.body.params.userID,
+	    currency: req.body.params.coinID,
+	    amount: 50,
+	    price_paid: req.body.params.USDValue,
+	    transaction_type: 'B'
+	   }).then(function(result) {
+			res.json(result);
+		});
+ });
 
 };
