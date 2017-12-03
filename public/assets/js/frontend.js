@@ -1,5 +1,5 @@
 var dates = [];
-var netWorths = [10000, 70000, 30000, 40000, 10000, 20000, 90000];
+var netWorths = [];
 //to be replaced with user specific api data
 for (var i = 6; i >= 0; i--) {
     var day = moment().subtract(i, "days").format("MMM Do YY");
@@ -106,23 +106,23 @@ $(document).ready(function() {
             url: "/api/user-last-trades/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            var results = response;
+            console.log(response);
             //add rows to table body
-            for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < response.length; i++) {
                 var newRow = $("<tr>");
                 var newDate = $("<td>");
-                newDate.append(results[i].updatedAt);
+                newDate.append(response[i].updatedAt);
                 var newCurrency = $("<td>");
-                newCurrency.append(results[i].currency);
+                newCurrency.append(response[i].currency);
                 var newType = $("<td>");
-                newType.append(results[i].transaction_type)
+                newType.append(response[i].transactionType)
                 var newPrice = $("<td>");
-                newPrice.append(results[i].price_paid);
+                newPrice.append(response[i].pricePaid);
                 var newAmount = $("<td>");
-                newAmount.append(results[i].amount);
+                newAmount.append(response[i].amount);
                 var newTotal = $("<td>");
-                var total = results[i].price_paid * results[i].amount;
-                newTotal.append(total);
+                //var total = response[i].pricePaid * response[i].amount;
+                newTotal.append(response[i].totalAmtUSD);
                 newRow.append(newDate);
                 newRow.append(newCurrency);
                 newRow.append(newType);
@@ -136,47 +136,55 @@ $(document).ready(function() {
     }
 
     if ($('#summaryChart').length > 0) {
-        var ctx = document.getElementById("summaryChart").getContext('2d');
-        var summaryChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: dates,
-                datasets: [{
-                    label: 'Profit and Loss Summary',
-                    data: netWorths,
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255,99,132,1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                responsive: true,
-                scales: {
-                    yAxes: [{
-                        display: true,
-                        ticks: {
-                            beginAtZero: true,
-                            steps: 2000
-
-                        }
+        $.ajax({
+            url: "/api/portfolio/1",
+            method: "GET"
+        }).done(function(response) {
+            console.log(response.averageNetWorths);
+            netWorths = response.averageNetWorths;
+             var ctx = document.getElementById("summaryChart").getContext('2d');
+            var summaryChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: 'Profit and Loss Summary',
+                        data: netWorths,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255,99,132,1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
                     }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            display: true,
+                            ticks: {
+                                beginAtZero: true,
+                                steps: 2000
+
+                            }
+                        }]
                 }
             }
         });
+        });
+       
     }
     // ----------------------------
     // Cover Page
