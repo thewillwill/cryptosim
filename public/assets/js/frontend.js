@@ -49,33 +49,42 @@ $(document).ready(function() {
         });
     }
 
+    // ----------------------------
+    // Portfolio Page
+    // ----------------------------
+
+
     if ($('#portfolio-table').length > 0) {
         $("#portfolio-table").tablesorter();
+
+        console.log("------------ getting portfolio data ------------");
         //get the currencies from json object
         $.ajax({
-            url: "api/portfolio/:id",
+            url: "api/portfolio/1",    //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            var results = response;
+          console.log('L62', 'response:', )
+
             //add rows to table body
-            for (var i = 0; i < results.length; i++) {
+            for (var i = 0; i < response.userHoldings.length; i++) {
+                console.log("userHolding[i]",response.userHoldings[i])
                 var newRow = $("<tr>");
                 var newIcon = $("<td>");
                 var newSpan = $("<span>");
                 var newImg = $("<img>");
-                newImg.attr("src", results.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
+                newImg.attr("src", response.userHoldings[i].coinIcon).attr("height", "35px").attr("width", "35px");
                 newSpan.append(newImg);
                 newIcon.append(newSpan);
                 var newName = $("<td>");
-                newName.append(results[i].coin_name);
+                newName.append(response.userHoldings[i].coinName);
                 var newAmount = $("<td>");
-                newAmount.append(results[i].userQty);
+                newAmount.append(response.userHoldings[i].userQty);
                 var newValue = $("<td>");
-                newValue.append(results[i].currentPrice);
+                newValue.append(response.userHoldings[i].currentPrice);
                 var totalValue = $("<td>");
-                totalValue.append(results[i].currentValue);
+                totalValue.append(response.userHoldings[i].currentValue);
                 var newChange = $("<td>");
-                newChange.append(results[i].valueChange);
+                newChange.append(response.userHoldings[i].valueChange);
                 newRow.append(newIcon);
                 newRow.append(newName);
                 newRow.append(newAmount);
@@ -90,12 +99,11 @@ $(document).ready(function() {
 
     if ($('#trades-table').length > 0) {
 
-        // Build the Portofolio Historicala Net Worth Chart
+        // Build the Portofolio Historical Net Worth Chart
         $("#trades-table").tablesorter();
         //get the currencies from json object
         $.ajax({
-            url: "/api/currencies",
-            //   "/api/user-last-trades/:id"
+            url: "/api/user-last-trades/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
             var results = response;
