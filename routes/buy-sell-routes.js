@@ -22,14 +22,14 @@ const Op = Sequelize.Op;
 
 // GET route for retrieving all historical transactions
 app.get("/api/transaction", function(req, res) {
-	db.Transactions.findAll({}).then(function(transactions) {
+	db.Transaction.findAll({}).then(function(transactions) {
 			res.json(transactions)
 		})
 });
 
 // GET route for retrieving all BUY transaction
 app.get("/api/transaction/buy/all", function(req, res) {
-	db.Transactions.findAll({
+	db.Transaction.findAll({
 		where: {
 			transaction_type: 'B'
 		}}).then(function(transactions) {
@@ -39,7 +39,7 @@ app.get("/api/transaction/buy/all", function(req, res) {
 
 // Get rotue for retrieving all BUY transactions per user
 app.get("/api/transaction/buy/:UserID", function(req, res) {
-	db.Transactions.findAll({
+	db.Transaction.findAll({
 		where: {
 			Userid: req.body.params.UserID,
 			transaction_type: 'B'
@@ -50,7 +50,7 @@ app.get("/api/transaction/buy/:UserID", function(req, res) {
 
 // GET route for retrieving all SELL transaction
 app.get("/api/transaction/sell/all", function(req, res) {
-	db.Transactions.findAll({
+	db.Transaction.findAll({
 		where: {
 			transaction_type: 'S'
 		}}).then(function(transactions) {
@@ -60,7 +60,7 @@ app.get("/api/transaction/sell/all", function(req, res) {
 
 // Get rotue for retrieving all SELL transactions per user
 app.get("/api/transaction/sell/:UserID", function(req, res) {
-	db.Transactions.findAll({
+	db.Transaction.findAll({
 		where: {
 			Userid: req.body.params.UserID,
 			transaction_type: 'S'
