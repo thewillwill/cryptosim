@@ -42,8 +42,25 @@ module.exports = function(app) {
 			order: Sequelize.col('createdAt'),
 			limit: 10
 		}).then(function(dbUser) {
-			console.log(Sequelize.getValues(dbUser));
-			res.json(dbUser);
+			var lastTradesArray = [];
+			for (var i = 0; i < dbUser.length; i++) {
+				var totalAmtUSD = dbUser[i].amount * dbUser[i].price_paid;
+				var lastTradesObj = {
+					id : dbUser[i].id,
+					currency : dbUser[i].currency,
+					amount: dbUser[i].amount,
+					pricePaid: dbUser[i].price_paid,
+					totalAmtUSD: totalAmtUSD,
+					transactionType: dbUser[i].transaction_type,
+					createdAt: dbUser[i].createdAt,
+					updatedAt: dbUser[i].updatedAt,
+					UserId: dbUser[i].UserId
+				}
+				lastTradesArray.push(lastTradesObj);
+			}
+			
+			console.log(lastTradesArray);
+			res.json(lastTradesArray);
 		})
 	});
 
@@ -274,103 +291,6 @@ function calculateAverage(coin) {
 
 // }
 
-
-// var express = require("express");
-
-// // Import the model (burger.js) to use its database functions.
-// // Requiring our models
-// var db = require("../models");
-
-// var Sequelize = require('sequelize');
-// require('sequelize-values')(Sequelize);
-
-
-// var router = express.Router();
-
-
-// // Create all our routes and set up logic within those routes where required.
-// router.get("/", function(req, res) {
-//   // burger.selectAll(function(data) {
-//   //   var hbsObject = {
-//   //     burgers: data
-//   //   };
-//   //   res.render("index", hbsObject);
-//   // });
-
-//   db.Burger.findAll({}).then(function(dbPost) {
-//     // res.json(dbPost);
-//     console.log(Sequelize.getValues(dbPost));
-//     //var newBurger = dbPost.toJSON();
-//      var newBurger = {
-//       burgers: Sequelize.getValues(dbPost)
-//      };
-//     // console.log(newBurger);
-//     res.render("index", newBurger);
-//   });
-// });
-
-// router.post("/api/burgers", function(req, res) {
-//   // burger.insertOne([
-//   //   "burger_name", "devoured"
-//   // ], [
-//   //   req.body.burger_name, req.body.devoured
-//   // ], function(result) {
-//   //   // Send back the ID of the new quote
-//   //   res.json({ id: result.insertId });
-//   // });
-//   db.Burger.create(req.body).then(function(dbPost) {
-//     res.json(dbPost);
-//   })
-// });
-
-// router.put("/api/burgers/:id", function(req, res) {
-//   // var condition = "id = " + req.params.id;
-//   // burger.updateOne({
-//   //   devoured: req.body.devoured
-//   // }, condition, function(result) {
-//   //   if (result.changedRows == 0) {
-//   //     // If no rows were changed, then the ID must not exist, so 404
-//   //     return res.status(404).end();
-//   //   } else {
-//   //     res.status(200).end();
-//   //   }
-//   // });
-//   db.Burger.update(
-//     {devoured: req.body.devoured},
-//     {
-//       where: {
-//         id: req.params.id
-//       }
-//     }).then(function(dbPost) {
-//       res.json(dbPost);
-//     })
-// });
-// //for future use
-// router.delete("/api/burgers/delete/:id", function(req, res) {
-//   // var condition = "id = " + req.params.id;
-
-//   // burger.delete(condition, function(result) {
-//   //   if (result.affectedRows == 0) {
-//   //     // If no rows were changed, then the ID must not exist, so 404
-//   //     console.log("burger not found")
-//   //     return res.status(404).end();
-//   //   } else {
-//   //     res.status(200).end();
-//   //   }
-//   // });
-//   db.Post.destroy({
-//     where: {
-//       id: req.params.id
-//     }
-//   }).then(function(dbPost) {
-//     res.json(dbPost);
-//   });
-// });
-
-// // Export routes for server.js to use.
-// module.exports = router;
-
-
 	//get currency historical value
 	app.get("/api/currencies/:symbol/:date", function(req, res) {
 		var symbol = req.params.symbol.toUpperCase();
@@ -419,104 +339,5 @@ function calculateAverage(coin) {
 		})
 		.catch(console.error)
 	})
-
-
-
-	//------------------------------------------------------------------------
-	//------------------------------------------------------------------------
-	// BUY AND SELL ROUTES
-	//------------------------------------------------------------------------
-	//------------------------------------------------------------------------
-
-	// GET route for retrieving all historical transactions
-	app.get("/api/transaction", function(req, res) {
-		db.Transactions.findAll({}).then(function(transactions) {
-				res.json(transactions)
-			})
-	});
-
-	// GET route for retrieving all BUY transaction
-	app.get("/api/transaction/buy/all", function(req, res) {
-		db.Transactions.findAll({
-			where: {
-				transaction_type: 'B'
-			}}).then(function(transactions) {
-				res.json(transactions)
-			})
-		});
-
-	// Get rotue for retrieving all BUY transactions per user
-	app.get("/api/transaction/buy/:UserID", function(req, res) {
-		db.Transactions.findAll({
-			where: {
-				Userid: req.body.params.UserID,
-				transaction_type: 'B'
-			}}).then(function(transactions) {
-				res.json(transactions)
-			})
-		});
-
-	// GET route for retrieving all SELL transaction
-	app.get("/api/transaction/sell/all", function(req, res) {
-		db.Transactions.findAll({
-			where: {
-				transaction_type: 'S'
-			}}).then(function(transactions) {
-				res.json(transactions)
-			})
-		});
-
-	// Get rotue for retrieving all SELL transactions per user
-	app.get("/api/transaction/sell/:UserID", function(req, res) {
-		db.Transactions.findAll({
-			where: {
-				Userid: req.body.params.UserID,
-				transaction_type: 'S'
-			}}).then(function(transactions) {
-				res.json(transactions)
-			})
-		});
-
-	//------------------------------------------------------------------------
-	// Single Orders
-	//------------------------------------------------------------------------
-
-	// POST route for single BUY Order
- app.post("/api/transaction/buy", function(req, res) {
-	console.log('updating DB');
-	// Set old USD wallet value to expired (0)
-	db.Portfolio.update({ expired: 0 },
-		{ where: {
-			UserId: req.body.params.userID,
-			currency: 'USD'
-		}}).then(function(result) {
-				});
-	// Set new USD wallet value
-	db.Portfolio.create({
-	    UserId: req.body.params.userID,
-	    currency: 'USD',
-	    expired: 1,
-	    amount: req.body.params.currentUSD
-	  }).then(function(result) {
-				});
-	// Set new cryptocurrency amount
-	db.Portfolio.create({
-	    UserId: req.body.params.userID,
-	    currency: req.body.params.coinID,
-	    expired: 1,
-	    amount: 50
-	  }).then(function(result) {
-				});
-  // Create transaction for cryptocurrency purchased
-	db.Transaction.create({
-			UserId: req.body.params.userID,
-	    currency: req.body.params.coinID,
-	    amount: 50,
-	    price_paid: req.body.params.USDValue,
-	    transaction_type: 'B'
-	   }).then(function(result) {
-			res.json(result);
-		});
- });
 
 };
