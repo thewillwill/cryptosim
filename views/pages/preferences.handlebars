@@ -1,22 +1,20 @@
 {{!-- pages/preferences.handlebars --}}
 <main class="container">
     <h2>Preferences</h2>
-            <div class="col-6 col-sm-6">
-    <div class="card">
-        <div class="header">
-            <h4 class="title">Change Prefences</h4>
-
-        <form id="preferencesForm">
-            <div class="form-group">
-                <label for="pref-name">Name</label>
-                <input type="text" value="default name" id="pref-name">
+    <div class="col-6 col-sm-6">
+        <div class="card">
+            <div class="header">
+                <h4 class="title">Change Prefences</h4>
+                <form id="preferencesForm">
+                    <div class="form-group">
+                        <label for="pref-name">Name</label>
+                        <input type="text" value="default name" id="pref-name">
+                    </div>
+                    <label for="pref-email">Email</label>
+                    <input type="text" value="default email" id="pref-email">
+                    <button type="button" type="submit" class="btn-fill btn-wd btn btn-primary" id="pref-submit"><a href="#">Update</a></button>
+                </form>
             </div>
-            <label for="pref-email">Email</label>
-            <input type="text" value="default email" id="pref-email">
-    
-    <button type="button" type="submit" class="btn-fill btn-wd btn btn-primary" id="pref-submit"><a href="#">Update</a></button>
-    </form>
-    </div>
-</div>
-    <p></p>
+        </div>
+        <p></p>
 </main>

@@ -527,3 +527,319 @@ Progress Bar/Steps
 .progress-text.todo, .progress-text.done {
 	
 }
+
+
+/********************************* 
+Modals - Buy/Sell
+**********************************/
+
+
+body.modal-open {
+  padding-right: 0 !important;
+  overflow: auto; }
+
+body.scrollable {
+  overflow-y: auto; }
+
+.modal-dialog .modal-content {
+  border-radius: 2px;
+  border: 0; }
+
+.modal {
+  padding-right: 0 !important; }
+  @media (min-width: 768px) {
+    .modal .modal-dialog.modal-top {
+      top: 0; }
+    .modal .modal-dialog.modal-left {
+      left: 0; }
+    .modal .modal-dialog.modal-right {
+      right: 0; }
+    .modal .modal-dialog.modal-bottom {
+      bottom: 0; }
+    .modal .modal-dialog.modal-top-left {
+      top: 10px;
+      left: 10px; }
+    .modal .modal-dialog.modal-top-right {
+      top: 10px;
+      right: 10px; }
+    .modal .modal-dialog.modal-bottom-left {
+      left: 10px;
+      bottom: 10px; }
+    .modal .modal-dialog.modal-bottom-right {
+      right: 10px;
+      bottom: 10px; } }
+  .modal.fade.top:not(.show) .modal-dialog {
+    -webkit-transform: translate3d(0, -25%, 0);
+    transform: translate3d(0, -25%, 0); }
+  .modal.fade.left:not(.show) .modal-dialog {
+    -webkit-transform: translate3d(-25%, 0, 0);
+    transform: translate3d(-25%, 0, 0); }
+  .modal.fade.right:not(.show) .modal-dialog {
+    -webkit-transform: translate3d(25%, 0, 0);
+    transform: translate3d(25%, 0, 0); }
+  .modal.fade.bottom:not(.show) .modal-dialog {
+    -webkit-transform: translate3d(0, 25%, 0);
+    transform: translate3d(0, 25%, 0); }
+  @media (min-width: 992px) {
+    .modal.modal-scrolling {
+      position: relative; }
+      .modal.modal-scrolling .modal-dialog {
+        position: fixed;
+        z-index: 1050; }
+    .modal.modal-content-clickable {
+      top: auto;
+      bottom: auto; }
+      .modal.modal-content-clickable .modal-dialog {
+        position: fixed; }
+    .modal .modal-fluid {
+      width: 100%;
+      max-width: 100%; }
+      .modal .modal-fluid .modal-content {
+        width: 100%; }
+    .modal .modal-frame {
+      position: absolute;
+      width: 100%;
+      max-width: 100%;
+      margin: 0; }
+      .modal .modal-frame.modal-bottom {
+        bottom: 0; }
+    .modal .modal-full-height {
+      display: -webkit-box;
+      display: -webkit-flex;
+      display: -ms-flexbox;
+      display: flex;
+      position: absolute;
+      width: 400px;
+      height: 100%;
+      margin: 0;
+      top: 0;
+      right: 0; }
+      .modal .modal-full-height.modal-top, .modal .modal-full-height.modal-bottom {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        height: auto; }
+      .modal .modal-full-height.modal-top {
+        bottom: auto; }
+      .modal .modal-full-height.modal-bottom {
+        top: auto; }
+      .modal .modal-full-height .modal-content {
+        width: 100%; }
+      .modal .modal-full-height.modal-lg {
+        max-width: 90%;
+        width: 90%; } }
+    @media (min-width: 992px) and (min-width: 992px) {
+      .modal .modal-full-height.modal-lg {
+        max-width: 800px;
+        width: 800px; } }
+    @media (min-width: 992px) and (min-width: 1200px) {
+      .modal .modal-full-height.modal-lg {
+        max-width: 1000px;
+        width: 1000px; } }
+  @media (min-width: 992px) {
+    .modal .modal-side {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      margin: 0;
+      width: 400px; } }
+
+.modal-dialog .btn .fa {
+  color: #fff !important; }
+
+.modal-dialog [class*="btn-outline-"] .fa {
+  color: inherit !important; }
+
+.modal-dialog.cascading-modal {
+  margin-top: 10%; }
+  .modal-dialog.cascading-modal .close {
+    color: #fff;
+    opacity: 1;
+    text-shadow: none; }
+  .modal-dialog.cascading-modal .modal-header {
+    text-align: center;
+    margin: -2rem 1rem 1rem 1rem;
+    padding: 1.5rem;
+    border: none;
+    border-radius: 3px; }
+    .modal-dialog.cascading-modal .modal-header .close {
+      margin-right: 1rem; }
+    .modal-dialog.cascading-modal .modal-header .title {
+      width: 100%;
+      margin-bottom: 0;
+      font-size: 1.25rem; }
+      .modal-dialog.cascading-modal .modal-header .title .fa {
+        margin-right: 9px; }
+    .modal-dialog.cascading-modal .modal-header .social-buttons {
+      margin-top: 1.5rem; }
+      .modal-dialog.cascading-modal .modal-header .social-buttons a {
+        font-size: 1rem; }
+  .modal-dialog.cascading-modal .modal-c-tabs .nav-tabs {
+    margin: -1.5rem 1rem 0 1rem; }
+  .modal-dialog.cascading-modal .modal-c-tabs .tab-content {
+    padding: 1.7rem 0 0 0; }
+  .modal-dialog.cascading-modal .nav-tabs {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex; }
+    .modal-dialog.cascading-modal .nav-tabs li {
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1; }
+      .modal-dialog.cascading-modal .nav-tabs li a {
+        text-align: center;
+        font-weight: normal; }
+  .modal-dialog.cascading-modal .modal-body,
+  .modal-dialog.cascading-modal .modal-footer {
+    color: #616161;
+    padding-right: 2rem;
+    padding-left: 2rem; }
+    .modal-dialog.cascading-modal .modal-body .additional-option,
+    .modal-dialog.cascading-modal .modal-footer .additional-option {
+      text-align: center;
+      margin-top: 1rem; }
+  .modal-dialog.cascading-modal.modal-avatar {
+    margin-top: 6rem; }
+    .modal-dialog.cascading-modal.modal-avatar .modal-header {
+      margin: -6rem 2rem -1rem 2rem; }
+      .modal-dialog.cascading-modal.modal-avatar .modal-header img {
+        width: 130px;
+        margin-left: auto;
+        margin-right: auto; }
+
+.modal-dialog.modal-notify .heading {
+  margin: 0;
+  padding: 0.3rem;
+  color: #fff;
+  font-size: 1.15rem; }
+
+.modal-dialog.modal-notify .modal-header {
+  border: 0; }
+
+.modal-dialog.modal-notify .close {
+  opacity: 1; }
+
+.modal-dialog.modal-notify .modal-body {
+  padding: 1.5rem;
+  color: #616161; }
+
+.modal-dialog.modal-notify .btn-outline-secondary-modal {
+  background-color: transparent; }
+
+.modal-dialog.modal-notify.modal-info .modal-header {
+  background-color: #5394ff; }
+
+.modal-dialog.modal-notify.modal-info .fa {
+  color: #5394ff; }
+
+.modal-dialog.modal-notify.modal-info .badge {
+  background-color: #5394ff; }
+
+.modal-dialog.modal-notify.modal-info .btn-primary-modal {
+  background-color: #5394ff; }
+  .modal-dialog.modal-notify.modal-info .btn-primary-modal:hover {
+    background-color: #6da4ff !important; }
+  .modal-dialog.modal-notify.modal-info .btn-primary-modal:focus, .modal-dialog.modal-notify.modal-info .btn-primary-modal:active, .modal-dialog.modal-notify.modal-info .btn-primary-modal.active {
+    background-color: #0764ff !important; }
+  .modal-dialog.modal-notify.modal-info .btn-primary-modal.dropdown-toggle {
+    background-color: #5394ff !important; }
+    .modal-dialog.modal-notify.modal-info .btn-primary-modal.dropdown-toggle:hover, .modal-dialog.modal-notify.modal-info .btn-primary-modal.dropdown-toggle:focus {
+      background-color: #6da4ff !important; }
+
+.modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal {
+  border: 2px solid #5394ff;
+  color: #5394ff !important;
+  background-color: transparent; }
+  .modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal:hover, .modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal:focus, .modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal:active, .modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal:active:focus, .modal-dialog.modal-notify.modal-info .btn-outline-secondary-modal.active {
+    background-color: transparent;
+    color: #5394ff;
+    border-color: #5394ff; }
+
+.modal-dialog.modal-notify.modal-warning .modal-header {
+  background-color: #ff8e38; }
+
+.modal-dialog.modal-notify.modal-warning .fa {
+  color: #ff8e38; }
+
+.modal-dialog.modal-notify.modal-warning .badge {
+  background-color: #ff8e38; }
+
+.modal-dialog.modal-notify.modal-warning .btn-primary-modal {
+  background-color: #ff8e38; }
+  .modal-dialog.modal-notify.modal-warning .btn-primary-modal:hover {
+    background-color: #ff9c52 !important; }
+  .modal-dialog.modal-notify.modal-warning .btn-primary-modal:focus, .modal-dialog.modal-notify.modal-warning .btn-primary-modal:active, .modal-dialog.modal-notify.modal-warning .btn-primary-modal.active {
+    background-color: #eb6500 !important; }
+  .modal-dialog.modal-notify.modal-warning .btn-primary-modal.dropdown-toggle {
+    background-color: #ff8e38 !important; }
+    .modal-dialog.modal-notify.modal-warning .btn-primary-modal.dropdown-toggle:hover, .modal-dialog.modal-notify.modal-warning .btn-primary-modal.dropdown-toggle:focus {
+      background-color: #ff9c52 !important; }
+
+.modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal {
+  border: 2px solid #ff8e38;
+  color: #ff8e38 !important;
+  background-color: transparent; }
+  .modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal:hover, .modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal:focus, .modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal:active, .modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal:active:focus, .modal-dialog.modal-notify.modal-warning .btn-outline-secondary-modal.active {
+    background-color: transparent;
+    color: #ff8e38;
+    border-color: #ff8e38; }
+
+.modal-dialog.modal-notify.modal-success .modal-header {
+  background-color: #01d36b; }
+
+.modal-dialog.modal-notify.modal-success .fa {
+  color: #01d36b; }
+
+.modal-dialog.modal-notify.modal-success .badge {
+  background-color: #01d36b; }
+
+.modal-dialog.modal-notify.modal-success .btn-primary-modal {
+  background-color: #01d36b; }
+  .modal-dialog.modal-notify.modal-success .btn-primary-modal:hover {
+    background-color: #01ec78 !important; }
+  .modal-dialog.modal-notify.modal-success .btn-primary-modal:focus, .modal-dialog.modal-notify.modal-success .btn-primary-modal:active, .modal-dialog.modal-notify.modal-success .btn-primary-modal.active {
+    background-color: #018744 !important; }
+  .modal-dialog.modal-notify.modal-success .btn-primary-modal.dropdown-toggle {
+    background-color: #01d36b !important; }
+    .modal-dialog.modal-notify.modal-success .btn-primary-modal.dropdown-toggle:hover, .modal-dialog.modal-notify.modal-success .btn-primary-modal.dropdown-toggle:focus {
+      background-color: #01ec78 !important; }
+
+.modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal {
+  border: 2px solid #01d36b;
+  color: #01d36b !important;
+  background-color: transparent; }
+  .modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal:hover, .modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal:focus, .modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal:active, .modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal:active:focus, .modal-dialog.modal-notify.modal-success .btn-outline-secondary-modal.active {
+    background-color: transparent;
+    color: #01d36b;
+    border-color: #01d36b; }
+
+.modal-dialog.modal-notify.modal-danger .modal-header {
+  background-color: #ff4b4b; }
+
+.modal-dialog.modal-notify.modal-danger .fa {
+  color: #ff4b4b; }
+
+.modal-dialog.modal-notify.modal-danger .badge {
+  background-color: #ff4b4b; }
+
+.modal-dialog.modal-notify.modal-danger .btn-primary-modal {
+  background-color: #ff4b4b; }
+  .modal-dialog.modal-notify.modal-danger .btn-primary-modal:hover {
+    background-color: #ff6565 !important; }
+  .modal-dialog.modal-notify.modal-danger .btn-primary-modal:focus, .modal-dialog.modal-notify.modal-danger .btn-primary-modal:active, .modal-dialog.modal-notify.modal-danger .btn-primary-modal.active {
+    background-color: #fe0000 !important; }
+  .modal-dialog.modal-notify.modal-danger .btn-primary-modal.dropdown-toggle {
+    background-color: #ff4b4b !important; }
+    .modal-dialog.modal-notify.modal-danger .btn-primary-modal.dropdown-toggle:hover, .modal-dialog.modal-notify.modal-danger .btn-primary-modal.dropdown-toggle:focus {
+      background-color: #ff6565 !important; }
+
+.modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal {
+  border: 2px solid #ff4b4b;
+  color: #ff4b4b !important;
+  background-color: transparent; }
+  .modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal:hover, .modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal:focus, .modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal:active, .modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal:active:focus, .modal-dialog.modal-notify.modal-danger .btn-outline-secondary-modal.active {
+    background-color: transparent;
+    color: #ff4b4b;
+    border-color: #ff4b4b; }
