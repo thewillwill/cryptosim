@@ -60,14 +60,14 @@ $(document).ready(function() {
         console.log("------------ getting portfolio data ------------");
         //get the currencies from json object
         $.ajax({
-            url: "api/portfolio/1",    //TODO get userID from session storage
+            url: "api/portfolio/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-          console.log('L62', 'response:', )
+            console.log('L62', 'response:', )
 
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
-                console.log("userHolding[i]",response.userHoldings[i])
+                console.log("userHolding[i]", response.userHoldings[i])
                 var newRow = $("<tr>");
                 var newIcon = $("<td>");
                 var newSpan = $("<span>");
@@ -106,12 +106,13 @@ $(document).ready(function() {
             url: "/api/user-last-trades/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            console.log(response);
-            //add rows to table body
             for (var i = 0; i < response.length; i++) {
                 var newRow = $("<tr>");
                 var newDate = $("<td>");
-                newDate.append(response[i].updatedAt);
+                var time = response[i].updatedAt;
+                time = time.replace("T", " ");
+                time = time.replace(".000Z", "");
+                newDate.append(time);
                 var newCurrency = $("<td>");
                 newCurrency.append(response[i].currency);
                 var newType = $("<td>");
@@ -142,7 +143,7 @@ $(document).ready(function() {
         }).done(function(response) {
             console.log(response.averageNetWorths);
             netWorths = response.averageNetWorths;
-             var ctx = document.getElementById("summaryChart").getContext('2d');
+            var ctx = document.getElementById("summaryChart").getContext('2d');
             var summaryChart = new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -180,11 +181,13 @@ $(document).ready(function() {
 
                             }
                         }]
+
+                    }
+
                 }
-            }
+            });
         });
-        });
-       
+
     }
     // ----------------------------
     // Cover Page
@@ -260,20 +263,20 @@ $(document).ready(function() {
 
         //get the user info
         $.ajax({
-            url: "/api/user/1",              //need to dynamically get user id in the future
+            url: "/api/user/1", //need to dynamically get user id in the future
             method: "GET"
         }).done(function(res) {
 
             //populate the form fields
-            $("#pref-name").attr({value: res[0].name});
-            $("#pref-email").attr({value: res[0].email});
+            $("#pref-name").attr({ value: res[0].name });
+            $("#pref-email").attr({ value: res[0].email });
         });
     }
 
     //check for submit of user preferences form
     $("#pref-submit").click(function() {
-       event.preventDefault();
-       console.log("form submitted")
+        event.preventDefault();
+        console.log("form submitted")
     })
 
 
