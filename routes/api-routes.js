@@ -20,10 +20,6 @@ const Op = Sequelize.Op;
 
 module.exports = function(app) {
 
-	var coins = [];
-
-	var userCoins = [];
-
 	//User Info
 	app.get("/api/user/:id", function(req, res) {
 		db.User.findAll({
@@ -117,6 +113,9 @@ module.exports = function(app) {
 
 	// Create Portfolio Object
 	app.get("/api/portfolio/:id", function(req, res) {
+		var coins = [];
+		var userCoins = [];
+
 		db.Portfolio.findAll({
 			where: {
 				userId: req.params.id,
@@ -146,7 +145,6 @@ module.exports = function(app) {
 					userCoins.push(userCoinObject);
 
 					index++;
-
 				}
 
 				var currentNetWorth = 0;
@@ -157,7 +155,7 @@ module.exports = function(app) {
 				var portfolio = {
 					userName: dbPortfolio[0].User.name,
 					currentNetWorth: currentNetWorth,
-					averageNetWorths: averageNetWorth(dbPortfolio[0].UserId, prices),
+					averageNetWorths: averageNetWorth(dbPortfolio[0].UserId, coins),
 					topRanks: topRank(),
 					userHoldings: userCoins
 				}
@@ -195,24 +193,78 @@ module.exports = function(app) {
 
 
 
-function averageNetWorth(id, prices) {
-	console.log(id);
-	db.Portfolio.findAll({
-		where: {
-			userId: id,
-			expired: true,
-			createdAt: {
-				[Op.lt]: new Date(),
-    			[Op.gt]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000)}
-		}
-	}).then(function(result) {
-		console.log(prices);
-		console.log(result[0]._previousDataValues.amount);
-		//return result;
-		return "?";
-	});
+function averageNetWorth(id, coins) {
+
+	var netWorths = [];
+	var dayTotal = 0;
+	var days = 0;
+	var usd = [];
+	var eth = [];
+	var btc = [];
+	var ltc = [];
+
+	while (days < 7) {
+		db.Portfolio.findAll({
+			where: {
+				userId: id,
+				createdAt: {
+					[Op.lt]: new Date(new Date() - days * 24 * 60 * 60 * 1000),
+	    			[Op.gt]: new Date(new Date() - (days+1) * 24 * 60 * 60 * 1000)}
+			}
+		}).then(function(result) {
+
+			if (result.length > 0) {
+				cc.priceHistorical('USD', coins, result[0]["_previousDataValues"]["createdAt"])
+				.then(prices => {
+
+					for (var i=0; i<result.length; i++) {
+						var curr = result[i]["_previousDataValues"]["currency"];
+						var curencyValue = 1 / (prices[curr]);
+						switch(result[i]["_previousDataValues"]["currency"]) {
+						    case "USD":
+						        usd.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "BTC":
+						        btc.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "ETH":
+						        eth.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    case "LTC":
+						        ltc.push(result[i]["_previousDataValues"]["amount"] * curencyValue);
+						        break;
+						    default:
+						        break;
+						}
+					}
+				})
+				.catch(console.error)
+
+				var totalUsd = calculateAverage(usd);
+				var totalEth = calculateAverage(eth);
+				var totalBtc = calculateAverage(btc);
+				var totalLtc = calculateAverage(ltc);
+				netWorths.push(totalUsd + totalEth + totalBtc + totalLtc);
+			} 
+		});
+		days++;
+	}
+
+	
+
+	return netWorths;
 }
 
+function calculateAverage(coin) {
+	var sum = 0;
+	if (coin.length > 0) {
+		for(var i=0; i<coin.length; i++){
+		    sum += coin[i];
+		}
+		return sum/coin.length;
+	} 
+	return sum;
+}
 
 // function topRank() {
 
