@@ -10,6 +10,21 @@ $(document).ready(function() {
     // ----------------------------
     // Market Page
     // ----------------------------
+    if ($("#usd-only").length > 0) {
+      $.ajax({
+          url:"/api/portfolio/1",
+          method: "GET"
+        }).done(function(response) {
+          console.log(response);
+          var usdBalance = 0;
+          for (var i = 0; i < response.userHoldings.length; i++) {
+            if (response.userHoldings[i].coinName == "USD") {
+              usdBalance += response.userHoldings[i].currentValue;
+            }
+          }
+          $("#usd-only").html(usdBalance);
+        });      
+    }
     if ($('#market-table').length > 0) {
         //set the tablesorter plugin to initialise on market-table
         $("#market-table").tablesorter();
@@ -48,6 +63,8 @@ $(document).ready(function() {
             }
             $("#market-table").trigger("update");
         });
+
+
     }
 
     // ----------------------------
