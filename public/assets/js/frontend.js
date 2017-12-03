@@ -320,9 +320,6 @@ $(document).ready(function() {
     });
 
 
-
-
-
     // ----------------------------
     // Preferences Page
     // ----------------------------
@@ -337,52 +334,19 @@ $(document).ready(function() {
         }).done(function(res) {
 
             //populate the form fields
-            $("#pref-name").attr({ value: res[0].name });
-            $("#pref-email").attr({ value: res[0].email });
+            $("#pref-name").attr({
+                value: res[0].name
+            });
+            $("#pref-email").attr({
+                value: res[0].email
+            });
         });
-
     }
-    console.log('buyOrder', buyOrder);
-    // Send the POST request.
-    $.ajax("/api/transaction/buy", {
-        type: "POST",
-        data: buyOrder
-    }).then(
-        function() {
-            console.log("POST new buy request");
-            $('.modal-buy').modal('hide')
-            $("#purchaseResult").html(data);
-            $('.modal-confirm').modal('show')
-        }
-    );
+
+    //check for submit of user preferences form
+    $("#pref-submit").click(function() {
+        event.preventDefault();
+        console.log("form submitted")
+    })
+
 });
-// Document Ready closes here
-
-// ----------------------------
-// Preferences Page
-// ----------------------------
-
-//check if preferences form exsists
-if ($('#preferencesForm').length) {
-
-    //get the user info
-    $.ajax({
-        url: "/api/user/1", //need to dynamically get user id in the future
-        method: "GET"
-    }).done(function(res) {
-
-        //populate the form fields
-        $("#pref-name").attr({
-            value: res[0].name
-        });
-        $("#pref-email").attr({
-            value: res[0].email
-        });
-    });
-}
-
-//check for submit of user preferences form
-$("#pref-submit").click(function() {
-    event.preventDefault();
-    console.log("form submitted")
-})
