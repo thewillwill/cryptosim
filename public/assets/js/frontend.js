@@ -52,7 +52,7 @@ $(document).ready(function() {
                 var $td2 = $("<td>").append(results[i].symbol);
                 var $td3 = $("<td>").append(currencyFormat(results[i].marketCap));
                 var $td4 = $("<td>").text(currencyFormat(results[i].price));
-                var $td5 = $("<td>").append(results[i].volume24Hour);
+                //var $td5 = $("<td>").append(results[i].volume24Hour);
                 //get percentage change
                 var pctChange = parseFloat(results[i].changePct24Hour).toFixed(2);
                 //check if positive or negative and set class for CSS color styling
@@ -61,10 +61,11 @@ $(document).ready(function() {
                 } else {
                     pctChangeClass = "changeNegative";
                 }
-                var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
+                var $td5 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
 
                 //create the buy button with the coinID and current Price as data attributes
-                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Buy"));
+                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Buy"));
+                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Sell"));
                 $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
                 $("#market-table-body").append($row);
             }
