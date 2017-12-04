@@ -355,7 +355,7 @@ $(document).ready(function() {
         console.log('holding', holding);
 
       //check if the user has enough of the currency to sell
-        if (ccQuantity < holding) {
+        if (ccQuantity > holding) {
             console.log("user does not have enough money");
             $('#modal-sell-fail').modal('show');
             $('#modal-sell').modal('hide');

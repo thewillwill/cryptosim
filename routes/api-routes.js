@@ -208,13 +208,46 @@ module.exports = function(app) {
 
   //get currency actual value
   app.get("/api/currencies/:symbol", function(req, res) {
-    var symbol = req.params.symbol.toUpperCase();
-    cc.priceMulti([symbol], ['USD'])
-      .then(prices => {
-        console.log(prices)
-        res.json(prices);
-      })
-      .catch(console.error)
+  	var symbol = req.params.symbol.toUpperCase();
+    db.Coin.findOne({
+      where: {symbol: symbol}
+    }).then(function(dbCoin) {
+      // console.log(Sequelize.getValues(dbPost));
+      // var newCurrArray = [];
+      // var newCurrObject = {};
+      // newCurrObjectArray = [];
+      // for (var i = 0; i < dbPost.length; i++) {
+      //   newCurrArray.push(dbPost[i].symbol);
+      // }
+      // cc.priceFull(newCurrArray, ['USD'])
+      //   .then(prices => {
+      //     console.log(prices);
+      //     for (var i = 0; i < dbPost.length; i++) {
+      //       newCurrObject = {
+      //         coin_id: dbPost[i].coin_id,
+      //         key_id: dbPost[i].key_id,
+      //         base_url: dbPost[i].base_url,
+      //         url: dbPost[i].url,
+      //         image_url: dbPost[i].image_url,
+      //         name: dbPost[i].name,
+      //         symbol: dbPost[i].symbol,
+      //         coin_name: dbPost[i].coin_name,
+      //         full_name: dbPost[i].full_name,
+      //         price: prices[dbPost[i].symbol].USD.PRICE,
+      //         change24Hour: prices[dbPost[i].symbol].USD.CHANGE24HOUR,
+      //         changePct24Hour: prices[dbPost[i].symbol].USD.CHANGEPCT24HOUR,
+      //         marketCap: prices[dbPost[i].symbol].USD.MKTCAP,
+      //         volume24Hour: prices[dbPost[i].symbol].USD.TOTALVOLUME24H
+
+      //       };
+      //       newCurrObjectArray.push(newCurrObject);
+      //     }
+      //     // console.log(newCurrObjectArray);
+      //     res.json(newCurrObjectArray);
+      //   })
+      //   .catch(console.error)
+      res.json(dbCoin);
+    })
   })
 
 
@@ -433,25 +466,22 @@ module.exports = function(app) {
       where: {
         UserId: req.body.params.userID,
         currency: ['USD', req.body.params.coinID],
-        expired: false
-      }
-    }).then(function(result) {
-    	// Set new USD wallet value
-    	db.Portfolio.create({
-    	  UserId: req.body.params.userID,
-    	  currency: 'USD',
-    	  expired: false,
-    	  amount: req.body.params.currentUSD
-    	}).then(function(result) {});
-    	// Set new cryptocurrency amount
-    	db.Portfolio.create({
-    	  UserId: req.body.params.userID,
-    	  currency: req.body.params.coinID,
-    	  expired: false,
-    	  amount: req.body.params.ccQuantity
-    	}).then(function(result) {});
-    });
-    
+      }}).then(function(result) {
+    // Set new USD wallet value
+    db.Portfolio.create({
+      UserId: req.body.params.userID,
+      currency: 'USD',
+      expired: false,
+      amount: (req.body.params.currentUSD - req.body.params.USDValue)
+    }).then(function(result) {});
+    // Set new cryptocurrency amount
+    db.Portfolio.create({
+      UserId: req.body.params.userID,
+      currency: req.body.params.coinID,
+      expired: false,
+      amount: req.body.params.ccQuantity
+    }).then(function(result) {});
+		});
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({
       UserId: req.body.params.userID,
@@ -465,41 +495,41 @@ module.exports = function(app) {
   });
 
   // POST route for single SELL Order
-  // app.post("/api/transaction/sell", function(req, res) {
-  //  console.log('updating DB');
-  //  // Set old USD wallet value to expired (0)
-  //  db.Portfolio.update({ expired: 0 },
-  // 	 { where: {
-  // 		 UserId: req.body.params.userID,
-  // 		 currency: 'USD'
-  // 	 }}).then(function(result) {
-  // 			 });
-  //  // Set new USD wallet value
-  //  db.Portfolio.create({
-  // 		 UserId: req.body.params.userID,
-  // 		 currency: 'USD',
-  // 		 expired: 1,
-  // 		 amount: req.body.params.currentUSD
-  // 	 }).then(function(result) {
-  // 			 });
-  //  // Set new cryptocurrency amount
-  //  db.Portfolio.create({
-  // 		 UserId: req.body.params.userID,
-  // 		 currency: req.body.params.coinID,
-  // 		 expired: 1,
-  // 		 amount: 50
-  // 	 }).then(function(result) {
-  // 			 });
-  //  // Create transaction for cryptocurrency purchased
-  //  db.Transaction.create({
-  // 		 UserId: req.body.params.userID,
-  // 		 currency: req.body.params.coinID,
-  // 		 amount: 50,
-  // 		 price_paid: req.body.params.USDValue,
-  // 		 transaction_type: 'B'
-  // 		}).then(function(result) {
-  // 		 res.json(result);
-  // 	 });
-  // });
+	app.post("/api/transaction/sell", function(req, res) {
+    console.log('updating DB');
+    // Set old USD wallet value to expired (0)
+    db.Portfolio.update({
+      expired: true
+    }, {
+      where: {
+        UserId: req.body.params.userID,
+        currency: ['USD', req.body.params.coinID],
+      }}).then(function(result) {
+    // Set new USD wallet value
+    db.Portfolio.create({
+      UserId: req.body.params.userID,
+      currency: 'USD',
+      expired: false,
+      amount: (req.body.params.currentUSD + req.body.params.USDValue)
+    }).then(function(result) {});
+    // Set new cryptocurrency amount
+    db.Portfolio.create({
+      UserId: req.body.params.userID,
+      currency: req.body.params.coinID,
+      expired: false,
+      amount: (req.body.params.ccQuantity - req.body.params.ccQuantity)
+    }).then(function(result) {});
+		});
+    // Create transaction for cryptocurrency purchased
+    db.Transaction.create({
+      UserId: req.body.params.userID,
+      currency: req.body.params.coinID,
+      amount: req.body.params.ccQuantity,
+      price_paid: req.body.params.USDValue,
+      transaction_type: 'S'
+    }).then(function(result) {
+      res.json(result);
+    });
+  });
 
 };
