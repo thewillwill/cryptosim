@@ -208,13 +208,46 @@ module.exports = function(app) {
 
   //get currency actual value
   app.get("/api/currencies/:symbol", function(req, res) {
-    var symbol = req.params.symbol.toUpperCase();
-    cc.priceMulti([symbol], ['USD'])
-      .then(prices => {
-        console.log(prices)
-        res.json(prices);
-      })
-      .catch(console.error)
+  	var symbol = req.params.symbol.toUpperCase();
+    db.Coin.findOne({
+      where: {symbol: symbol}
+    }).then(function(dbCoin) {
+      // console.log(Sequelize.getValues(dbPost));
+      // var newCurrArray = [];
+      // var newCurrObject = {};
+      // newCurrObjectArray = [];
+      // for (var i = 0; i < dbPost.length; i++) {
+      //   newCurrArray.push(dbPost[i].symbol);
+      // }
+      // cc.priceFull(newCurrArray, ['USD'])
+      //   .then(prices => {
+      //     console.log(prices);
+      //     for (var i = 0; i < dbPost.length; i++) {
+      //       newCurrObject = {
+      //         coin_id: dbPost[i].coin_id,
+      //         key_id: dbPost[i].key_id,
+      //         base_url: dbPost[i].base_url,
+      //         url: dbPost[i].url,
+      //         image_url: dbPost[i].image_url,
+      //         name: dbPost[i].name,
+      //         symbol: dbPost[i].symbol,
+      //         coin_name: dbPost[i].coin_name,
+      //         full_name: dbPost[i].full_name,
+      //         price: prices[dbPost[i].symbol].USD.PRICE,
+      //         change24Hour: prices[dbPost[i].symbol].USD.CHANGE24HOUR,
+      //         changePct24Hour: prices[dbPost[i].symbol].USD.CHANGEPCT24HOUR,
+      //         marketCap: prices[dbPost[i].symbol].USD.MKTCAP,
+      //         volume24Hour: prices[dbPost[i].symbol].USD.TOTALVOLUME24H
+
+      //       };
+      //       newCurrObjectArray.push(newCurrObject);
+      //     }
+      //     // console.log(newCurrObjectArray);
+      //     res.json(newCurrObjectArray);
+      //   })
+      //   .catch(console.error)
+      res.json(dbCoin);
+    })
   })
 
 
@@ -425,6 +458,7 @@ module.exports = function(app) {
   // POST route for single BUY Order
   app.post("/api/transaction/buy", function(req, res) {
     console.log('updating DB');
+    console.log(req.body.params);
     // Set old USD wallet value to expired (0)
     db.Portfolio.update({
       expired: true
