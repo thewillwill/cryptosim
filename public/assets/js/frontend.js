@@ -16,22 +16,22 @@ $(document).ready(function() {
     // ----------------------------
 
     if ($("#usd-only").length > 0) {
-      $.ajax({
-          url:"/api/portfolio/1",
-          method: "GET"
+        $.ajax({
+            url: "/api/portfolio/1",
+            method: "GET"
         }).done(function(response) {
-          console.log(response);
-          var usdBalance = 0;
-          for (var i = 0; i < response.userHoldings.length; i++) {
-            if (response.userHoldings[i].coinName == "USD") {
-              usdBalance += response.userHoldings[i].currentValue;
-              console.log('usdBalance', usdBalance)
+            console.log(response);
+            var usdBalance = 0;
+            for (var i = 0; i < response.userHoldings.length; i++) {
+                if (response.userHoldings[i].coinName == "USD") {
+                    usdBalance += response.userHoldings[i].currentValue;
+                    console.log('usdBalance', usdBalance)
+                }
             }
-          }
-          currentUSD = usdBalance;
-          console.log('currentUSD', currentUSD);
-          $("#usd-only").html(currencyFormat(currentUSD));
-        });      
+            currentUSD = usdBalance;
+            console.log('currentUSD', currentUSD);
+            $("#usd-only").html(currencyFormat(currentUSD));
+        });
     }
 
     if ($('#market-table').length > 0) {
@@ -52,7 +52,7 @@ $(document).ready(function() {
                 var $td2 = $("<td>").append(results[i].symbol);
                 var $td3 = $("<td>").append(currencyFormat(results[i].marketCap));
                 var $td4 = $("<td>").text(currencyFormat(results[i].price));
-                //var $td5 = $("<td>").append(results[i].volume24Hour);
+                var $td5 = $("<td>").append(results[i].volume24Hour);
                 //get percentage change
                 var pctChange = parseFloat(results[i].changePct24Hour).toFixed(2);
                 //check if positive or negative and set class for CSS color styling
@@ -61,11 +61,11 @@ $(document).ready(function() {
                 } else {
                     pctChangeClass = "changeNegative";
                 }
-                var $td5 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
+                var $td6 = $("<td>").append(pctChange + "%").addClass(pctChangeClass);
 
                 //create the buy button with the coinID and current Price as data attributes
-                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Buy"));
-                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Sell"));
+                var $td7 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary buy-btn", 'data-coinID': results[i].key_id, 'data-price': results[i].price }).text("Buy"));
+
                 $row.append($td1).append($td2).append($td3).append($td4).append($td5).append($td6).append($td7);
                 $("#market-table-body").append($row);
             }
@@ -96,17 +96,20 @@ $(document).ready(function() {
                 console.log("userHolding[i]", response.userHoldings[i])
                 var $row = $("<tr>");
                 var $td1 = $("<td>").append(response.userHoldings[i].coinName);
-                var $td2= $("<td>");
+                var $td2 = $("<td>");
                 $td2.append(response.userHoldings[i].userQty);
                 var $td3 = $("<td>");
                 $td3.append(currencyFormat(response.userHoldings[i].currentPrice));
                 var $td4 = $("<td>");
                 $td4.append(currencyFormat(response.userHoldings[i].currentValue));
-                var $td5 = $("<td>");     
+
+                var $td5 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': response.userHoldings[i].coinName, 'data-price': response.userHoldings[i].currentPrice, 'data-holding': response.userHoldings[i].currentValue }).text("Sell"));
                 $row.append($td1);
                 $row.append($td2);
                 $row.append($td3);
                 $row.append($td4);
+                $row.append($td5);  
+
                 $("#portfolio-table-body").append($row);
             }
             $("#portfolio-table").trigger("update");
@@ -289,8 +292,7 @@ $(document).ready(function() {
         var total = qty * price;
         if (qty > 0 && price > 0) {
             $("#buy-USDValue").val(total);
-        }
-        else {
+        } else {
             $("#buy-USDValue").val(0);
         }
     });
@@ -305,8 +307,7 @@ $(document).ready(function() {
 
         if (total > 0 && price > 0) {
             $("#buy-ccQuantity").val(qty);
-        }
-        else {
+        } else {
             $("#buy-ccQuantity").val(0);
         }
     });
@@ -318,8 +319,7 @@ $(document).ready(function() {
         var total = qty * price;
         if (qty > 0 && price > 0) {
             $("#buy-USDValue").val(total);
-        }
-        else {
+        } else {
             $("#buy-USDValue").val(0);
         }
     });
@@ -348,7 +348,7 @@ $(document).ready(function() {
         var holding = parseFloat($("#coin-holding").text());
         console.log('holding', holding);
 
-      //check if the user has enough of the currency to sell
+        //check if the user has enough of the currency to sell
         if (ccQuantity > holding) {
             console.log("user does not have enough money");
             $('#modal-sell-fail').modal('show');
@@ -384,7 +384,7 @@ $(document).ready(function() {
 
     });
 
-// Calculate Total Price of Buy Order
+    // Calculate Total Price of Buy Order
     // ----------------------------
     $("#sell-USDValue").keyup(function() {
         var total = parseFloat($("#sell-USDValue").val());
@@ -393,8 +393,7 @@ $(document).ready(function() {
 
         if (total > 0 && price > 0) {
             $("#sell-ccQuantity").val(qty);
-        }
-        else {
+        } else {
             $("#sell-ccQuantity").val(0);
         }
     });
@@ -406,8 +405,7 @@ $(document).ready(function() {
         var total = qty * price;
         if (qty > 0 && price > 0) {
             $("#sell-USDValue").val(total);
-        }
-        else {
+        } else {
             $("#sell-USDValue").val(0);
         }
     });
