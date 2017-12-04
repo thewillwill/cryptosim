@@ -425,29 +425,33 @@ module.exports = function(app) {
   // POST route for single BUY Order
   app.post("/api/transaction/buy", function(req, res) {
     console.log('updating DB');
+    console.log(req.body.params);
     // Set old USD wallet value to expired (0)
     db.Portfolio.update({
       expired: true
     }, {
       where: {
         UserId: req.body.params.userID,
-        currency: ['USD', req.body.params.coinID]
+        currency: ['USD', req.body.params.coinID],
+        expired: false
       }
-    }).then(function(result) {});
-    // Set new USD wallet value
-    db.Portfolio.create({
-      UserId: req.body.params.userID,
-      currency: 'USD',
-      expired: false,
-      amount: req.body.params.currentUSD
-    }).then(function(result) {});
-    // Set new cryptocurrency amount
-    db.Portfolio.create({
-      UserId: req.body.params.userID,
-      currency: req.body.params.coinID,
-      expired: false,
-      amount: req.body.params.ccQuantity
-    }).then(function(result) {});
+    }).then(function(result) {
+    	// Set new USD wallet value
+    	db.Portfolio.create({
+    	  UserId: req.body.params.userID,
+    	  currency: 'USD',
+    	  expired: false,
+    	  amount: req.body.params.currentUSD
+    	}).then(function(result) {});
+    	// Set new cryptocurrency amount
+    	db.Portfolio.create({
+    	  UserId: req.body.params.userID,
+    	  currency: req.body.params.coinID,
+    	  expired: false,
+    	  amount: req.body.params.ccQuantity
+    	}).then(function(result) {});
+    });
+    
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({
       UserId: req.body.params.userID,
