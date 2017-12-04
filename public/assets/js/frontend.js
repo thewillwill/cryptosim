@@ -106,7 +106,7 @@ $(document).ready(function() {
                 $td4.append(currencyFormat(response.userHoldings[i].currentValue));
                 var $td5 = $("<td>");
                 $td5.append(response.userHoldings[i].valueChange);
-                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': response.userHoldings[i].coinName, 'data-price': response.userHoldings[i].currentPrice }).text("Sell"));
+                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': response.userHoldings[i].coinName, 'data-price': response.userHoldings[i].currentPrice, 'data-holding': response.userHoldings[i].currentValue}).text("Sell"));
                 $row.append($td1);
                 $row.append($td2);
                 $row.append($td3);
@@ -243,11 +243,21 @@ $(document).ready(function() {
 
 
     $('body').on('click', '#confirm-buy-order', function() {
+
         var ccPrice = parseFloat($("#buy-ccPrice").val());
         var USDValue = parseFloat($("#buy-USDValue").val());
         var coinID = $("#buy-coinID").val();
         var userID = parseFloat($("#buy-userID").val());
         var ccQuantity = parseFloat($("#buy-ccQuantity").val());
+
+        //check if the user has enough USD
+        if (currentUSD < USDValue) {
+            console.log("user does not have enough money");
+            $('#modal-buy-fail').modal('show');
+            $('#modal-buy').modal('hide');
+            return;
+        }
+
         console.log("clicked on confirm-purchase");
         var buyOrder = {
             "params": {
@@ -330,8 +340,8 @@ $(document).ready(function() {
         $("#sell-coinID").val($(this).attr("data-coinID"))
         $("#sell-ccPrice").val($(this).attr("data-price"))
         $("#sell-ccQuantity").val(0)
+        $("#coin-holding").text($(this).attr("data-holding"))
         $('#modal-sell').modal('show');
-
     });
 
 
@@ -341,7 +351,17 @@ $(document).ready(function() {
         var coinID = $("#sell-coinID").val();
         var userID = parseFloat($("#sell-userID").val());
         var ccQuantity = parseFloat($("#sell-ccQuantity").val());
-        var ccQuantity = parseFloat($("#sell-ccQuantity").val());
+        var holding = parseFloat($("#coin-holding").text());
+        console.log('holding', holding);
+
+      //check if the user has enough of the currency to sell
+        if (ccQuantity < holding) {
+            console.log("user does not have enough money");
+            $('#modal-sell-fail').modal('show');
+            $('#modal-sell').modal('hide');
+            return;
+        }
+
         console.log("clicked on confirm-sell");
         var sellOrder = {
             "params": {
