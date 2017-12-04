@@ -54,6 +54,11 @@ body{
     font-size: 1.2em;
 }
 
+.hero-text a {
+    color: #fb8c00;
+}
+
+
 
 .arrow-pos {
     position: absolute;
