@@ -22,8 +22,8 @@ module.exports = function(app, passport) {
   // access was granted, the user will be logged in.  Otherwise,
   // authentication has failed.
   app.get('/auth/facebook/callback', passport.authenticate('facebook', {
-      successRedirect: '/start',
-      failureRedirect: '/'
+      successRedirect: '/market',
+      failureRedirect: '/market'
     })
   );
 }

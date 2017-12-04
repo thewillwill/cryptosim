@@ -11,18 +11,7 @@ var db = require('../models/index.js');
 var configAuth = require('./auth');
 
 module.exports = function(passport) {
-  // used to serialize the user for the session
-  passport.serializeUser(function(user, done) {
-        done(null, user.id);
-    });
-    // used to deserialize the user
-    passport.deserializeUser(function(id, done) {
-        User.findById(id).then(function(user){
-      done(null, user);
-    }).catch(function(e){
-      done(e, false);
-    });
-    });
+
     passport.use(new FacebookStrategy({
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
@@ -31,13 +20,6 @@ module.exports = function(passport) {
         passReqToCallback: true // allows us to pass in the req from our route (lets us check if a user is logged in or not)
       },
     function(req, token, refreshToken, profile, done) {
-      // console.log("req: " + JSON.stringify(req, null, 4));
-      console.log("req: " + req);
-      console.log("token: " + JSON.stringify(token, null, 4));
-      console.log("refreshToken: " + JSON.stringify(refreshToken));
-      console.log("profile: " + JSON.stringify(profile));
-      console.log("done: " + done);
-
     // check if the user is already logged in
      if (!req.user) {
        db.User.findOne({ where :{ 'facebook_id' : profile.id }}).then (function (user) {
@@ -65,21 +47,21 @@ module.exports = function(passport) {
                   amount: "50000",
                   expired: 0
                 };
-                db.Portfolio.create(newPort).then(function(dbPort) {
-                 return true;
-                });
-                res.json(dbPost);
               });
 			   }
 
-        var newPort = db.Portfolio.build({
-          UserId: newUser.id,
-          currency: "USD",
-          amount: "50000",
-          expired: 0
-        });
-          newPort.save().then( function() {done(null, user);}).catch (function(e) {});
-          console.log(newPort);
+        // ------------------------------------------------------------------
+        // JP Added this route in api-routes.js
+        // ------------------------------------------------------------------
+
+        // var newPort = db.Portfolio.build({
+        //   UserId: newUser.id,
+        //   currency: "USD",
+        //   amount: "50000",
+        //   expired: 0
+        // });
+        //   newPort.save().then( function() {done(null, user);}).catch (function(e) {});
+        //   console.log(newPort);
 
 		  });
    } else { // user already exists and is logged in, we have to link accounts
@@ -90,5 +72,21 @@ module.exports = function(passport) {
           user.email          = profile.emails[0].value;
           user.save().then( function() {done(null, user);}).catch (function(e) {});
     }
+
+
   }));
+
+  // used to serialize the user for the session
+  passport.serializeUser(function(user, done) {
+        done(null, user.id);
+    });
+    // used to deserialize the user
+    passport.deserializeUser(function(id, done) {
+        User.findById(id).then(function(user){
+      done(null, user);
+    }).catch(function(e){
+      done(e, false);
+    });
+    });
+
 }

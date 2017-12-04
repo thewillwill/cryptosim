@@ -8,6 +8,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var passport = require('passport');
 var cookieParser = require('cookie-parser'); // parse cookies
+var session = require('express-session');
 
 
 // Sets up the Express App
@@ -36,6 +37,13 @@ app.use(cookieParser()); // read cookies (needed for auth)
 // Static directory
 app.use(express.static("public"));
 
+//Sessions
+app.use(session({
+  secret: 'hdgfuiwqeyfbgjhd',
+  resave: false,
+  saveUninitialized: false,
+  // cookie: { secure: true }
+}))
 
 // Set Handlebars
 // =============================================================
