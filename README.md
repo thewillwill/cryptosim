@@ -1,6 +1,3 @@
-# cryptosim
-A crypto coin trading simulator
-
 ![CryptoSim Web App Logo](cryptosim-logo.png "CryptoSim Logo")
 
 #### A crypto currency trading simulator with live prices and user portfolios to track investments
