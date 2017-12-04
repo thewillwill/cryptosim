@@ -113,12 +113,23 @@
 </main>
 
 
-<!-- Modal - Purchase Confirmation-->
+<!-- Modal - Sell Confirmation-->
 <div class="modal fade" id="modal-sell-confirm" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-sm">
         <div class="modal-content text-center">
             <h3>Purchase Confirmed</h3>
             <i class="fa fa-check fa-4x text-success"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Sell Failure Modal -->
+<div class="modal fade" id="modal-sell-fail" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content text-center">
+            <h3>Sell Failed</h3>
+            <i class="fa fa-times fa-4x text-danger"></i>
+            <p> You don't have enough of that currency to sell.</p>
         </div>
     </div>
 </div>
@@ -138,6 +149,7 @@
             </div>
             <!--Body-->
             <div class="modal-body">
+                <p>You can sell up to USD <span id="coin-holding"> 0 </span </p>
                 <form>
                     <div class="form-group">
                         <label for="sell-coinID">Currency</label>
