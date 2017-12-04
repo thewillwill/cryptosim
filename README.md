@@ -15,6 +15,23 @@ The project was built as part of our Coding Bootcamp with a requirement to use n
 ## Prerequisites:
 1. A user must have a Facebook account to login.
 
+## Node Modules:
+body-parser
+cookie-parser
+cryptocompare
+express
+express-handlebars
+express-session
+mysql
+mysql2
+node-fetch
+passport
+passport-facebook
+passport-twitter
+sequelize
+sequelize-cli
+sequelize-values
+util
 
 ## How the CryptoSim App Works
 1. The users logs in via Facebook to authenticate.
