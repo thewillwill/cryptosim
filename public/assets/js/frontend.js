@@ -47,11 +47,11 @@ $(document).ready(function() {
             for (var i = 0; i < results.length; i++) {
                 var $row = $("<tr>");
                 //insert the icon and name
-                var $td1 = $("<td>").append($("<img>").attr({ "src": results[i].base_url + results[i].image_url, "class": "coin-icon" })).append(results[i].coin_name);
+                //var $td0 = $("<td>").append($("<img>").attr({ "src": results[i].base_url + results[i].image_url, "height": "40px", "width": "40px"}));
+                var $td1 = $("<td>").append(results[i].coin_name);
                 var $td2 = $("<td>").append(results[i].symbol);
                 var $td3 = $("<td>").append(currencyFormat(results[i].marketCap));
                 var $td4 = $("<td>").text(currencyFormat(results[i].price));
-
                 var $td5 = $("<td>").append(results[i].volume24Hour);
                 //get percentage change
                 var pctChange = parseFloat(results[i].changePct24Hour).toFixed(2);
@@ -86,33 +86,26 @@ $(document).ready(function() {
             url: "/api/portfolio/1", //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            console.log('L62', 'response:', )
-
+            console.log('L89', 'response:', )
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
                 $("#networth").html(currencyFormat(response.currentNetWorth));
                 $("#rank-networth").html(currencyFormat(response.currentNetWorth));
 
-
                 console.log("userHolding[i]", response.userHoldings[i])
                 var $row = $("<tr>");
-                var $td1 = $("<td>").append($("<img>").attr({ "src": response.userHoldings[i].coinIcon, "class": "coin-icon" })).append(response.userHoldings[i].coinName);
-
+                var $td1 = $("<td>").append(response.userHoldings[i].coinName);
                 var $td2= $("<td>");
                 $td2.append(response.userHoldings[i].userQty);
                 var $td3 = $("<td>");
                 $td3.append(currencyFormat(response.userHoldings[i].currentPrice));
                 var $td4 = $("<td>");
                 $td4.append(currencyFormat(response.userHoldings[i].currentValue));
-                var $td5 = $("<td>");
-                $td5.append(response.userHoldings[i].valueChange);
-                var $td6 = $("<td>").append($("<btn>").attr({ "class": "btn btn-secondary sell-btn", 'data-coinID': response.userHoldings[i].coinName, 'data-price': response.userHoldings[i].currentPrice, 'data-holding': response.userHoldings[i].currentValue}).text("Sell"));
+                var $td5 = $("<td>");     
                 $row.append($td1);
                 $row.append($td2);
                 $row.append($td3);
                 $row.append($td4);
-                $row.append($td5);
-                $row.append($td6);
                 $("#portfolio-table-body").append($row);
             }
             $("#portfolio-table").trigger("update");

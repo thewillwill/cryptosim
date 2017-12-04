@@ -480,7 +480,8 @@ Portfolio
     padding-left: 5px;
 }
 
-.coin-icon {
+.coin-icon img{
+    display: inline-block;
     height: 35px;
     width: 35px;
     margin-right: 15px;
