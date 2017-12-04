@@ -255,7 +255,7 @@ $(document).ready(function() {
                 "USDValue": USDValue,
                 "coinID": coinID,
                 "userID": userID,
-                "currentUSD": currentUSD,
+                "currentUSD": currentUSD - USDValue,
                 "ccQuantity": ccQuantity
             }
         }
@@ -349,7 +349,7 @@ $(document).ready(function() {
                 "USDValue": USDValue,
                 "coinID": coinID,
                 "userID": userID,
-                "currentUSD": currentUSD,
+                "currentUSD": currentUSD + USDValue,
                 "ccQuantity": ccQuantity
             }
         }
