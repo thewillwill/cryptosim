@@ -11,25 +11,29 @@ for (var i = 6; i >= 0; i--) {
 }
 
 $(document).ready(function() {
+//URL getting user data from passport
+
+var userPortUrl = "/api/portfolio/" + $("#user").val();
+var userLastTradesUrl = "/api/user-last-trades/" + $("#user").val();
+var userUpdateUrl = "/api/user/" + $("#user").val();
+
+
     // ----------------------------
     // Market Page
     // ----------------------------
 
     if ($("#usd-only").length > 0) {
         $.ajax({
-            url: "/api/portfolio/1",
+            url: userPortUrl,
             method: "GET"
         }).done(function(response) {
-            console.log(response);
             var usdBalance = 0;
             for (var i = 0; i < response.userHoldings.length; i++) {
                 if (response.userHoldings[i].coinName == "USD") {
                     usdBalance += response.userHoldings[i].currentValue;
-                    console.log('usdBalance', usdBalance)
                 }
             }
             currentUSD = usdBalance;
-            console.log('currentUSD', currentUSD);
             $("#usd-only").html(currencyFormat(currentUSD));
         });
     }
@@ -81,19 +85,15 @@ $(document).ready(function() {
     if ($('#portfolio-table').length > 0) {
         $("#portfolio-table").tablesorter();
 
-        console.log("------------ getting portfolio data ------------");
         //get the currencies from json object
         $.ajax({
-            url: "/api/portfolio/1", //TODO get userID from session storage
+            url: userPortUrl, //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
-            console.log('L89', 'response:', )
             //add rows to table body
             for (var i = 0; i < response.userHoldings.length; i++) {
                 $("#networth").html(currencyFormat(response.currentNetWorth));
                 $("#rank-networth").html(currencyFormat(response.currentNetWorth));
-
-                console.log("userHolding[i]", response.userHoldings[i])
                 var $row = $("<tr>");
                 var $td1 = $("<td>").append(response.userHoldings[i].coinName);
                 var $td2 = $("<td>");
@@ -122,7 +122,7 @@ $(document).ready(function() {
         $("#trades-table").tablesorter();
         //get the currencies from json object
         $.ajax({
-            url: "/api/user-last-trades/1", //TODO get userID from session storage
+            url: userLastTradesUrl, //TODO get userID from session storage
             method: "GET"
         }).done(function(response) {
             for (var i = 0; i < response.length; i++) {
@@ -157,7 +157,7 @@ $(document).ready(function() {
 
     if ($('#summaryChart').length > 0) {
         $.ajax({
-            url: "/api/portfolio/1",
+            url: userPortUrl,
             method: "GET"
         }).done(function(response) {
             console.log(response.averageNetWorths);
@@ -228,7 +228,6 @@ $(document).ready(function() {
     // ----------------------------
 
     $('body').on('click', '.buy-btn', function() {
-        console.log("clicked on buy-btn for:", $(this).attr("data-coinID"));
         $("#buy-coinID").val($(this).attr("data-coinID"))
         $("#buy-ccPrice").val($(this).attr("data-price"))
         $("#buy-ccQuantity").val(0);
@@ -266,7 +265,6 @@ $(document).ready(function() {
                 "ccQuantity": ccQuantity
             }
         }
-        console.log('buyOrder', buyOrder);
         // Send the POST request.
         $.ajax("/api/transaction/buy", {
             type: "POST",
@@ -330,7 +328,6 @@ $(document).ready(function() {
     // ----------------------------
 
     $('body').on('click', '.sell-btn', function() {
-        console.log("clicked on sell-btn for:", $(this).attr("data-coinID"));
         $("#sell-coinID").val($(this).attr("data-coinID"))
         $("#sell-ccPrice").val($(this).attr("data-price"))
         $("#sell-ccQuantity").val(0)
@@ -346,11 +343,9 @@ $(document).ready(function() {
         var userID = parseFloat($("#sell-userID").val());
         var ccQuantity = parseFloat($("#sell-ccQuantity").val());
         var holding = parseFloat($("#coin-holding").text());
-        console.log('holding', holding);
 
         //check if the user has enough of the currency to sell
         if (ccQuantity > holding) {
-            console.log("user does not have enough money");
             $('#modal-sell-fail').modal('show');
             $('#modal-sell').modal('hide');
             return;
@@ -367,14 +362,12 @@ $(document).ready(function() {
                 "ccQuantity": ccQuantity
             }
         }
-        console.log('sellOrder', sellOrder);
         // Send the POST request.
         $.ajax("/api/transaction/sell", {
             type: "POST",
             data: sellOrder
         }).then(
             function(data) {
-                console.log("POST new sell request");
                 $('#modal-sell').modal('hide');
                 $("#purchaseResult").html(data);
                 console.log("#modal-sell-confirm");
@@ -420,7 +413,7 @@ $(document).ready(function() {
 
         //get the user info
         $.ajax({
-            url: "/api/user/1", //need to dynamically get user id in the future
+            url: userUpdateUrl, //need to dynamically get user id in the future
             method: "GET"
         }).done(function(res) {
 

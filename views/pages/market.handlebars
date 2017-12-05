@@ -27,7 +27,7 @@
         <div class="col-3 col-sm-3">
             <div class="card">
                 <div class="header">
-                    <h4 class="title">You Have</h4>
+                    <h4 class="title" id="user">You Have</h4>
                     <div id="usd-only" class="big-number">Loading...</div>
                 </div>
                 <div class="stats">
@@ -105,7 +105,7 @@
                     </div>
                     <!-- pass the user ID -->
                     <div class="form-group">
-                        <input type="hidden" class="form-control" id="buy-userID" value="1">
+                        <input type="hidden" class="form-control" id="buy-userID" value={{user}}>
                     </div>
                     <div class="modal-footer justify-content-center">
                         <button type="button" class="btn-fill btn-wd btn btn-primary" id="confirm-buy-order">Confirm Order <i class="fa fa-dollar ml-1"></i></button>

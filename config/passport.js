@@ -2,6 +2,7 @@
 
 //Load Dependencies
 var passport = require('passport');
+var session = require('express-session');
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 //Load DB & models
@@ -11,7 +12,6 @@ var db = require('../models/index.js');
 var configAuth = require('./auth');
 
 module.exports = function(passport) {
-
     passport.use(new FacebookStrategy({
         clientID: configAuth.facebookAuth.clientID,
         clientSecret: configAuth.facebookAuth.clientSecret,
@@ -40,17 +40,17 @@ module.exports = function(passport) {
             name: profile.displayName,
             email: profile.emails[0].value
             })
-         .then(function(dbPost) {
+         .then(function(user) {
              var newPort = {
-               UserId: dbPost.id,
+               UserId: user.id,
                currency: "USD",
                amount: "50000",
                expired: 0
              };
              db.Portfolio.create(newPort).then(function(dbPort) {
-              done(null, user);}).catch (function(e) {
+              done();}).catch (function(e) {
               });
-             return dbPost;
+             return done(null, user);
            });
         }
 		  });
@@ -72,7 +72,7 @@ module.exports = function(passport) {
     });
     // used to deserialize the user
     passport.deserializeUser(function(id, done) {
-        User.findById(id).then(function(user){
+        db.User.findById(id).then(function(user){
       done(null, user);
     }).catch(function(e){
       done(e, false);
