@@ -20,6 +20,14 @@ var PORT = process.env.PORT || 8080;
 // =============================================================
 var db = require("./models");
 
+//Sessions
+app.use(session({
+  secret: 'hdgfuiwqeyfbgjhd',
+  resave: false,
+  saveUninitialized: false,
+  // cookie: { secure: true }
+}))
+
 // Sets up the Express app to handle data parsing
 // =============================================================
 
@@ -37,13 +45,7 @@ app.use(cookieParser()); // read cookies (needed for auth)
 // Static directory
 app.use(express.static("public"));
 
-//Sessions
-app.use(session({
-  secret: 'hdgfuiwqeyfbgjhd',
-  resave: false,
-  saveUninitialized: false,
-  // cookie: { secure: true }
-}))
+
 
 // Set Handlebars
 // =============================================================

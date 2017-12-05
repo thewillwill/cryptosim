@@ -23,7 +23,7 @@ module.exports = function(app, passport) {
   // authentication has failed.
   app.get('/auth/facebook/callback', passport.authenticate('facebook', {
       successRedirect: '/market',
-      failureRedirect: '/market'
+      failureRedirect: '/'
     })
   );
 }
