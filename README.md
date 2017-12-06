@@ -1,54 +1,47 @@
-![CryptoSim Web App Logo](cryptosim-logo.png "CryptoSim Logo")
 
+![CryptoSim Web App Logo](./public/assets/images/cryptosim-logo.png "CryptoSim Logo")
+
+# CryptoSim
 #### A crypto currency trading simulator with live prices and user portfolios to track investments
 
-## Introduction:
-Brolly was created to solve a problem that one of our team members had. 
+## Synopsis
 
-**What if you could test your skills/luck before you invest?.**
+CryptoSim is an online cryptocurrency trading platform that uses ‘monopoly money’ so users can **test before they invest**. Upon creating an account, users are given $50,000 in ‘monopoly money’ which they can use to invest in any of the 1,800+ cryptocurrencies available.
 
-The project was built as part of our Coding Bootcamp with a requirement to use node, express, sequelize, handlebars. 
+## Motivation
+
+Trading cryptocurrency can be a scary and abstract concept. We have created this app to help the average person become familiar with trading digital cryptocurrencies without any of the risks associated. 
+
+## Final Product
+![Final Product](./public/assets/images/finalproduct.png)
 
 ## Prerequisites:
 1. A user must have a Facebook account to login.
 
-## Node Modules:
-body-parser
-cookie-parser
-cryptocompare
-express
-express-handlebars
-express-session
-mysql
-mysql2
-node-fetch
-passport
-passport-facebook
-passport-twitter
-sequelize
-sequelize-cli
-sequelize-values
-util
+## Technologies Used
+* [Cryptocompare API](https://www.cryptocompare.com/api/#) 
+* [Passport.js](http://www.passportjs.org/) 
+* [Express.js](https://expressjs.com/) 
+* [Sequelize](http://docs.sequelizejs.com/) 
+* [Node](https://nodejs.org/) 
+* [Handlebars.js](handlebarsjs.com/) 
+* [MySQL](https://www.mysql.com/) 
+* [Moment.js](https://momentjs.com/) 
 
-## How the CryptoSim App Works
-1. The users logs in via Facebook to authenticate.
+## Created By
+[David Lowes](https://github.com/djlowes) 
 
+[William Brooks](https://github.com/thewillwill) 
 
-![CryptoSim Web App Front Page](https://thewillwill.github.io/cryptosim/walkthrough.gif "CryptoSim Front Page")
+[JP Oliveira](https://github.com/JPauloBR) 
 
+[Vu Vuong](https://github.com/tsukoni) 
 
-## Built With:
-1. CryptoComare API - https://cryptocompare
-2. Passport.js
+[Jorge Salas](https://github.com/jorgesv16) 
 
+## Acknowledgement
+Instructor - David Hallinan
 
-## Authors:
-1. David Lowes
-2. JP
-2. Vu
-3. Jorge
-4. Will
+TA - Abraham Fergie
 
-## Acknowledgments:
-Instructor: David Hallinan
-
+TA - Marco Chan
