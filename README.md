@@ -26,12 +26,18 @@ Trading cryptocurrency may be a scary and abstract concept. We have created this
 
 ## Created By
 [David Lowes](https://github.com/djlowes) 
+
 [William Brooks](https://github.com/thewillwill) 
+
 [JP Oliveira](https://github.com/JPauloBR) 
+
 [Vu Vuong](https://github.com/tsukoni) 
+
 [Jorge Salas](https://github.com/jorgesv16) 
 
 ## Acknowledgement
 Instructor - David Hallinan
+
 TA - Abraham Fergie
+
 TA - Marco Chan
