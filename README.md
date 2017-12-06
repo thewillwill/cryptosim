@@ -14,7 +14,8 @@ Trading cryptocurrency can be a scary and abstract concept. We have created this
 ## Final Product
 ![Final Product](./public/assets/images/finalproduct.png)
 
-## Code Example
+## Prerequisites:
+1. A user must have a Facebook account to login.
 
 ## Technologies Used
 * [Cryptocompare API](https://www.cryptocompare.com/api/#) 
