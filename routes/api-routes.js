@@ -28,7 +28,6 @@ module.exports = function(app) {
         id: req.params.id
       }
     }).then(function(dbUser) {
-      console.log(Sequelize.getValues(dbUser));
       res.json(dbUser);
     })
   });
@@ -40,7 +39,7 @@ module.exports = function(app) {
       where: {
         UserId: req.params.id
       },
-      order: Sequelize.col('createdAt'),
+      order: [['createdAt', 'DESC']],
       limit: 10
     }).then(function(dbUser) {
       var lastTradesArray = [];
@@ -59,9 +58,6 @@ module.exports = function(app) {
         }
         lastTradesArray.push(lastTradesObj);
       }
-
-
-      console.log(lastTradesArray);
       res.json(lastTradesArray);
     })
   });
@@ -81,7 +77,6 @@ module.exports = function(app) {
       }
       cc.priceFull(newCurrArray, ['USD'])
         .then(prices => {
-          console.log(prices);
           for (var i = 0; i < dbPost.length; i++) {
             newCurrObject = {
               coin_id: dbPost[i].coin_id,
@@ -114,7 +109,6 @@ module.exports = function(app) {
   //New User
   app.post("/api/user/new", function(req, res) {
     db.User.create(req.body).then(function(dbPost) {
-      console.log(dbPost.id);
       var newPort = {
         UserId: dbPost.id,
         currency: "USD",
@@ -175,7 +169,6 @@ module.exports = function(app) {
 
           var currentNetWorth = 0;
           for (var i = 0; i < userCoins.length; i++) {
-            console.log(userCoins[i].currentValue);
             currentNetWorth = currentNetWorth + userCoins[i].currentValue;
           }
           //console.log(dbPortfolio[0]);
@@ -226,7 +219,6 @@ module.exports = function(app) {
 
     while (day < 7) {
       total = dayTotal(id, coins, day)
-      console.log(total);
       netWorths.push(total);
 
       day++;
@@ -281,7 +273,6 @@ module.exports = function(app) {
             var totalBtc = calculateAverage(btc);
             var totalLtc = calculateAverage(ltc);
             total = totalUsd + totalEth + totalBtc + totalLtc;
-            console.log(total);
             return total;
           })
           .catch(console.error)
@@ -300,13 +291,11 @@ module.exports = function(app) {
     return sum;
   }
 
-
   //get currency historical value
   app.get("/api/currencies/:symbol/:date", function(req, res) {
     var symbol = req.params.symbol.toUpperCase();
     cc.priceHistorical(symbol, ['USD'], new Date(req.params.date))
       .then(prices => {
-        console.log(prices)
         res.json(prices);
       })
       .catch(console.error)
@@ -322,7 +311,6 @@ module.exports = function(app) {
     var symbol = req.params.symbol.toUpperCase();
     cc.histoDay(symbol, ['USD'])
       .then(prices => {
-        console.log(prices)
         res.json(prices);
       })
       .catch(console.error)
@@ -333,7 +321,6 @@ module.exports = function(app) {
     var symbol = req.params.symbol.toUpperCase();
     cc.histoHour(symbol, ['USD'])
       .then(prices => {
-        console.log(prices)
         res.json(prices);
       })
       .catch(console.error)
@@ -344,7 +331,6 @@ module.exports = function(app) {
     var symbol = req.params.symbol.toUpperCase();
     cc.priceFull(symbol, ['USD'])
       .then(prices => {
-        console.log(prices)
         res.json(prices);
       })
       .catch(console.error)
@@ -416,8 +402,6 @@ module.exports = function(app) {
 
   // POST route for single BUY Order
   app.post("/api/transaction/buy", function(req, res) {
-    console.log('updating DB');
-    console.log(req.body.params);
     // Set old USD wallet value to expired (0)
     db.Portfolio.update({
       expired: true
@@ -434,13 +418,35 @@ module.exports = function(app) {
 		      amount: req.body.params.currentUSD
 		    }).then(function(result) {});
 	    // Set new cryptocurrency amount
-		    db.Portfolio.create({
-		      UserId: req.body.params.userID,
-		      currency: req.body.params.coinID,
-		      expired: false,
-		      amount: req.body.params.ccQuantity
-		    }).then(function(result) {});
-		});
+	    	db.Portfolio.findOne(
+	    		{where: 
+	    			{
+	    				currency: req.body.params.coinID
+	    			},
+	    			order: [['createdAt', 'DESC']]
+	    		}).then(function(coin) {
+	    			//if coin is already in Portolio Add new amount
+	    			console.log("buy");
+	    			console.log(coin);
+	    			if(coin) {
+	    				db.Portfolio.create({
+	    				  UserId: req.body.params.userID,
+	    				  currency: req.body.params.coinID,
+	    				  expired: false,
+	    				  amount: parseInt(req.body.params.ccQuantity)+ parseInt(coin.amount)
+	    				}).then(function(result) {});
+	    			}
+	    			else {
+	    				db.Portfolio.create({
+	    				  UserId: req.body.params.userID,
+	    				  currency: req.body.params.coinID,
+	    				  expired: false,
+	    				  amount: req.body.params.ccQuantity 
+	    				}).then(function(result) {});
+	    			}
+	    		})
+		    
+	});
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({
       UserId: req.body.params.userID,
@@ -455,8 +461,6 @@ module.exports = function(app) {
 
   // POST route for single SELL Order
 	app.post("/api/transaction/sell", function(req, res) {
-    console.log('updating DB');
-    console.log(req.body.params);
 
     // Set old USD wallet value to expired (0)
     db.Portfolio.update({
@@ -474,12 +478,33 @@ module.exports = function(app) {
 		      amount: req.body.params.currentUSD
 		    }).then(function(result) {});
 		    // Set new cryptocurrency amount
-		    db.Portfolio.create({
-		      UserId: req.body.params.userID,
-		      currency: req.body.params.coinID,
-		      expired: false,
-		      amount: req.body.params.ccQuantity
-		    }).then(function(result) {});
+		    db.Portfolio.findOne(
+		    	{where: 
+		    		{
+		    			currency: req.body.params.coinID
+		    		},
+		    		order: [['createdAt', 'DESC']]
+		    	}).then(function(coin) {
+		    		console.log("sell");
+		    		console.log(coin);
+		    		if(coin) {
+		    			db.Portfolio.create({
+		    			  UserId: req.body.params.userID,
+		    			  currency: req.body.params.coinID,
+		    			  expired: false,
+		    			  amount: parseInt(coin.amount) - parseInt(req.body.params.ccQuantity)
+		    			}).then(function(result) {});
+		    		}
+		    		else {
+		    			db.Portfolio.create({
+		    			  UserId: req.body.params.userID,
+		    			  currency: req.body.params.coinID,
+		    			  expired: false,
+		    			  amount: req.body.params.ccQuantity
+		    			}).then(function(result) {});
+		    		}
+		    	})
+		    
 		});
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({

@@ -1,3 +1,4 @@
+
 ![CryptoSim Web App Logo](./public/assets/images/cryptosim-logo.png "CryptoSim Logo")
 
 # CryptoSim
