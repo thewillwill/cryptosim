@@ -1,4 +1,4 @@
-![CryptoSim Web App Logo](cryptosim-logo.png "CryptoSim Logo")
+![CryptoSim Web App Logo](./public/assets/images/cryptosim-logo.png "CryptoSim Logo")
 
 # CryptoSim
 #### A crypto currency trading simulator with live prices and user portfolios to track investments
