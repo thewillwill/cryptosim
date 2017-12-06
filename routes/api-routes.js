@@ -300,13 +300,6 @@ module.exports = function(app) {
     return sum;
   }
 
-  // function topRank() {
-
-  // }
-
-  // function currentNetWorth(id) {
-
-  // }
 
   //get currency historical value
   app.get("/api/currencies/:symbol/:date", function(req, res) {
