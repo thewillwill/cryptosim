@@ -234,6 +234,7 @@ var userUpdateUrl = "/api/user/" + $("#user").val();
         $("#buy-ccQuantity").val(0);
         $("#buy-USDVAlue").val(0);
         $('#modal-buy').modal('show');
+        console.log($("#usd-only").text());
 
     });
 
@@ -278,6 +279,11 @@ var userUpdateUrl = "/api/user/" + $("#user").val();
                 $('#modal-buy-confirm').modal('show');
             }
         );
+
+        //refresh page after buying
+        $("#modal-buy-confirm").on('hidden.bs.modal', function () {
+               window.location.reload(true);
+           });
 
     });
 
@@ -342,10 +348,11 @@ var userUpdateUrl = "/api/user/" + $("#user").val();
         var coinID = $("#sell-coinID").val();
         var userID = parseFloat($("#sell-userID").val());
         var ccQuantity = parseFloat($("#sell-ccQuantity").val());
-        var holding = parseFloat($("#coin-holding").text());
+        var holding = parseFloat($("#coin-holding").val());
 
         //check if the user has enough of the currency to sell
-        if (ccQuantity > holding) {
+        //Added protection avoiding USD sell
+        if ((ccQuantity > holding) || (coinID == "USD")) {
             $('#modal-sell-fail').modal('show');
             $('#modal-sell').modal('hide');
             return;
@@ -374,6 +381,11 @@ var userUpdateUrl = "/api/user/" + $("#user").val();
                 $('#modal-sell-confirm').modal('show');
             }
         );
+
+        //refresh page after selling
+        $("#modal-sell-confirm").on('hidden.bs.modal', function () {
+               window.location.reload(true);
+           });
 
     });
 
@@ -431,6 +443,26 @@ var userUpdateUrl = "/api/user/" + $("#user").val();
     $("#pref-submit").click(function() {
         event.preventDefault();
         console.log("form submitted")
+
+        var updatedUser = {
+            id: $("#user").val(),
+            name: $("#pref-name").val(),
+            email: $("#pref-email").val()
+        }
+
+        $.ajax("/api/user", {
+            method: "PUT",
+            data: updatedUser
+        }).then(function(data) {
+            $("#pref-name").attr({
+                value: data[0].name
+            });
+            $("#pref-email").attr({
+                value: data[0].email
+            });
+
+
+        })
     })
 
 });

@@ -39,7 +39,7 @@ module.exports = function(app) {
       where: {
         UserId: req.params.id
       },
-      order: Sequelize.col('createdAt'),
+      order: [['createdAt', 'DESC']],
       limit: 10
     }).then(function(dbUser) {
       var lastTradesArray = [];
@@ -418,13 +418,35 @@ module.exports = function(app) {
 		      amount: req.body.params.currentUSD
 		    }).then(function(result) {});
 	    // Set new cryptocurrency amount
-		    db.Portfolio.create({
-		      UserId: req.body.params.userID,
-		      currency: req.body.params.coinID,
-		      expired: false,
-		      amount: req.body.params.ccQuantity
-		    }).then(function(result) {});
-		});
+	    	db.Portfolio.findOne(
+	    		{where: 
+	    			{
+	    				currency: req.body.params.coinID
+	    			},
+	    			order: [['createdAt', 'DESC']]
+	    		}).then(function(coin) {
+	    			//if coin is already in Portolio Add new amount
+	    			console.log("buy");
+	    			console.log(coin);
+	    			if(coin) {
+	    				db.Portfolio.create({
+	    				  UserId: req.body.params.userID,
+	    				  currency: req.body.params.coinID,
+	    				  expired: false,
+	    				  amount: parseInt(req.body.params.ccQuantity)+ parseInt(coin.amount)
+	    				}).then(function(result) {});
+	    			}
+	    			else {
+	    				db.Portfolio.create({
+	    				  UserId: req.body.params.userID,
+	    				  currency: req.body.params.coinID,
+	    				  expired: false,
+	    				  amount: req.body.params.ccQuantity 
+	    				}).then(function(result) {});
+	    			}
+	    		})
+		    
+	});
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({
       UserId: req.body.params.userID,
@@ -456,12 +478,33 @@ module.exports = function(app) {
 		      amount: req.body.params.currentUSD
 		    }).then(function(result) {});
 		    // Set new cryptocurrency amount
-		    db.Portfolio.create({
-		      UserId: req.body.params.userID,
-		      currency: req.body.params.coinID,
-		      expired: false,
-		      amount: req.body.params.ccQuantity
-		    }).then(function(result) {});
+		    db.Portfolio.findOne(
+		    	{where: 
+		    		{
+		    			currency: req.body.params.coinID
+		    		},
+		    		order: [['createdAt', 'DESC']]
+		    	}).then(function(coin) {
+		    		console.log("sell");
+		    		console.log(coin);
+		    		if(coin) {
+		    			db.Portfolio.create({
+		    			  UserId: req.body.params.userID,
+		    			  currency: req.body.params.coinID,
+		    			  expired: false,
+		    			  amount: parseInt(coin.amount) - parseInt(req.body.params.ccQuantity)
+		    			}).then(function(result) {});
+		    		}
+		    		else {
+		    			db.Portfolio.create({
+		    			  UserId: req.body.params.userID,
+		    			  currency: req.body.params.coinID,
+		    			  expired: false,
+		    			  amount: req.body.params.ccQuantity
+		    			}).then(function(result) {});
+		    		}
+		    	})
+		    
 		});
     // Create transaction for cryptocurrency purchased
     db.Transaction.create({
