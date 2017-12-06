@@ -1,13 +1,15 @@
-# CryptoSim
+![CryptoSim Web App Logo](cryptosim-logo.png "CryptoSim Logo")
 
+# CryptoSim
+#### A crypto currency trading simulator with live prices and user portfolios to track investments
 
 ## Synopsis
 
-CryptoSim is an online cryptocurrency trading platform that uses ‘monopoly money’ so users can ‘test before they invest’. Upon creating an account, users are given $50,000 in ‘monopoly money’ which they can use to invest in any of the 1,800+ cryptocurrencies available.
+CryptoSim is an online cryptocurrency trading platform that uses ‘monopoly money’ so users can **test before they invest**. Upon creating an account, users are given $50,000 in ‘monopoly money’ which they can use to invest in any of the 1,800+ cryptocurrencies available.
 
 ## Motivation
 
-Trading cryptocurrency may be a scary and abstract concept. We have created this app to help the average person get familiarized with trading digita cryptocurrencies without any of the risks. 
+Trading cryptocurrency can be a scary and abstract concept. We have created this app to help the average person become familiar with trading digital cryptocurrencies without any of the risks associated. 
 
 ## Final Product
 ![Final Product](./public/assets/images/finalproduct.png)
