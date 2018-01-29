@@ -10,7 +10,7 @@ There are many entrants into the cryptocurrency investment markets each day. Man
 ## Demo:
 You can view a demo [here](https://sleepy-journey-56725.herokuapp.com/) 
 
-![Review Butler Screenshot](ReviewButler300.png "Review Butler Screenshot")
+![Review Butler Screenshot](./public/assets/images/finalproduct.png "Review Butler Screenshot")
 
 ## Technology
 * [Cryptocompare API](https://www.cryptocompare.com/api/#)
